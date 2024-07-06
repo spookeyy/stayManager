@@ -18,7 +18,7 @@ cors = CORS(app)
 from routes import auth, user, room, booking, review
 
 
-app.register_blueprint(auth.bp)
+app.register_blueprint(auth.bp) 
 app.register_blueprint(user.bp)
 app.register_blueprint(room.bp)
 app.register_blueprint(booking.bp)
