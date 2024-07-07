@@ -1,14 +1,14 @@
-from app import db
+from server.app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
-    id = db.column(db.Integer, primary_key=True)
-    username = db.column(db.String(80), unique=True, nullable=False)
-    email = db.column(db.string(120), unique=True, nullable=False)
-    password = db.column(db.String(120), nullable=False)
-    phone_number = db.column(db.String(120), unique=True, nullable=False)
-    profile_photo = db.column(db.String(120), nullable=True)
-    is_admin = db.column(db.Boolean, nullable=False, default=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    phone_number = db.Column(db.String(120), unique=True, nullable=False)
+    profile_photo = db.Column(db.String(120), nullable=True)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
     reviews = db.relationship('Review', backref='user', lazy='dynamic')
@@ -19,6 +19,7 @@ class User(db.Model):
     # password
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
+        print(f"Hashed password: {self.password_hash}")
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
