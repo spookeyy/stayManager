@@ -12,6 +12,8 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 cors = CORS(app)
+
+
 # bcrypt = Bcrypt(app)
 # mail = Mail(app)
 
