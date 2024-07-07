@@ -17,7 +17,7 @@ def create_app(config_name):
     elif config_name == 'testing':
         app.config.from_object('config.TestingConfig')
     
-    # Initialize extensions
+
     db.init_app(app)
     jwt.init_app(app)
     CORS(app)
