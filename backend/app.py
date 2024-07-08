@@ -381,7 +381,7 @@ def send_email():
                           sender=app.config['MAIL_USERNAME'],
                           recipients=[data['email']])
         message.html = render_template('email.html', 
-                                       name=data['name'], 
+                                       username=data['username'], 
                                        check_in=data['check_in'], 
                                        check_out=data['check_out'], 
                                        total_price=data['total_price'])
