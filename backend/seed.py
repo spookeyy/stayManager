@@ -1,59 +1,120 @@
-from faker import Faker
-from models import db, User, Event, Registration
+from models import db, User, Booking, Room, Review
 from app import app, bcrypt
-
-
-faker = Faker()
-from datetime import datetime
+import random
+from datetime import datetime, timedelta
 
 print("Start seeding ....")
+
+# Generate random phone number
+def generate_phone_number():
+  country_code = '+254'
+
+  # Generate random digits for the remaining phone number parts
+  mobile_network_code = random.randint(70, 79)
+  subscriber_number = ''.join(str(random.randint(0, 9)) for _ in range(7))
+
+  return f'{country_code}{mobile_network_code}{subscriber_number}'
+
+
 def seed_data():
+    # app = create_app()
     with app.app_context():
         db.drop_all()
         db.create_all()
-   
-        password =  bcrypt.generate_password_hash('kkkk').decode('utf-8')
 
-        # Users table
-        users = [
-            User(name='Admin User', email='admin@example.com', password=password, is_admin=True, is_organizer=False),
-            User(name='Organizer One', email='organizer1@example.com', password=password, is_admin=False, is_organizer=True),
-            User(name='Organizer Two', email='organizer2@example.com', password=password, is_admin=False, is_organizer=True),
-            User(name='User One', email='user1@example.com', password=password, is_admin=False, is_organizer=False),
-            User(name='User Two', email='user2@example.com', password=password, is_admin=False, is_organizer=False),
-            User(name='User Three', email='user3@example.com', password=password, is_admin=False, is_organizer=False)
-        ]
+        # seeding users
+        password = bcrypt.generate_password_hash('admin').decode('utf-8')
+        admin = User(username='admin', email='admin@gmail.com',password=password, phone_number='0734567890', is_admin=True)
+        # admin.set_password('admin')
+        db.session.add(admin)
+        db.session.commit()
 
-        for user in users:
+        used_phone_numbers = set()
+        users = []
+        for i in range(10):
+
+            phone_number = generate_phone_number()
+            while phone_number in used_phone_numbers:
+                phone_number = generate_phone_number()
+            used_phone_numbers.add(phone_number)
+
+            print(f"Generated phone number for user {i}: {phone_number}")
+
+            password = bcrypt.generate_password_hash(f'password{i}').decode('utf-8')
+            user = User(username=f'user{i}', email=f'user{i}@gmail.com', password=password,  phone_number=phone_number, is_admin=False)
+            user.set_password(f'password{i}')
+            users.append(user)
             db.session.add(user)
-        
-        db.session.commit()
+            db.session.commit()
+        print("Seeded users successfully")
+        # print([user.id for user in users])
+            
 
-        # Events
-        events = [
-            Event(event_name='Tech Conference 2024', description='A conference about the latest in tech.', event_date=datetime(2024, 9, 1, 9, 0), location='Tech Hall A', organizer_id=users[1].id),
-            Event(event_name='Music Festival', description='A fun music festival with various artists.', event_date=datetime(2024, 10, 15, 17, 0), location='Open Grounds', organizer_id=users[2].id)
-        ]
-
-        for event in events:
-            db.session.add(event)
-
-        db.session.commit()
-
-        # Registrations
-        registrations = [
-            Registration(event_id=events[0].id, user_id=users[3].id),
-            Registration(event_id=events[0].id, user_id=users[4].id),
-            Registration(event_id=events[1].id, user_id=users[5].id)
-        ]
-
-        for registration in registrations:
-            db.session.add(registration)
-
-        db.session.commit()
+        # Create rooms
+        descriptions = ['Single', 'Double', 'Suite', 'Family Room', 'Penthouse']
+        rooms = []
+        for i in range(20):
+            room = Room(
+                room_number=f'{i+1:03d}',
+                description=random.choice(descriptions),
+                price=random.randint(50, 300),
+                capacity=random.randint(1, 4),
+                status=random.choice(['available', 'unavailable'])
+            )
+            rooms.append(room)
+            db.session.add(room)
+            db.session.commit()
+            
+        print("Seeded rooms successfully")
+        # print(rooms)
 
 
+        # Create bookings
+        for i in range(30):
+            user = random.choice(users)
+            room = random.choice(rooms)
+            check_in = datetime.now() + timedelta(days=random.randint(1, 30))
+            check_out = check_in + timedelta(days=random.randint(1, 7))
 
-seed_data()
+            booking = Booking(
+                user_id=user.id,
+                room_id=room.id,
+                check_in=check_in,
+                check_out=check_out,
+                total_price=room.price * (check_out - check_in).days,
+                status=random.choice(['pending', 'confirmed', 'cancelled'])
+            )
 
-print("Seeding completed!")
+            db.session.add(booking)
+            db.session.commit()
+
+        print("Seeded bookings successfully")
+            
+
+        # seed reviews
+        for i in range(100):
+            user = random.choice(users)
+            room = random.choice(rooms)
+            rating = random.randint(1, 5)
+            review = Review(
+                user_id=user.id,
+                room_id=room.id,
+                rating=rating,
+                comment=f'This is a sample review for room {room.room_number}, with rating {rating}',
+                created_at=datetime.now() - timedelta(days=random.randint(1, 60))
+            )
+
+            db.session.add(review)
+            db.session.commit()
+            
+        print("Seeded reviews successfully")
+
+        print('Data seeded successfully!')
+
+    
+    # prevent accidental running in production:
+    # if app.config['ENV'] == 'production':
+    #     raise Exception("Cannot run in production!")
+
+if __name__ == '__main__':
+    seed_data()
