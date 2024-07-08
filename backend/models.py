@@ -8,7 +8,7 @@ from datetime import datetime
 
 # Models
 class User(db.Model):
-    __tablename__ = 'user'
+    # __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -21,7 +21,7 @@ class User(db.Model):
     reviews = db.relationship('Review', backref='user', lazy='dynamic')
 
 class Room(db.Model):
-    __tablename__ = 'room'
+    # __tablename__ = 'room'
     id = db.Column(db.Integer, primary_key=True)
     room_number = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
@@ -35,7 +35,7 @@ class Room(db.Model):
     reviews = db.relationship('Review', backref='room', lazy='dynamic')
 
 class Booking(db.Model):
-    __tablename__ = 'booking'
+    # __tablename__ = 'booking'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
@@ -47,7 +47,7 @@ class Booking(db.Model):
 
 
 class Review(db.Model):
-    __tablename__ = 'review'
+    # __tablename__ = 'review'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
