@@ -9,20 +9,21 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 from datetime import timedelta
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
+# from flask_mail import Mail # Flask-Mail for sending emails
 bcrypt = Bcrypt()
 
 
 
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///event.db" # postgres
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db" # postgres
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
 app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
 jwt = JWTManager(app)
 
-from models import db, User, Event, Registration
+from models import db, User, Booking, Room, Review
 migrate = Migrate(app, db)
 db.init_app(app)
 
@@ -60,7 +61,6 @@ def current_user():
         "email": user.email,
         "phone_number": user.phone_number,
         "is_admin": user.is_admin,
-        "is_organizer": user.is_organizer
     }
     return jsonify(user_data), 200
 
@@ -97,8 +97,6 @@ def create_user():
 
         phone_number=data.get('phone_number'),
         is_admin=data.get('is_admin', False),
-        is_organizer=True if data['is_organizer']=="true" else False
-        # data.get('is_organizer', False)
     )
     db.session.add(new_user)
     db.session.commit()
@@ -119,7 +117,6 @@ def get_users():
             "email": user.email,
             "phone_number": user.phone_number,
             "is_admin": user.is_admin,
-            "is_organizer": user.is_organizer
         } for user in users]
         return jsonify(user_list), 200
     else:
@@ -138,7 +135,6 @@ def get_user(id):
         "email": user.email,
         "phone_number": user.phone_number,
         "is_admin": user.is_admin,
-        "is_organizer": user.is_organizer
     }), 200
 
 
@@ -164,7 +160,6 @@ def update_profile():
     user.password = bcrypt.generate_password_hash( data['password'] ).decode('utf-8') 
     user.phone_number = data.get('phone_number', user.phone_number)
     user.is_admin = data.get('is_admin', user.is_admin)
-    user.is_organizer = data.get('is_organizer', user.is_organizer)
     db.session.commit()
     return jsonify({"success": "User updated successfully"}), 200
 
@@ -180,150 +175,177 @@ def delete_user(id):
 
 
 
-# CRUD for Event
-@app.route('/events', methods=['POST'])
+# CRUD for Rooms
+@app.route('/rooms', methods=['POST'])
 @jwt_required()
-def create_event():
-    current_user_id = get_jwt_identity()
+def create_room():
+    # current_user_id = get_jwt_identity()
 
-    current_user = User.query.get(current_user_id)
+    # current_user = User.query.get(current_user_id)
 
-    if current_user.is_organizer:
-        data = request.get_json()
-        new_event = Event(
-            event_name=data['event_name'],
-            description=data['description'],
-            event_date=data['event_date'],
-            location=data['location'],
-            organizer_id=current_user_id
-        )
-        db.session.add(new_event)
-        db.session.commit()
-        return jsonify({"success": "Event created successfully"}), 201
-
-    else:
-        return jsonify({"error": "You are not authorized to create events"}), 401
-
-
-# FETCH ALL EVENTS
-@app.route('/events', methods=['GET'])
-@jwt_required()
-def get_events():
-    events = Event.query.all()
-    event_list = [{
-        "id": event.id,
-        "event_name": event.event_name,
-        "description": event.description,
-        "event_date": event.event_date,
-        "location": event.location,
-        "organizer_id": event.organizer_id
-    } for event in events]
-    return jsonify(event_list), 200
-
-@app.route('/events/<int:id>', methods=['GET'])
-def get_event(id):
-    event = Event.query.get(id)
-    if event is None:
-        return jsonify({"message": "Event not found"}), 404
-    return jsonify({
-        "id": event.id,
-        "event_name": event.event_name,
-        "description": event.description,
-        "event_date": event.event_date,
-        "location": event.location,
-        "organizer_id": event.organizer_id
-    }), 200
-
-@app.route('/events/<int:id>', methods=['PUT'])
-def update_event(id):
-    data = request.get_json()
-    event = Event.query.get(id)
-    if event is None:
-        return jsonify({"message": "Event not found"}), 404
-
-    event.event_name = data.get('event_name', event.event_name)
-    event.description = data.get('description', event.description)
-    event.event_date = datetime.strptime(data.get('event_date', event.event_date.strftime('%Y-%m-%d %H:%M:%S')), '%Y-%m-%d %H:%M:%S')
-    event.location = data.get('location', event.location)
-    event.organizer_id = data.get('organizer_id', event.organizer_id)
-    db.session.commit()
-    return jsonify({"message": "Event updated successfully"}), 200
-
-@app.route('/events/<int:id>', methods=['DELETE'])
-def delete_event(id):
-    event = Event.query.get(id)
-    if event is None:
-        return jsonify({"message": "Event not found"}), 404
-
-    db.session.delete(event)
-    db.session.commit()
-    return jsonify({"message": "Event deleted successfully"}), 200
-
-# CRUD for Registration
-@app.route('/registrations', methods=['POST'])
-@jwt_required()
-def create_registration():
-    data = request.get_json()
-
-    current_user_id = get_jwt_identity()
-    current_user = User.query.get(current_user_id)
-
-    if current_user.is_organizer or current_user.is_admin:
-        return jsonify({"error": "Organizers/Admins cannot register for events"}), 400
-
-    new_registration = Registration(
-        event_id=data['event_id'],
-        user_id=current_user_id
+    data = request.json
+    new_room = Room(
+        room_number=data['room_number'],
+        description=data['description'], # room type
+        price=data['price'],
+        capacity=data['capacity']
     )
-
-    db.session.add(new_registration)
+    db.session.add(new_room)
     db.session.commit()
-    return jsonify({"success": "Registration created successfully"}), 201
+    return jsonify({'message': 'Room created successfully'}), 201
 
-@app.route('/registrations', methods=['GET'])
-def get_registrations():
-    registrations = Registration.query.all()
-    registration_list = [{
-        "id": registration.id,
-        "event_id": registration.event_id,
-        "user_id": registration.user_id,
-        "registration_date": registration.registration_date.strftime('%Y-%m-%d %H:%M:%S')
-    } for registration in registrations]
-    return jsonify(registration_list), 200
 
-@app.route('/registrations/<int:id>', methods=['GET'])
-def get_registration(id):
-    registration = Registration.query.get(id)
-    if registration is None:
-        return jsonify({"message": "Registration not found"}), 404
+# get all rooms
+@app.route('/rooms', methods=['GET'])
+@jwt_required()
+def get_rooms():
+    rooms = Room.query.all()
+    return jsonify([{
+        'id': room.id,
+        'room_number': room.room_number,
+        'description': room.description,
+        'price': room.price,
+        'capacity': room.capacity,
+        'status': room.status
+    } for room in rooms]), 200
+
+@app.route('/rooms/<int:id>', methods=['GET'])
+def get_room(id):
+    room = Room.query.get_or_404(id) # 404 if not found
     return jsonify({
-        "id": registration.id,
-        "event_id": registration.event_id,
-        "user_id": registration.user_id,
-        "registration_date": registration.registration_date.strftime('%Y-%m-%d %H:%M:%S')
+        'id': room.id,
+        'room_number': room.room_number,
+        'description': room.description,
+        'price': room.price,
+        'capacity': room.capacity,
+        'status': room.status
     }), 200
 
-@app.route('/registrations/<int:id>', methods=['PUT'])
-def update_registration(id):
-    data = request.get_json()
-    registration = Registration.query.get(id)
-    if registration is None:
-        return jsonify({"message": "Registration not found"}), 404
-
-    registration.event_id = data.get('event_id', registration.event_id)
-    registration.user_id = data.get('user_id', registration.user_id)
+@app.route('/rooms/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_room(id):
+    room = Room.query.get_or_404(id)
+    data = request.json
+    room.description = data.get('description', room.description)
+    room.price = data.get('price', room.price)
+    room.capacity = data.get('capacity', room.capacity)
+    room.status = data.get('status', room.status)
     db.session.commit()
-    return jsonify({"message": "Registration updated successfully"}), 200
+    return jsonify({'message': 'Room updated successfully'}), 200
 
-@app.route('/registrations/<int:id>', methods=['DELETE'])
-def delete_registration(id):
-    registration = Registration.query.get(id)
-    if registration is None:
-        return jsonify({"message": "Registration not found"}), 404
-
-    db.session.delete(registration)
+# delete room by id
+@app.route('/rooms/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_room(id):
+    room = Room.query.get_or_404(id)
+    db.session.delete(room)
     db.session.commit()
-    return jsonify({"message": "Registration deleted successfully"}), 200
+    return jsonify({'message': 'Room deleted successfully'}), 200
+
+
+# Bookings
+# create booking for a room
+@app.route('/bookings', methods=['POST'])
+@jwt_required()
+def create_booking():
+    user_id = get_jwt_identity()
+    data = request.json
+    room = Room.query.get_or_404(data['room_id'])
+
+    if room.status != 'available':
+        return jsonify({'message': 'Room is not available'}), 400
+    
+    check_in = datetime.strptime(data['check_in'], '%Y-%m-%d')
+    check_out = datetime.strptime(data['check_out'], '%Y-%m-%d')
+
+    if check_out <= check_in:
+        return jsonify({'message': 'Check out date must be greater than check in date'}), 400
+
+    total_price = room.price * (check_out - check_in).days
+    new_booking = Booking(
+        user_id=user_id,
+        room_id=data['room_id'],
+        check_in=check_in,
+        check_out=check_out,
+        total_price=total_price
+    )
+    room.status = 'unavailable'
+    db.session.add(new_booking)
+    db.session.commit()
+    return jsonify({'message': 'Booking created successfully', 'booking_id': new_booking.id}), 201
+
+# get booking for a room by id
+@app.route('/bookings/<int:id>', methods=['GET'])
+@jwt_required()
+def get_booking(id):
+    booking = Booking.query.get_or_404(id)
+    return jsonify({
+        'id': booking.id,
+        'user_id': booking.user_id,
+        'room_id': booking.room_id,
+        'check_in': booking.check_in.strftime('%Y-%m-%d'),
+        'check_out': booking.check_out.strftime('%Y-%m-%d'),
+        'total_price': booking.total_price,
+        'status': booking.status
+    }), 200
+
+# update
+@app.route('/bookings/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_booking(id):
+    booking = Booking.query.get_or_404(id)
+    data = request.json
+    
+    if 'check_in' in data:
+        booking.check_in = datetime.strptime(data['check_in'], '%Y-%m-%d')
+    if 'check_out' in data:
+        booking.check_out = datetime.strptime(data['check_out'], '%Y-%m-%d')
+    if 'status' in data:
+        booking.status = data['status']
+
+    db.session.commit()
+    return jsonify({'message': 'Booking updated successfully'}), 200
+
+# cancel booking
+@app.route('/bookings/<int:id>', methods=['DELETE'])
+@jwt_required()
+def cancel_booking(id):
+    booking = Booking.query.get_or_404(id)
+    room = Room.query.get_or_404(booking.room_id)
+    room.status = 'available'
+    db.session.delete(booking)
+    db.session.commit()
+    return jsonify({'message': 'Booking canceled successfully'}), 200
+
+
+# REVIEWS
+@app.route('/reviews', methods=['POST'])
+@jwt_required()
+def create_review():
+    user_id = get_jwt_identity()
+    data = request.json
+    new_review = Review(
+        user_id=user_id,
+        room_id=data['room_id'],
+        comment=data.get['comment', "No comment"],
+        rating=data['rating']
+    )
+    db.session.add(new_review)
+    db.session.commit()
+    return jsonify({'message': 'Review created successfully'}), 201
+
+
+@app.route('/reviews', methods=['GET'])
+def get_reviews(room_id):
+    reviews = Review.query.filter_by(room_id=room_id).all()
+    return jsonify([{
+        'id': review.id,
+        'user_id': review.user_id,
+        'room_id': review.room_id,
+        'comment': review.comment,
+        'rating': review.rating,
+        'created_at': review.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    } for review in reviews]), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
