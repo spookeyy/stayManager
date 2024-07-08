@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .booking-details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Booking Confirmation</h1>
+        <p>Dear {{ name }},</p>
+        <p>Thank you for your booking. We're excited to welcome you!</p>
+        
+        <div class="booking-details">
+            <h2>Booking Details:</h2>
+            <p><strong>Check-in:</strong> {{ check_in }}</p>
+            <p><strong>Check-out:</strong> {{ check_out }}</p>
+            <p><strong>Total Price:</strong> ${{ total_price }}</p>
+        </div>
+        
+        <p>If you have any questions or need to make changes to your reservation, please don't hesitate to contact us.</p>
+        
+        <p>We look forward to your stay!</p>
+        
+        <p>Best regards,<br>The Stay Manager Team</p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated message, please do not reply directly to this email.</p>
+    </div>
+</body>
+</html>
