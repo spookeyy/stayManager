@@ -24,7 +24,7 @@ def seed_data():
 
         # seeding users
         password = bcrypt.generate_password_hash('admin').decode('utf-8')
-        admin = User(username='admin', email='admin@gmail.com',password=password, phone_number='0734567890', is_admin=True)
+        admin = User(username='admin', email='admin@gmail.com',password=password, phone_number='0734567890', profile_photo='admin.png', is_admin=True)
         # admin.set_password('admin')
         db.session.add(admin)
         db.session.commit()
