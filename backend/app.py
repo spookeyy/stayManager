@@ -1,26 +1,26 @@
-# SQLAlchemy operations
-
-# Flask
 import random
 import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
 from datetime import timedelta
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-# from flask_mail import Mail # Flask-Mail for sending emails
+from flask_mail import Mail, Message # Flask-Mail for sending emails
+from flask import current_app
+from threading import Thread
+
 bcrypt = Bcrypt()
 
 
 
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db" # postgres
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db"
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
 app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1) # expires in 1 day
 jwt = JWTManager(app)
 
 from models import db, User, Booking, Room, Review
@@ -29,20 +29,21 @@ db.init_app(app)
 
 from datetime import datetime
 
-# Types of Authentication
-# 1. Basic Authentication - Cookies
-# 2. JWT Authentication - Tokens - sjgdsrkghugfraekjhsdfgvbsduhkfgeyhlskbvgsjhdfbgvsdjklhlkfvbsdkjfbvsdkjh
-        
-
+# Login     
 @app.route("/login", methods=["POST"])
-def login_user():
+def login():
+
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 
     user = User.query.filter_by(email=email).first()
 
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
     if user and bcrypt.check_password_hash(user.password, password):
         access_token = create_access_token(identity=user.id)
+        # print(access_token)
         return jsonify({"access_token":access_token})
 
     else:
@@ -57,7 +58,7 @@ def current_user():
 
     user_data = {
         "id": user.id,
-        "name": user.name,
+        "username": user.username,
         "email": user.email,
         "phone_number": user.phone_number,
         "is_admin": user.is_admin,
@@ -91,7 +92,7 @@ def create_user():
         
     
     new_user = User(
-        name= request.json.get("name", None), 
+        username= request.json.get("username", None), 
         email= request.json.get("email", None),
         password= bcrypt.generate_password_hash( request.json.get("password", None) ).decode('utf-8') ,
 
@@ -102,7 +103,7 @@ def create_user():
     db.session.commit()
     return jsonify({"success": "User created successfully"}), 201
 
-# Fetching users requires an user who is an admin
+# Fetching users requires an admin
 @app.route('/users', methods=['GET'])
 @jwt_required()
 def get_users():
@@ -113,7 +114,7 @@ def get_users():
         users = User.query.all()
         user_list = [{
             "id": user.id,
-            "name": user.name,
+            "username": user.username,
             "email": user.email,
             "phone_number": user.phone_number,
             "is_admin": user.is_admin,
@@ -131,7 +132,7 @@ def get_user(id):
         return jsonify({"message": "User not found"}), 404
     return jsonify({
         "id": user.id,
-        "name": user.name,
+        "username": user.username,
         "email": user.email,
         "phone_number": user.phone_number,
         "is_admin": user.is_admin,
@@ -155,7 +156,7 @@ def update_profile():
     # if email_exists:
     #     return jsonify({"error": "Email already exists"}), 400
 
-    user.name = data.get('name', user.name)
+    user.username = data.get('username', user.username)
     user.email = user.email
     user.password = bcrypt.generate_password_hash( data['password'] ).decode('utf-8') 
     user.phone_number = data.get('phone_number', user.phone_number)
@@ -179,20 +180,25 @@ def delete_user(id):
 @app.route('/rooms', methods=['POST'])
 @jwt_required()
 def create_room():
-    # current_user_id = get_jwt_identity()
+    current_user_id = get_jwt_identity()
 
-    # current_user = User.query.get(current_user_id)
+    current_user = User.query.get(current_user_id)
 
-    data = request.json
-    new_room = Room(
-        room_number=data['room_number'],
-        description=data['description'], # room type
-        price=data['price'],
-        capacity=data['capacity']
-    )
-    db.session.add(new_room)
-    db.session.commit()
-    return jsonify({'message': 'Room created successfully'}), 201
+    if current_user.is_admin:
+        data = request.json
+        new_room = Room(
+            room_number=data['room_number'],
+            description=data['description'], # room type
+            price=data['price'],
+            capacity=data['capacity'],
+            status=data['status' ],
+            image=data.get('image', None)
+        )
+        db.session.add(new_room)
+        db.session.commit()
+        return jsonify({'message': 'Room created successfully'}), 201
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
 
 
 # get all rooms
@@ -206,7 +212,8 @@ def get_rooms():
         'description': room.description,
         'price': room.price,
         'capacity': room.capacity,
-        'status': room.status
+        'status': room.status,
+        'image': room.image
     } for room in rooms]), 200
 
 @app.route('/rooms/<int:id>', methods=['GET'])
@@ -218,7 +225,8 @@ def get_room(id):
         'description': room.description,
         'price': room.price,
         'capacity': room.capacity,
-        'status': room.status
+        'status': room.status,
+        'image': room.image
     }), 200
 
 @app.route('/rooms/<int:id>', methods=['PUT'])
@@ -230,6 +238,7 @@ def update_room(id):
     room.price = data.get('price', room.price)
     room.capacity = data.get('capacity', room.capacity)
     room.status = data.get('status', room.status)
+    room.image = data.get('image', room.image)
     db.session.commit()
     return jsonify({'message': 'Room updated successfully'}), 200
 
@@ -346,6 +355,32 @@ def get_reviews(room_id):
         'rating': review.rating,
         'created_at': review.created_at.strftime('%Y-%m-%d %H:%M:%S')
     } for review in reviews]), 200
+
+# for sending email
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'your_email'
+app.config['MAIL_PASSWORD'] = 'your_password'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+mail = Mail(app)
+
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    try:
+        data = request.json
+        message = Message('Booking Confirmation', recipients=[data['email']])
+        message.html = render_template('email.html', name=data['name'], check_in=data['check_in'], check_out=data['check_out'], total_price=data['total_price'])
+        Thread(target=send_async_email, args=(current_app._get_current_object(), message)).start()
+        return jsonify({'message': 'Email sent successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
