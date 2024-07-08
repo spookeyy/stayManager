@@ -79,7 +79,7 @@ def logout():
 
 
 
-# Use registration
+# User registration
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json()

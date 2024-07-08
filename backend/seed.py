@@ -42,7 +42,7 @@ def seed_data():
 
             password = bcrypt.generate_password_hash(f'password{i}').decode('utf-8')
             user = User(username=f'user{i}', email=f'user{i}@gmail.com', password=password,  phone_number=phone_number, is_admin=False)
-            user.set_password(f'password{i}')
+            # user.set_password(f'password{i}')
             users.append(user)
             db.session.add(user)
             db.session.commit()
