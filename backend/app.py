@@ -9,6 +9,10 @@ from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message # Flask-Mail for sending emails
 from flask import current_app
 from threading import Thread
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 bcrypt = Bcrypt()
 
@@ -359,8 +363,8 @@ def get_reviews(room_id):
 # for sending email
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'your_email'
-app.config['MAIL_PASSWORD'] = 'your_password'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 mail = Mail(app)
@@ -373,9 +377,16 @@ def send_async_email(app, msg):
 def send_email():
     try:
         data = request.json
-        message = Message('Booking Confirmation', recipients=[data['email']])
-        message.html = render_template('email.html', name=data['name'], check_in=data['check_in'], check_out=data['check_out'], total_price=data['total_price'])
-        Thread(target=send_async_email, args=(current_app._get_current_object(), message)).start()
+        message = Message('Booking Confirmation', 
+                          sender=app.config['MAIL_USERNAME'],
+                          recipients=[data['email']])
+        message.html = render_template('email.html', 
+                                       name=data['name'], 
+                                       check_in=data['check_in'], 
+                                       check_out=data['check_out'], 
+                                       total_price=data['total_price'])
+        Thread(target=send_async_email, 
+               args=(current_app._get_current_object(), message)).start()
         return jsonify({'message': 'Email sent successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
