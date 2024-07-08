@@ -59,7 +59,8 @@ def seed_data():
                 description=random.choice(descriptions),
                 price=random.randint(50, 300),
                 capacity=random.randint(1, 4),
-                status=random.choice(['available', 'unavailable'])
+                status=random.choice(['available', 'unavailable']),
+                image=f'{i+1:03d}.jpg'
             )
             rooms.append(room)
             db.session.add(room)
