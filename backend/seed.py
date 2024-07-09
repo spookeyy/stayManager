@@ -1,4 +1,4 @@
-from models import db, User, Booking, Room, Review
+from models import Hotel, db, User, Booking, Room, Review
 from app import app, bcrypt
 import random
 from datetime import datetime, timedelta
@@ -38,7 +38,7 @@ def seed_data():
                 phone_number = generate_phone_number()
             used_phone_numbers.add(phone_number)
 
-            print(f"Generated phone number for user {i}: {phone_number}")
+            # print(f"Generated phone number for user {i}: {phone_number}")
 
             password = bcrypt.generate_password_hash(f'password{i}').decode('utf-8')
             user = User(username=f'user{i}', email=f'user{i}@gmail.com', password=password,  phone_number=phone_number, is_admin=False)
@@ -50,25 +50,44 @@ def seed_data():
         # print([user.id for user in users])
             
 
-        # Create rooms
+        # Create hotels
+        hotels = []
+        for i in range(10):
+            hotel = Hotel(
+                name=f'Hotel {i+1}',
+                description=f'Hotel {i+1} description'
+            )
+            hotels.append(hotel)
+            db.session.add(hotel)
+        db.session.commit()
+        print("Seeded hotels successfully")
+        
+        # Create rooms and associate with hotels
         descriptions = ['Single', 'Double', 'Suite', 'Family Room', 'Penthouse']
         rooms = []
-        for i in range(20):
+        for i in range(30):
+            hotel = random.choice(hotels)
             room = Room(
                 room_number=f'{i+1:03d}',
                 description=random.choice(descriptions),
                 price=random.randint(50, 300),
                 capacity=random.randint(1, 4),
                 status=random.choice(['available', 'unavailable']),
-                image=f'{i+1:03d}.jpg'
+                image=f'{i+1:03d}.jpg',
+                hotel_id=hotel.id
             )
             rooms.append(room)
             db.session.add(room)
             db.session.commit()
             
-        print("Seeded rooms successfully")
+        print("Seeded rooms and associated with hotels successfully")
         # print(rooms)
 
+        # Update room_count for each hotel
+        for hotel in hotels:
+            hotel.room_count = Room.query.filter_by(hotel_id=hotel.id).count()
+        db.session.commit()
+        print("Updated hotel room counts successfully")
 
         # Create bookings
         for i in range(30):

@@ -49,6 +49,7 @@ class Hotel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
+    room_count = db.Column(db.Integer)
     rooms = db.relationship('Room', backref='hotel', lazy='dynamic')
 
     def __repr__(self):
@@ -57,6 +58,7 @@ class Hotel(db.Model):
 class Room(db.Model):
     # __tablename__ = 'room'
     id = db.Column(db.Integer, primary_key=True)
+    hotel_id = db.Column(db.Integer, db.ForeignKey('hotel.id'), nullable=False)
     room_number = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
     price = db.Column(db.Float, nullable=False)
@@ -67,6 +69,7 @@ class Room(db.Model):
     # relationships
     bookings = db.relationship('Booking', backref='room', lazy='dynamic')
     reviews = db.relationship('Review', backref='room', lazy='dynamic')
+    # hotel = db.relationship('Hotel', back_populates='rooms')
 
 class Booking(db.Model):
     # __tablename__ = 'booking'
