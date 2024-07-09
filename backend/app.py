@@ -236,15 +236,21 @@ def get_room(id):
 @app.route('/rooms/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_room(id):
-    room = Room.query.get_or_404(id)
-    data = request.json
-    room.description = data.get('description', room.description)
-    room.price = data.get('price', room.price)
-    room.capacity = data.get('capacity', room.capacity)
-    room.status = data.get('status', room.status)
-    room.image = data.get('image', room.image)
-    db.session.commit()
-    return jsonify({'message': 'Room updated successfully'}), 200
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+
+    if current_user.is_admin:
+        room = Room.query.get_or_404(id)
+        data = request.json
+        room.description = data.get('description', room.description)
+        room.price = data.get('price', room.price)
+        room.capacity = data.get('capacity', room.capacity)
+        room.status = data.get('status', room.status)
+        room.image = data.get('image', room.image)
+        db.session.commit()
+        return jsonify({'message': 'Room updated successfully'}), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
 
 # delete room by id
 @app.route('/rooms/<int:id>', methods=['DELETE'])
@@ -313,15 +319,30 @@ def get_booking(id):
 @app.route('/bookings/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_booking(id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+
     booking = Booking.query.get_or_404(id)
     data = request.json
     
-    if 'check_in' in data:
-        booking.check_in = datetime.strptime(data['check_in'], '%Y-%m-%d')
-    if 'check_out' in data:
-        booking.check_out = datetime.strptime(data['check_out'], '%Y-%m-%d')
-    if 'status' in data:
-        booking.status = data['status']
+    if not current_user.is_admin:
+        if booking.user_id != current_user_id:
+            return jsonify({'message': 'You are not authorized to perform this action'}), 401
+        if 'check_in' in data:
+            booking.check_in = datetime.strptime(data['check_in'], '%Y-%m-%d')
+        if 'check_out' in data:
+            booking.check_out = datetime.strptime(data['check_out'], '%Y-%m-%d')
+    
+    if 'check_in' in data or 'check_out' in data:
+        room = Room.query.get_or_404(booking.room_id)
+        if room.status != 'available':
+            return jsonify({'message': 'Room is not available'}), 400
+        
+    if current_user.is_admin:
+        if 'total_price' in data:
+            booking.total_price = data['total_price']
+        if 'status' in data:
+            booking.status = data['status']
 
     db.session.commit()
     return jsonify({'message': 'Booking updated successfully'}), 200
@@ -344,19 +365,40 @@ def cancel_booking(id):
 def create_review():
     user_id = get_jwt_identity()
     data = request.json
+
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+
+    required_fields = ['room_id', 'rating']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'error': f'{field} is required'}), 400
+
     new_review = Review(
         user_id=user_id,
         room_id=data['room_id'],
-        comment=data.get['comment', "No comment"],
+        comment=data.get('comment', "No comment"),
         rating=data['rating']
     )
-    db.session.add(new_review)
-    db.session.commit()
+    
+    try:
+        db.session.add(new_review)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
+
     return jsonify({'message': 'Review created successfully'}), 201
 
 
 @app.route('/reviews', methods=['GET'])
-def get_reviews(room_id):
+def get_reviews():
+    print("Reviews route hit!") 
+    room_id = request.args.get('room_id')
+    print(f"Requested room_id: {room_id}")
+    room_id = request.args.get('room_id')
+    if not room_id:
+        return jsonify({"error": "room_id is required"}), 400
     reviews = Review.query.filter_by(room_id=room_id).all()
     return jsonify([{
         'id': review.id,
