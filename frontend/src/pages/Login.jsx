@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 function Login({ setIsLoggedIn }) {
   const handleLogin = () => {
-    // Perform login actions
+    // Perform login actionsdd
     setIsLoggedIn(true);
   };
-
+            
   return (
     <div className="container mx-auto">
       <h1>Login</h1>
