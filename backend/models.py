@@ -20,6 +20,40 @@ class User(db.Model):
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
     reviews = db.relationship('Review', backref='user', lazy='dynamic')
 
+    @validates('email')
+    def validate_email(self, key, email):
+        if User.query.filter_by(email=email).first():
+            raise AssertionError('Email already exists')
+        return email
+
+    @validates('phone_number')
+    def validate_phone_number(self, key, phone_number):
+        if User.query.filter_by(phone_number=phone_number).first():
+            raise AssertionError('Phone number already exists')
+        return phone_number
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'phone_number': self.phone_number,
+            'profile_photo': self.profile_photo,
+            'is_admin': self.is_admin
+        }
+    
+class Hotel(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
+    description = db.Column(db.String(120), nullable=False)
+    rooms = db.relationship('Room', backref='hotel', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Hotel %r>' % self.name
+
 class Room(db.Model):
     # __tablename__ = 'room'
     id = db.Column(db.Integer, primary_key=True)
