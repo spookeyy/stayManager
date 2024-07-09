@@ -27,7 +27,7 @@ app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1) # expires in 1 day
 jwt = JWTManager(app)
 
-from models import db, User, Booking, Room, Review
+from models import Hotel, db, User, Booking, Room, Review
 migrate = Migrate(app, db)
 db.init_app(app)
 
@@ -250,10 +250,17 @@ def update_room(id):
 @app.route('/rooms/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_room(id):
-    room = Room.query.get_or_404(id)
-    db.session.delete(room)
-    db.session.commit()
-    return jsonify({'message': 'Room deleted successfully'}), 200
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+
+    if current_user.is_admin:
+        room = Room.query.get_or_404(id)
+        db.session.delete(room)
+        db.session.commit()
+        return jsonify({'message': 'Room deleted successfully'}), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+    
 
 
 # Bookings
@@ -359,6 +366,75 @@ def get_reviews(room_id):
         'rating': review.rating,
         'created_at': review.created_at.strftime('%Y-%m-%d %H:%M:%S')
     } for review in reviews]), 200
+
+# Hotel operations
+@app.route('/hotels', methods=['GET'])
+@jwt_required()
+def get_hotels():
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    if current_user.is_admin:
+        hotels = Hotel.query.all()
+        return jsonify([{
+            'id': hotel.id,
+            'name': hotel.name,
+            'description': hotel.description
+        } for hotel in hotels]), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+
+@app.route('/hotels', methods=['POST'])
+@jwt_required()
+def create_hotel():
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    if not current_user.is_admin:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+
+    if Hotel.query.filter_by(name=request.json['name']).first():
+        return jsonify({'message': 'Hotel already exists'}), 409
+    
+    data = request.json
+    new_hotel = Hotel(
+        name=data['name'],
+        description=data['description']
+    )
+    db.session.add(new_hotel)
+    db.session.commit()
+    return jsonify({'message': 'Hotel created successfully'}), 201
+
+@app.route('/hotels/<int:id>', methods=['PUT'])
+@jwt_required()
+def update_hotel(id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    if not current_user.is_admin:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+
+    hotel = Hotel.query.get_or_404(id)
+    data = request.json
+    if 'name' in data:
+        hotel.name = data['name']
+    if 'description' in data:
+        hotel.description = data['description']
+    db.session.commit()
+    return jsonify({'message': 'Hotel updated successfully'}), 200
+
+
+@app.route('/hotels/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_hotel(id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    if not current_user.is_admin:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+
+    hotel = Hotel.query.get_or_404(id)
+    db.session.delete(hotel)
+    db.session.commit()
+    return jsonify({'message': 'Hotel deleted successfully'}), 200
+
+
 
 # for sending email
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
