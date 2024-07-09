@@ -9,7 +9,8 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
-import ResetPasswordForm from './pages/ResetPasswordForm'; // Import ResetPasswordForm component
+import ResetPasswordForm from './pages/ResetPasswordForm';
+import Hotels from './pages/Hotels';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,12 +20,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route
+          path="/profile"
+          element={isLoggedIn ? <Profile /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path="/room-list" element={<RoomList />} />
+        <Route path="/hotels" element={<Hotels />} />
         <Route path="/room-detail" element={<RoomDetail />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/reset-password" element={<ResetPasswordForm />} /> {/* Route to ResetPasswordForm */}
+        <Route path="/reset-password" element={<ResetPasswordForm />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/reviews/form" element={<Reviews_Form />} />
       </Routes>
