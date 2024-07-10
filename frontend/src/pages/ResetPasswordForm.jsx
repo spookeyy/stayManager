@@ -3,53 +3,66 @@ import React from 'react';
 export default function ResetPasswordForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    // For demonstration purposes, let's log the email entered
     const email = e.target.resetPasswordEmail.value;
     console.log('Reset password for email:', email);
+    // Add logic here to handle password reset (e.g., API call)
   };
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Reset Password</h1>
-      <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="resetPasswordEmail" className="block text-gray-700 text-sm font-bold mb-2">
-              Enter your email address:
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-xl w-full bg-white p-8 rounded shadow-lg">
+        <div>
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">Reset Password</h2>
+          <p className="text-sm text-gray-600 mb-4 text-center">
+            Please enter your email address below. We'll send you a link to reset your password.
+          </p>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="resetPasswordEmail" className="block text-sm font-medium text-gray-700">
+              Email address
             </label>
             <input
               type="email"
               id="resetPasswordEmail"
               name="resetPasswordEmail"
               placeholder="email@example.com"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
             />
           </div>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-center">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Reset Password
             </button>
           </div>
         </form>
-      </div>
-      <div className="max-w-md mx-auto text-center">
-        <p className="text-sm text-gray-600 mb-2">
-          Please enter your email address above. We'll send you a link to reset your password.
-        </p>
-        <p className="text-sm text-gray-600">
-          If you're not sure which email address you used to register, please contact support.
-        </p>
-        <div className="mt-4">
-          <a
-            href="/contact"
-            className="text-blue-500 hover:text-blue-700 font-medium focus:outline-none focus:underline"
-          >
-            Contact Support
-          </a>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            If you're not sure which email address you used to register, please{' '}
+            <a
+              href="/contact"
+              className="text-blue-500 hover:text-blue-700 font-medium focus:outline-none focus:underline"
+            >
+              contact support
+            </a>
+            .
+          </p>
+        </div>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Need further assistance? Visit our{' '}
+            <a
+              href="/faq"
+              className="text-blue-500 hover:text-blue-700 font-medium focus:outline-none focus:underline"
+            >
+              FAQ
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>

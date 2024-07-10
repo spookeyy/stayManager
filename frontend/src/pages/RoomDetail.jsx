@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function RoomDetail() {
   // Dummy room data for demonstration
@@ -23,29 +24,30 @@ function RoomDetail() {
   };
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-3xl font-semibold mb-6 text-center">Room Detail</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Mapping over roomDetails array to create cards */}
-        {roomDetails.map((detail, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-lg font-semibold mb-2">{detail.title}</h2>
-            <p className="text-gray-700">{detail.value}</p>
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+      <div className="container mx-auto py-8">
+        <h1 className="text-3xl font-semibold mb-6 text-center">Room Detail</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {roomDetails.map((detail, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-lg font-semibold mb-2">{detail.title}</h2>
+              <p className="text-gray-700">{detail.value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 flex items-center justify-center">
+          <div className="text-lg mb-4">
+            Availability: {isAvailable ? <span className="text-green-600">Available</span> : <span className="text-red-600">Fully Booked</span>}
           </div>
-        ))}
-      </div>
-      <div className="mt-8 flex items-center justify-center">
-        {/* Show availability status */}
-        <p className="text-lg mb-4">
-          Availability: {isAvailable ? <span className="text-green-600">Available</span> : <span className="text-red-600">Fully Booked</span>}
-        </p>
-        <button
-          onClick={handleBookRoom}
-          className={`bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg focus:outline-none ${!isAvailable && 'opacity-50 cursor-not-allowed'}`}
-          disabled={!isAvailable} // Disable button if not available
-        >
-          Book Room
-        </button>
+          {isAvailable && (
+            <button
+              onClick={handleBookRoom}
+              className="ml-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg focus:outline-none shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Book Room
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Booking Modal */}
@@ -56,7 +58,6 @@ function RoomDetail() {
             <p className="text-gray-800 mb-6 text-center">
               Are you sure you want to book the {roomDetails[0].value} room for {roomDetails[1].value}?
             </p>
-            {/* Add payment integration form here */}
             <div className="flex justify-center">
               <button
                 onClick={() => setBookingModalOpen(false)}

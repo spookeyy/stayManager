@@ -15,58 +15,60 @@ function RoomList() {
       id: 2,
       title: 'Room 2',
       description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-      image: 'https://images.unsplash.com/photo-1535827841776-24afc1e255ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
+      image: 'https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
       detailsLink: '/room-detail'
     },
     {
       id: 3,
       title: 'Room 3',
       description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-      image: 'https://images.unsplash.com/photo-1585798169435-75f62b50b95e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWxzfGVufDB8fDB8fHww',
+      image: 'https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
       detailsLink: '/room-detail'
     },
     {
       id: 4,
       title: 'Room 4',
       description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-      image: 'https://images.unsplash.com/photo-1606787375502-2f5b9f99b7e1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG90ZWxzfGVufDB8fDB8fHww',
+      image: 'https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
       detailsLink: '/room-detail'
     },
     {
       id: 5,
       title: 'Room 5',
       description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-      image: 'https://images.unsplash.com/photo-1560692377-1e7e0e017f25?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG90ZWxzfGVufDB8fDB8fHww',
+      image: 'https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
       detailsLink: '/room-detail'
     },
     {
       id: 6,
       title: 'Room 6',
       description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-      image: 'https://images.unsplash.com/photo-1560692416-ea4b66d1a56f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
+      image: 'https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
       detailsLink: '/room-detail'
     }
     // Add more rooms as needed
   ];
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold text-center text-indigo-600 mb-8">Explore Our Rooms</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {rooms.map(room => (
-          <div key={room.id} className="max-w-xs rounded overflow-hidden shadow-lg">
-            <img src={room.image} className="w-full h-48 object-cover" alt={room.title} />
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{room.title}</div>
-              <p className="text-gray-700 text-base">{room.description}</p>
+    <div className="bg-gray-100">
+      <div className="container mx-auto py-8">
+        <h1 className="text-3xl font-bold text-center text-indigo-600 mb-8">Explore Our Rooms</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {rooms.map(room => (
+            <div key={room.id} className="max-w-xs rounded overflow-hidden shadow-lg bg-white">
+              <img src={room.image} className="w-full h-48 object-cover rounded-t" alt={room.title} />
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">{room.title}</div>
+                <p className="text-gray-700 text-base">{room.description}</p>
+              </div>
+              <div className="px-6 py-4">
+                <Link to={room.detailsLink} className="text-indigo-600 hover:text-indigo-800 font-medium">
+                  View Room Details
+                </Link>
+              </div>
             </div>
-            <div className="px-6 py-4">
-              <Link to={room.detailsLink} className="text-indigo-600 hover:text-indigo-800 font-medium">
-                View Room Details
-              </Link>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
