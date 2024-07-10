@@ -109,6 +109,7 @@ function AdminDashboard() {
               <div className="font-bold text-lg mb-2">
                 Room {room.room_number}
               </div>
+  
               <p className="text-gray-600 mb-2">{room.description}</p>
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-green-600">
