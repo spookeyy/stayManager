@@ -1,45 +1,93 @@
-import React from 'react';
+import React, { useState } from "react";
 
 function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [message, setMessage] = useState("");
+
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbwW0yK6duE5_Y0o7OkezYHDBUOs8zAwYyAAisZVfsDyCoC2s2fSFNRZk709BABN4DqQMg/exec";
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(scriptURL, { method: "POST", body: new FormData(e.target) })
+      .then((response) => {
+        setMessage("Message sent successfully");
+        setFormData({ name: "", email: "", message: "" }); // Reset form
+        setTimeout(() => setMessage(""), 5000); // Clear message after 5 seconds
+      })
+      .catch((error) => {
+        console.error("Error!", error.message);
+        setMessage("An error occurred. Please try again.");
+      });
+  };
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
       <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
       <p className="mb-4">This is the Contact page content.</p>
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
             Name
           </label>
           <input
             type="text"
             id="name"
             name="name"
+            value={formData.name}
+            onChange={handleInputChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Your Name"
             required
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Email
           </label>
           <input
             type="email"
             id="email"
             name="email"
+            value={formData.email}
+            onChange={handleInputChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Your Email"
             required
           />
         </div>
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-gray-700"
+          >
             Message
           </label>
           <textarea
             id="message"
             name="message"
             rows="4"
+            value={formData.message}
+            onChange={handleInputChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Your Message"
             required
@@ -54,6 +102,7 @@ function Contact() {
           </button>
         </div>
       </form>
+      {message && <p className="mt-4 text-green-600">{message}</p>}
     </div>
   );
 }
