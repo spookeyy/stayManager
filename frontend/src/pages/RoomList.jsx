@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from "./Header";
 import { Link } from 'react-router-dom';
 
 function RoomList() {
@@ -50,6 +51,8 @@ function RoomList() {
   ];
 
   return (
+    <>
+    <Header/>
     <div className="bg-gray-100">
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold text-center text-indigo-600 mb-8">Explore Our Rooms</h1>
@@ -71,6 +74,8 @@ function RoomList() {
         </div>
       </div>
     </div>
+
+    </>
   );
 }
 

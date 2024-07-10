@@ -60,6 +60,9 @@ def current_user():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
     user_data = {
         "id": user.id,
         "username": user.username,
@@ -93,12 +96,17 @@ def create_user():
     email_exists = User.query.filter_by(email=email).first()
     if email_exists:
         return jsonify({"error": "Email already exists"}), 400
+    
+    password = data.get("password")
+    if not password:
+        return jsonify({"error": "Password is required and must not be empty"}), 400
+
         
     
     new_user = User(
         username= request.json.get("username", None), 
         email= request.json.get("email", None),
-        password= bcrypt.generate_password_hash( request.json.get("password", None) ).decode('utf-8') ,
+        password=bcrypt.generate_password_hash(password).decode('utf-8'),
 
         phone_number=data.get('phone_number'),
         is_admin=data.get('is_admin', False),
