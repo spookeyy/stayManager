@@ -129,7 +129,7 @@ export default function Footer({ companyInfo }) {
       {/* Copyright */}
       <div className="text-center py-4 bg-gray-300">
         © {new Date().getFullYear()} Copyright:
-        <a href="https://mdbootstrap.com/" className="text-gray-600 font-bold">MDBootstrap.com</a>
+        <a href="#" className="text-gray-600 font-bold">Helogix</a>
       </div>
       {/* Copyright */}
     </footer>
