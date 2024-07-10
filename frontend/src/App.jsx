@@ -34,7 +34,7 @@ function App() {
           />
           <Route path="/room-list" element={<RoomList />} />
           <Route path="/hotels" element={<Hotels />} />
-          <Route path="/room-detail" element={<RoomDetail />} />
+          <Route path="/rooms/:id" element={<RoomDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ResetPasswordForm />} />
