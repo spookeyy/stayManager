@@ -20,7 +20,7 @@ function Profile() {
     const fetchProfile = async () => {
       try {
         const response = await fetch(`http://localhost:5000/users/${user.id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
         });
         if (response.ok) {
           const data = await response.json();
@@ -42,7 +42,7 @@ function Profile() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(values),
       });
