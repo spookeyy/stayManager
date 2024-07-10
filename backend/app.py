@@ -323,6 +323,26 @@ def get_booking(id):
         'status': booking.status
     }), 200
 
+# get all bookings
+@app.route('/bookings', methods=['GET'])
+@jwt_required()
+def get_bookings():
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    if current_user.is_admin:
+        bookings = Booking.query.all()
+        return jsonify([{
+            'id': booking.id,
+            'user_id': booking.user_id,
+            'room_id': booking.room_id,
+            'check_in': booking.check_in.strftime('%Y-%m-%d'),
+            'check_out': booking.check_out.strftime('%Y-%m-%d'),
+            'total_price': booking.total_price,
+            'status': booking.status
+        } for booking in bookings]), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+
 # update
 @app.route('/bookings/<int:id>', methods=['PUT'])
 @jwt_required()
