@@ -217,16 +217,22 @@ def create_room():
 @app.route('/rooms', methods=['GET'])
 @jwt_required()
 def get_rooms():
-    rooms = Room.query.all()
-    return jsonify([{
-        'id': room.id,
-        'room_number': room.room_number,
-        'description': room.description,
-        'price': room.price,
-        'capacity': room.capacity,
-        'status': room.status,
-        'image': room.image
-    } for room in rooms]), 200
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+
+    if current_user.is_admin:
+        rooms = Room.query.all()
+        return jsonify([{
+            'id': room.id,
+            'room_number': room.room_number,
+            'description': room.description,
+            'price': room.price,
+            'capacity': room.capacity,
+            'status': room.status,
+            'image': room.image
+        } for room in rooms]), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
 
 @app.route('/rooms/<int:id>', methods=['GET'])
 def get_room(id):
