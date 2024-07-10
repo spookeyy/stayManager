@@ -62,10 +62,12 @@ export const UserProvider = ({ children }) => {
     })
       .then((response) => response.json())
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         if (res.access_token) {
           setAuth_token(res.access_token);
+          console.log(res.access_token);
           localStorage.setItem("access_token", res.access_token);
+          setCurrentUser(res.user);
           if (res.is_admin) {
             toast.success("Logged in Successfully!");
             nav("/admin")
