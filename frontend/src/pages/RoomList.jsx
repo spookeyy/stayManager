@@ -50,7 +50,7 @@ function RoomList() {
   ];
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold text-center text-indigo-600 mb-8">Explore Our Rooms</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -62,7 +62,10 @@ function RoomList() {
                 <p className="text-gray-700 text-base">{room.description}</p>
               </div>
               <div className="px-6 py-4">
-                <Link to={room.detailsLink} className="text-indigo-600 hover:text-indigo-800 font-medium">
+                <Link
+                  to={room.detailsLink}
+                  className="block bg-indigo-600 hover:bg-indigo-700 text-white text-center py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                >
                   View Room Details
                 </Link>
               </div>
