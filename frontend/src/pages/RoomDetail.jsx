@@ -18,7 +18,7 @@ function RoomDetail() {
       setIsLoading(true);
       const response = await fetch(`http://localhost:5000/rooms/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Assuming you store the JWT in localStorage
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`, 
         },
       });
 
@@ -111,7 +111,7 @@ function RoomDetail() {
                     Status:
                     <span
                       className={
-                        room.status === "Available"
+                        room.status === "available"
                           ? "text-green-600 ml-2"
                           : "text-red-600 ml-2"
                       }
@@ -119,7 +119,7 @@ function RoomDetail() {
                       {room.status}
                     </span>
                   </div>
-                  {room.status === "Available" && (
+                  {room.status === "available" && (
                     <button
                       onClick={handleBookRoom}
                       className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg focus:outline-none shadow-md transition duration-300 ease-in-out transform hover:scale-105"
