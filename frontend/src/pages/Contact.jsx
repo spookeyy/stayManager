@@ -1,36 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
+  const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbwW0yK6duE5_Y0o7OkezYHDBUOs8zAwYyAAisZVfsDyCoC2s2fSFNRZk709BABN4DqQMg/exec";
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Replace with your email sending logic
-    const { name, email, message } = formData;
-    const emailContent = `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`;
 
-    // Dummy implementation for demo
-    console.log('Sending email:', emailContent);
-    alert('Message sent!'); // Replace with actual logic to send email
-
-    // Clear form fields after submission
-    setFormData({ name: '', email: '', message: '' });
+    fetch(scriptURL, { method: "POST", body: new FormData(e.target) })
+      .then((response) => {
+        setMessage("Message sent successfully");
+        setFormData({ name: "", email: "", message: "" }); // Reset form
+        setTimeout(() => setMessage(""), 5000); // Clear message after 5 seconds
+      })
+      .catch((error) => {
+        console.error("Error!", error.message);
+        setMessage("An error occurred. Please try again.");
+      });
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center text-indigo-600">Contact Us</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
+      <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
+      <p className="mb-4">This is the Contact page content.</p>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
             Name
           </label>
           <input
@@ -38,14 +51,17 @@ function Contact() {
             id="name"
             name="name"
             value={formData.name}
-            onChange={handleChange}
+            onChange={handleInputChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Your Name"
             required
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Email
           </label>
           <input
@@ -53,22 +69,25 @@ function Contact() {
             id="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
+            onChange={handleInputChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Your Email"
             required
           />
         </div>
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-gray-700"
+          >
             Message
           </label>
           <textarea
             id="message"
             name="message"
-            value={formData.message}
-            onChange={handleChange}
             rows="4"
+            value={formData.message}
+            onChange={handleInputChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Your Message"
             required
@@ -77,12 +96,13 @@ function Contact() {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Send Message
           </button>
         </div>
       </form>
+      {message && <p className="mt-4 text-green-600">{message}</p>}
     </div>
   );
 }
