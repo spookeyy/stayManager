@@ -12,25 +12,26 @@ import Register from './pages/Register';
 import ResetPasswordForm from './pages/ResetPasswordForm';
 import Hotels from './pages/Hotels';
 import {UserProvider} from './context/AuthContext';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <BrowserRouter>
-      <UserProvider value={{ isLoggedIn, setIsLoggedIn }}>
+      <UserProvider >
         <Routes>
-          <Route path="/" element={<Home setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={ localStorage.getItem("token") ? <Home /> : <Login />} />
           <Route
             path="/profile"
-            element={isLoggedIn ? <Profile /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+            element={localStorage.getItem("token") ? <Profile /> : <Login />}
           />
           <Route path="/room-list" element={<RoomList />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/room-detail" element={<RoomDetail />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/register" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ResetPasswordForm />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/reviews/form" element={<Reviews_Form />} />
