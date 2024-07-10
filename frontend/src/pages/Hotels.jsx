@@ -3,10 +3,31 @@ import Header from './Header';
 import { Link } from 'react-router-dom';
 
 function Hotels({ hotels }) { // Accept hotels as props
+  console.log(hotels);
+  hotels = [
+    {
+      id: 1,
+      name: 'Hotel 1',
+      description: 'This is a description of Hotel 1.',
+      image: 'https://example.com/hotel1.jpg',
+    },
+    {
+      id: 2,
+      name: 'Hotel 2',
+      description: 'This is a description of Hotel 2.',
+      image: 'https://example.com/hotel2.jpg',
+    },
+    {
+      id: 3,
+      name: 'Hotel 3',
+      description: 'This is a description of Hotel 3.',
+      image: 'https://example.com/hotel3.jpg',
+    },
+  ];
   return (
     <div>
       <Header />
-      <HotelsList hotels={hotels} />
+      {/* <HotelsList hotels={hotels} /> */}
 
       <div className="bg-gray-100 py-8">
         <div className="container mx-auto">
