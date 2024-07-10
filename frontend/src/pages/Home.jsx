@@ -22,6 +22,9 @@ function Home() {
     right: 0,
     zIndex: 1000,
     transition: "background-color 0.3s, height 0.3s",
+    backgroundColor: "transparent",
+    height: "100px",
+    boxShadow: "none",
   });
 
   const handleScroll = () => {
@@ -37,19 +40,19 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (scrollPosition > 100) { // Example threshold for shrinking the header
+    if (scrollPosition > 100) {
       setHeaderStyle({
         ...headerStyle,
-        height: "60px", // Adjusted height on scroll
-        backgroundColor: "#fff", // Adjusted background color
-        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)", // Example box shadow
+        height: "60px",
+        backgroundColor: "#fff",
+        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
       });
     } else {
       setHeaderStyle({
         ...headerStyle,
-        height: "100px", // Original height
-        backgroundColor: "transparent", // Original background color
-        boxShadow: "none", // No box shadow
+        height: "100px",
+        backgroundColor: "transparent",
+        boxShadow: "none",
       });
     }
   }, [scrollPosition]);
@@ -60,15 +63,15 @@ function Home() {
 
   const images = [
     {
-      url: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      url: "https://images.unsplash.com/photo-1578991624414-276ef23a534f?q=80&w=1627&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Beautiful Room",
     },
     {
-      url: "https://images.unsplash.com/photo-1535827841776-24afc1e255ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D",
+      url: "https://images.unsplash.com/photo-1590447158019-883d8d5f8bc7?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Cozy Atmosphere",
     },
     {
-      url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D",
+      url: "https://images.unsplash.com/photo-1600435335786-d74d2bb6de37?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Relaxing View",
     },
   ];
