@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import AddRoom from "./AddRoom";
+// import EditRoom from "./EditRoom";
+import Header from "./Header";
+
+const AdminContext = React.createContext();
 
 function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
@@ -72,6 +76,14 @@ function AdminDashboard() {
   };
 
   return (
+    <div>
+      <Header />
+      {/* <Dashboard
+        bookings={bookings}
+        rooms={rooms}
+        onAddRoom={handleAddRoom}
+        onCancelBooking={handleCancelBooking}
+      /> */}
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Admin Dashboard</h2>
 
@@ -142,6 +154,7 @@ function AdminDashboard() {
           ))}
         </ul>
       </div>
+    </div>
     </div>
   );
 }
