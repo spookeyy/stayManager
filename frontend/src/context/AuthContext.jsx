@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import useHistory from "react-router-dom/cjs/react-router-dom.min";
+import {useHistory} from "react-router-dom";
 
 export const UserContext = createContext();
 
