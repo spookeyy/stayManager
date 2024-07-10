@@ -54,7 +54,7 @@ function RoomDetail() {
       {isBookingModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg max-w-md">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Confirm Booking</h2>
+            <h3 className="text-2xl font-semibold mb-4 text-center">Confirm Booking</h3>
             <p className="text-gray-800 mb-6 text-center">
               Are you sure you want to book the {roomDetails[0].value} room for {roomDetails[1].value}?
             </p>
