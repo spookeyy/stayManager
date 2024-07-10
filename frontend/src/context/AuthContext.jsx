@@ -16,8 +16,8 @@ export const UserProvider = ({ children }) => {
   );
 
   // All your functions and state variables will be available to all the children components that are wrapped in the UserProvider
-  //    REGISTER USER
-  const register_user = (username, email, phone_number, is_admin, password) => {
+  // REGISTER USER
+  const register_user = (username, email, password, phone_number, is_admin) => {
     fetch("http://localhost:5000/users", {
       method: "POST",
       body: JSON.stringify({
@@ -33,6 +33,7 @@ export const UserProvider = ({ children }) => {
     })
       .then((response) => response.json())
       .then((res) => {
+        console.log(res) // response from server
         if (res.success) {
           toast.success(res.success);
           nav("/login");
@@ -64,7 +65,7 @@ export const UserProvider = ({ children }) => {
           localStorage.setItem("access_token", res.access_token);
 
           toast.success("Logged in Successfully!");
-          nav("/dashboard");
+          nav("/");
         } else if (res.error) {
           toast.error(res.error);
         } else {

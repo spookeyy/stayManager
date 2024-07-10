@@ -9,25 +9,25 @@ function Hotels({ hotels }) { // Accept hotels as props
       id: 1,
       name: 'Hotel 1',
       description: 'This is a description of Hotel 1.',
-      image: 'https://example.com/hotel1.jpg',
+      image: 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
       id: 2,
       name: 'Hotel 2',
       description: 'This is a description of Hotel 2.',
-      image: 'https://example.com/hotel2.jpg',
+      image: 'https://images.unsplash.com/photo-1641820395583-c8e22c4ca9e7?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
       id: 3,
       name: 'Hotel 3',
       description: 'This is a description of Hotel 3.',
-      image: 'https://example.com/hotel3.jpg',
+      image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
   ];
   return (
     <div>
       <Header />
-      {/* <HotelsList hotels={hotels} /> */}
+ 
 
       <div className="bg-gray-100 py-8">
         <div className="container mx-auto">
