@@ -9,7 +9,7 @@ function RoomList() {
         {/* Room 1 */}
         <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
           <div className="max-w-xs rounded overflow-hidden shadow-lg">
-            <img src="..." className="w-full" alt="Room 1" />
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWxzfGVufDB8fDB8fHww" className="w-full" alt="Room 1" />
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">Room 1</div>
               <p className="text-gray-700 text-base">
@@ -30,7 +30,7 @@ function RoomList() {
         {/* Room 2 */}
         <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
           <div className="max-w-xs rounded overflow-hidden shadow-lg">
-            <img src="..." className="w-full" alt="Room 2" />
+            <img src="https://images.unsplash.com/photo-1535827841776-24afc1e255ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D" className="w-full" alt="Room 2" />
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">Room 2</div>
               <p className="text-gray-700 text-base">
