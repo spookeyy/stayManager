@@ -43,7 +43,7 @@ function RoomList() {
   return (
     <>
       <Header />
-      <div className="bg-gray-100">
+      <div className="bg-gray-100 ml-20 mr-20">
         <div className="container mx-auto py-8">
           <h1 className="text-3xl font-bold text-center text-indigo-600 mb-8">
             Explore Our Rooms
