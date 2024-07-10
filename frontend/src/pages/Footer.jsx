@@ -69,19 +69,18 @@ export default function Footer({ companyInfo }) {
               {/* Links */}
               <h6 className="text-xs text-gray-600 uppercase font-bold mb-2">Products</h6>
               <p className="text-sm text-gray-600">
-                <a href="#" className="hover:text-gray-900">Angular</a>
+                <a href="#" className="hover:text-gray-900">Bed & Breakfast</a>
               </p>
               <p className="text-sm text-gray-600">
-                <a href="#" className="hover:text-gray-900">React</a>
+                <a href="#" className="hover:text-gray-900">Accomodation</a>
               </p>
               <p className="text-sm text-gray-600">
-                <a href="#" className="hover:text-gray-900">Vue</a>
+                <a href="#" className="hover:text-gray-900">Family Link</a>
               </p>
               <p className="text-sm text-gray-600">
-                <a href="#" className="hover:text-gray-900">Laravel</a>
+                <a href="#" className="hover:text-gray-900">Outdoors</a>
               </p>
-            </div>
-            {/* Grid column */}
+            </div>            {/* Grid column */}
 
             {/* Grid column */}
             <div className="mb-4">
@@ -113,10 +112,10 @@ export default function Footer({ companyInfo }) {
                 <i className="fas fa-envelope me-2"></i> thefourshotel@gmail.com
               </p>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-phone me-2"></i> + 254704372525
+                <i className="fas fa-phone me-2"></i> +254704372525
               </p>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-print me-2"></i> + 254797274881
+                <i className="fas fa-print me-2"></i> +254797274881
               </p>
             </div>
             {/* Grid column */}
@@ -129,7 +128,11 @@ export default function Footer({ companyInfo }) {
       {/* Copyright */}
       <div className="text-center py-4 bg-gray-300">
         © {new Date().getFullYear()} Copyright:
-        <a href="#" className="text-gray-600 font-bold">Helogix</a>
+<<<<<<< HEAD
+        <a href="#" className="text-gray-600 font-bold"> Helogix</a>
+=======
+        <a href="#" className="text-gray-600 font-bold"> Hetelogix</a>
+>>>>>>> 803286d0df0a6e36168a91a04185f7a4ef13f576
       </div>
       {/* Copyright */}
     </footer>
