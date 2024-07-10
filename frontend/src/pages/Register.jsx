@@ -15,6 +15,7 @@ function Register() {
   const [phone_number, setPhone_number] = useState()
   const [is_admin, setIs_admin] = useState(false)
 
+
   // console.log(email, password, repeatPassword, username, phone_number, is_admin);
   function handleSubmit(e){
     // console.log(email, password, repeatPassword, username, phone_number, is_admin);
@@ -31,13 +32,12 @@ function Register() {
     setUserName("")
     setPhone_number("")
     setIs_admin(false)
-
   }
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-4xl font-semibold mb-6 text-center">Register</h1>
+        <h1 className="text-4xl font-semibold mb-6 text-center text-gray-800">Register</h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label

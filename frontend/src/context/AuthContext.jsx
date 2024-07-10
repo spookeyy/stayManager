@@ -6,6 +6,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const nav = useNavigate();
+  
 
   const [currentUser, setCurrentUser] = useState();
   const [onChange, setOnChange] = useState(false);
