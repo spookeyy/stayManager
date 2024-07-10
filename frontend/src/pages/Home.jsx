@@ -5,10 +5,10 @@ import Footer from './Footer';
 
 function Home() {
   const companyInfo = {
-    companyName: 'Your Company Name',
-    address: 'New York, NY 10012, US',
-    email: 'info@example.com',
-    phone: '+01 234 567 88',
+    companyName: 'The Fours Hotel',
+    address: 'Nairobi, Nrb 44773, Kenya',
+    email: 'thefourshotel@gmail.com',
+    phone: '+254704372525',
   };
 
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -20,7 +20,7 @@ function Home() {
   return (
     <div>
       {/* Navbar */}
-      <nav className="mx-auto px-4 py-2 max-w-7xl bg-white shadow-lg mt-4">
+      <nav className="mx-auto px-4 py-2 max-w-7xl bg-blue-500 shadow-lg mt-4">
         <div className="flex justify-between items-center">
           {/* Navbar brand */}
           <Link to="/" className="text-xl font-bold text-gray-800">
@@ -58,9 +58,7 @@ function Home() {
 
           {/* Navbar links */}
           <div
-            className={`${
-              isNavOpen ? 'block' : 'hidden'
-            } lg:flex lg:flex-grow items-center justify-end`}
+            className={`${isNavOpen ? 'block' : 'hidden'} lg:flex lg:flex-grow items-center justify-end`}
             id="navbarSupportedContent"
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
@@ -117,9 +115,7 @@ function Home() {
       {/* Main content */}
       <div className="container mx-auto px-4 py-8">
         <p className="text-lg text-gray-800">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus,
-          nec rutrum justo nibh eu lectus.
+          Nestled along the picturesque coastline, the Oceanview Resort offers a tranquil oasis for the discerning traveler. Boasting stunning ocean vistas from every room, this hotel provides the ultimate in beachfront luxury. Guests can indulge in gourmet dining, rejuvenate at the full-service spa, or simply unwind by the infinity pool as they soak up the serene ambiance. With impeccable service and thoughtful amenities, the Oceanview Resort promises an unforgettable escape.
         </p>
 
         {/* Example Image */}
