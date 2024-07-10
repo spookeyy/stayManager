@@ -128,11 +128,7 @@ export default function Footer({ companyInfo }) {
       {/* Copyright */}
       <div className="text-center py-4 bg-gray-300">
         © {new Date().getFullYear()} Copyright:
-<<<<<<< HEAD
-        <a href="#" className="text-gray-600 font-bold"> Helogix</a>
-=======
         <a href="#" className="text-gray-600 font-bold"> Hetelogix</a>
->>>>>>> 803286d0df0a6e36168a91a04185f7a4ef13f576
       </div>
       {/* Copyright */}
     </footer>
