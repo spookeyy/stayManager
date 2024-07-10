@@ -1,24 +1,39 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Assuming you use React Router for navigation
 
-function Hotels() {
+function Hotels({ hotels }) { // Accept hotels as props
   return (
-    <div>
-      <h1>Hotels</h1>
+    <div className="bg-gray-100 py-8">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-semibold text-center mb-8">Hotels</h1>
 
-      {/* Card Component */}
-      <div className="max-w-sm rounded overflow-hidden shadow-lg">
-        {/* Image */}
-        <img className="w-full" src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Placeholder image" />
+        {/* Hotel Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {hotels.map(hotel => (
+            <div key={hotel.id} className="rounded overflow-hidden shadow-lg bg-white">
+              {/* Image */}
+              <img className="w-full h-64 object-cover" src={hotel.image} alt={hotel.name} />
 
-        {/* Card Content */}
-        <div className="px-6 py-4">
-          {/* Title */}
-          <div className="font-bold text-xl mb-2">Hotel Name</div>
+              {/* Card Content */}
+              <div className="px-6 py-4">
+                {/* Title */}
+                <div className="font-bold text-xl mb-2">{hotel.name}</div>
 
-          {/* Description */}
-          <p className="text-gray-700 text-base">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus.
-          </p>
+                {/* Description */}
+                <p className="text-gray-700 text-base">
+                  {hotel.description}
+                </p>
+
+                {/* Button */}
+                <Link
+                  to={`/hotel/${hotel.id}/rooms`}
+                  className="block mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center"
+                >
+                  View Rooms
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
