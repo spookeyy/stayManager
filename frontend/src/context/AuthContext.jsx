@@ -17,15 +17,15 @@ export const UserProvider = ({ children }) => {
 
   // All your functions and state variables will be available to all the children components that are wrapped in the UserProvider
   //    REGISTER USER
-  const register_user = (name, email, phone_number, is_organizer, password) => {
+  const register_user = (username, email, phone_number, is_admin, password) => {
     fetch("http://localhost:5000/users", {
       method: "POST",
       body: JSON.stringify({
-        name: name,
+        username: username,
         email: email,
         password: password,
         phone_number: phone_number,
-        is_organizer: is_organizer,
+        is_admin: is_admin,
       }),
       headers: {
         "Content-type": "application/json",
@@ -74,14 +74,14 @@ export const UserProvider = ({ children }) => {
   };
 
   //    Update USER
-  const update_user = (name, phone_number, is_organizer, password) => {
+  const update_user = (username, phone_number, is_admin, password) => {
     fetch("http://localhost:5000/users", {
       method: "PUT",
       body: JSON.stringify({
-        name: name,
+        username: username,
         password: password,
         phone_number: phone_number,
-        is_organizer: is_organizer,
+        is_admin: is_admin,
       }),
       headers: {
         "Content-type": "application/json",
