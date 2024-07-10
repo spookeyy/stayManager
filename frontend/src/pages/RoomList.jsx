@@ -2,52 +2,71 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function RoomList() {
-  return (
-    <div className="container mx-auto">
-      <h1>Room List</h1>
-      <div className="flex flex-wrap -mx-4">
-        {/* Room 1 */}
-        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
-          <div className="max-w-xs rounded overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWxzfGVufDB8fDB8fHww" className="w-full" alt="Room 1" />
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">Room 1</div>
-              <p className="text-gray-700 text-base">
-                Some quick example text to build on the card title and make up the bulk of the card's content.
-              </p>
-            </div>
-            <ul className="list-none">
-              <li className="border-t border-gray-200 first:border-t-0 px-6 py-4">An item</li>
-              <li className="border-t border-gray-200 px-6 py-4">A second item</li>
-              <li className="border-t border-gray-200 px-6 py-4">A third item</li>
-            </ul>
-            <div className="px-6 py-4">
-              <Link to="/room-detail" className="text-indigo-600 hover:text-indigo-800">Room details</Link>
-            </div>
-          </div>
-        </div>
+  // Dummy data for room cards
+  const rooms = [
+    {
+      id: 1,
+      title: 'Room 1',
+      description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWxzfGVufDB8fDB8fHww',
+      detailsLink: '/room-detail'
+    },
+    {
+      id: 2,
+      title: 'Room 2',
+      description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      image: 'https://images.unsplash.com/photo-1535827841776-24afc1e255ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
+      detailsLink: '/room-detail'
+    },
+    {
+      id: 3,
+      title: 'Room 3',
+      description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      image: 'https://images.unsplash.com/photo-1585798169435-75f62b50b95e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWxzfGVufDB8fDB8fHww',
+      detailsLink: '/room-detail'
+    },
+    {
+      id: 4,
+      title: 'Room 4',
+      description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      image: 'https://images.unsplash.com/photo-1606787375502-2f5b9f99b7e1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG90ZWxzfGVufDB8fDB8fHww',
+      detailsLink: '/room-detail'
+    },
+    {
+      id: 5,
+      title: 'Room 5',
+      description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      image: 'https://images.unsplash.com/photo-1560692377-1e7e0e017f25?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG90ZWxzfGVufDB8fDB8fHww',
+      detailsLink: '/room-detail'
+    },
+    {
+      id: 6,
+      title: 'Room 6',
+      description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
+      image: 'https://images.unsplash.com/photo-1560692416-ea4b66d1a56f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D',
+      detailsLink: '/room-detail'
+    }
+    // Add more rooms as needed
+  ];
 
-        {/* Room 2 */}
-        <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
-          <div className="max-w-xs rounded overflow-hidden shadow-lg">
-            <img src="https://images.unsplash.com/photo-1535827841776-24afc1e255ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D" className="w-full" alt="Room 2" />
+  return (
+    <div className="container mx-auto py-8">
+      <h1 className="text-3xl font-bold text-center text-indigo-600 mb-8">Explore Our Rooms</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {rooms.map(room => (
+          <div key={room.id} className="max-w-xs rounded overflow-hidden shadow-lg">
+            <img src={room.image} className="w-full h-48 object-cover" alt={room.title} />
             <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">Room 2</div>
-              <p className="text-gray-700 text-base">
-                Some quick example text to build on the card title and make up the bulk of the card's content.
-              </p>
+              <div className="font-bold text-xl mb-2">{room.title}</div>
+              <p className="text-gray-700 text-base">{room.description}</p>
             </div>
-            <ul className="list-none">
-              <li className="border-t border-gray-200 first:border-t-0 px-6 py-4">An item</li>
-              <li className="border-t border-gray-200 px-6 py-4">A second item</li>
-              <li className="border-t border-gray-200 px-6 py-4">A third item</li>
-            </ul>
             <div className="px-6 py-4">
-              <Link to="/room-detail" className="text-indigo-600 hover:text-indigo-800">Room details</Link>
+              <Link to={room.detailsLink} className="text-indigo-600 hover:text-indigo-800 font-medium">
+                View Room Details
+              </Link>
             </div>
           </div>
-        </div>
-        {/* Add more rooms as needed */}
+        ))}
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ export default function ResetPasswordForm() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -35,6 +35,22 @@ export default function ResetPasswordForm() {
             </button>
           </div>
         </form>
+      </div>
+      <div className="max-w-md mx-auto text-center">
+        <p className="text-sm text-gray-600 mb-2">
+          Please enter your email address above. We'll send you a link to reset your password.
+        </p>
+        <p className="text-sm text-gray-600">
+          If you're not sure which email address you used to register, please contact support.
+        </p>
+        <div className="mt-4">
+          <a
+            href="/contact"
+            className="text-blue-500 hover:text-blue-700 font-medium focus:outline-none focus:underline"
+          >
+            Contact Support
+          </a>
+        </div>
       </div>
     </div>
   );
