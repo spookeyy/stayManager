@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './Header';
 import { Link } from 'react-router-dom';
 
 function Login({ setIsLoggedIn }) {
@@ -8,7 +9,9 @@ function Login({ setIsLoggedIn }) {
   };
             
   return (
-    <div className="container mx-auto">
+  <div>
+    <Header />
+    <div className="container mx-auto mt-10">
       <h1>Login</h1>
       <form className="px-4 py-3">
         <div className="mb-3">
@@ -28,6 +31,7 @@ function Login({ setIsLoggedIn }) {
       <div className="border-t border-gray-200"></div>
       <Link to="/register" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">New around here? Sign up</Link>
       <Link to="/reset-password" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Forgot password?</Link>
+    </div>
     </div>
   );
 }
