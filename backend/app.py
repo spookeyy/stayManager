@@ -247,6 +247,23 @@ def get_room(id):
         'image': room.image
     }), 200
 
+
+@app.route('/rooms/<int:id>', methods=['PATCH'])
+@jwt_required()
+def update_room_status(id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+
+    if current_user.is_admin:
+        room = Room.query.get_or_404(id)
+        data = request.json
+        room.status = data.get('status', room.status)
+        db.session.commit()
+        return jsonify({'message': 'Room status updated successfully'}), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+    
+
 @app.route('/rooms/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_room(id):
@@ -458,6 +475,33 @@ def get_hotels():
         } for hotel in hotels]), 200
     else:
         return jsonify({"error": "You are not authorized to perform this action"}), 401
+
+# get rooms by hotel id
+@app.route('/hotels/<int:hotel_id>/rooms', methods=['GET'])
+@jwt_required()
+def get_hotel_rooms(hotel_id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    # if not current_user.is_admin:
+    #     return jsonify({"error": "You are not authorized to perform this action"}), 401
+    
+    print("Attempting to get rooms for hotel id: ", hotel_id)
+    try:
+        rooms = Room.query.filter_by(hotel_id=hotel_id).all()
+        if not rooms:
+            return jsonify({"message": "No rooms found for this hotel"}), 404
+        return jsonify([{
+            'id': room.id,
+            'room_number': room.room_number,
+            'description': room.description,
+            'price': room.price,
+            'capacity': room.capacity,
+            'status': room.status,
+            'image': room.image
+        } for room in rooms]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/hotels', methods=['POST'])
 @jwt_required()
