@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+// import { Link } from "react-router-dom";
+import Footer from "./Footer";
+import Header from "./Header";
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -35,9 +38,10 @@ function Contact() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md mt-10">
       <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
-      <p className="mb-4">This is the Contact page content.</p>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label
@@ -103,6 +107,7 @@ function Contact() {
         </div>
       </form>
       {message && <p className="mt-4 text-green-600">{message}</p>}
+    </div>
     </div>
   );
 }
