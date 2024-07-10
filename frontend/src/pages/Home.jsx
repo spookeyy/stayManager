@@ -6,10 +6,10 @@ import Header from './Header';
 
 function Home() {
   const companyInfo = {
-    companyName: 'Your Company Name',
-    address: 'New York, NY 10012, US',
-    email: 'info@example.com',
-    phone: '+01 234 567 88',
+    companyName: 'The Fours Hotel',
+    address: 'Nairobi, Nrb 44773, Kenya',
+    email: 'thefourshotel@gmail.com',
+    phone: '+254704372525',
   };
 
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -25,13 +25,10 @@ function Home() {
         toggleNav={toggleNav}
         isNavOpen={isNavOpen}
       />
-
       {/* Main content */}
       <div className="container mx-auto px-4 py-8">
         <p className="text-lg text-gray-800">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-          accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus,
-          nec rutrum justo nibh eu lectus.
+          Nestled along the picturesque coastline, the Oceanview Resort offers a tranquil oasis for the discerning traveler. Boasting stunning ocean vistas from every room, this hotel provides the ultimate in beachfront luxury. Guests can indulge in gourmet dining, rejuvenate at the full-service spa, or simply unwind by the infinity pool as they soak up the serene ambiance. With impeccable service and thoughtful amenities, the Oceanview Resort promises an unforgettable escape.
         </p>
 
         {/* Example Image */}

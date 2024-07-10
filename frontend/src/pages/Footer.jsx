@@ -107,16 +107,16 @@ export default function Footer({ companyInfo }) {
               {/* Links */}
               <h6 className="text-xs text-gray-600 uppercase font-bold mb-2">Contact</h6>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-home me-2"></i> New York, NY 10012, US
+                <i className="fas fa-home me-2"></i> Nairobi, Nrb 44773, Kenya
               </p>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-envelope me-2"></i> info@example.com
+                <i className="fas fa-envelope me-2"></i> thefourshotel@gmail.com
               </p>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-phone me-2"></i> + 01 234 567 88
+                <i className="fas fa-phone me-2"></i> + 254704372525
               </p>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-print me-2"></i> + 01 234 567 89
+                <i className="fas fa-print me-2"></i> + 254797274881
               </p>
             </div>
             {/* Grid column */}

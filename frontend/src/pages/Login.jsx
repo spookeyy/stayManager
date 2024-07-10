@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 function Login({ setIsLoggedIn }) {
   const handleLogin = () => {
-    // Perform login actionsdd
+    // Perform login actions
     setIsLoggedIn(true);
   };
-            
+
   return (
   <div>
     <Header />

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 function Header({ toggleNav, isNavOpen }) {
   return (
     <div>
-    {/* Navbar */}
-      <nav className="mx-auto px-4 py-2 max-w-7xl bg-white shadow-lg mt-4">
+      {/* Navbar */}
+      <nav className="mx-auto px-4 py-2 max-w-7xl bg-blue-500 shadow-lg mt-4">
         <div className="flex justify-between items-center">
           {/* Navbar brand */}
           <Link to="/" className="text-xl font-bold text-gray-800">
@@ -44,7 +44,7 @@ function Header({ toggleNav, isNavOpen }) {
           {/* Navbar links */}
           <div
             className={`${
-              isNavOpen ? 'block' : 'hidden'
+              isNavOpen ? "block" : "hidden"
             } lg:flex lg:flex-grow items-center justify-end`}
             id="navbarSupportedContent"
           >
@@ -99,7 +99,7 @@ function Header({ toggleNav, isNavOpen }) {
         </div>
       </nav>
     </div>
-  )
+  );
 }
 
 export default Header
