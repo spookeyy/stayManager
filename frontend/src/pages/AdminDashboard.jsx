@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { UserContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import AddRoom from "./AddRoom";
+// import EditRoom from "./EditRoom";
+import Header from "./Header";
+
+const AdminContext = React.createContext();
 
 function AdminDashboard() {
-
-  // const { user } = useContext(UserContext);
-
   const [bookings, setBookings] = useState([]);
   const [rooms, setRooms] = useState([]);
 
@@ -23,9 +23,12 @@ function AdminDashboard() {
       if (response.ok) {
         const data = await response.json();
         setBookings(data);
+      } else {
+        throw new Error("Failed to fetch bookings");
       }
     } catch (error) {
       console.error("Error fetching bookings:", error);
+      toast.error("Failed to fetch bookings");
     }
   };
 
@@ -37,9 +40,12 @@ function AdminDashboard() {
       if (response.ok) {
         const data = await response.json();
         setRooms(data);
+      } else {
+        throw new Error("Failed to fetch rooms");
       }
     } catch (error) {
       console.error("Error fetching rooms:", error);
+      toast.error("Failed to fetch rooms");
     }
   };
 
@@ -53,17 +59,36 @@ function AdminDashboard() {
         }
       );
       if (response.ok) {
+        toast.success("Booking cancelled successfully");
         fetchBookings();
         fetchRooms();
+      } else {
+        throw new Error("Failed to cancel booking");
       }
     } catch (error) {
       console.error("Error cancelling booking:", error);
+      toast.error("Failed to cancel booking");
     }
   };
 
+  const handleAddRoom = () => {
+    fetchRooms(); // Refresh rooms after adding a new room
+  };
+
   return (
+    <div>
+      <Header />
+      {/* <Dashboard
+        bookings={bookings}
+        rooms={rooms}
+        onAddRoom={handleAddRoom}
+        onCancelBooking={handleCancelBooking}
+      /> */}
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">Admin Dashboard</h2>
+
+      {/* Render AddRoom component */}
+      <AddRoom onAddRoom={handleAddRoom} />
 
       <div className="mb-8">
         <h3 className="text-2xl font-semibold mb-4 text-gray-700">Bookings</h3>
@@ -129,6 +154,7 @@ function AdminDashboard() {
           ))}
         </ul>
       </div>
+    </div>
     </div>
   );
 }

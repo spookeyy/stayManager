@@ -1,13 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import useHistory from "react-router-dom/cjs/react-router-dom.min";
+// import {useHistory} from "react-router-dom";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const nav = useNavigate();
-  const history = useHistory();
+  // const history = useHistory();
   
 
   const [currentUser, setCurrentUser] = useState();
@@ -68,10 +68,10 @@ export const UserProvider = ({ children }) => {
           localStorage.setItem("access_token", res.access_token);
           if (res.is_admin) {
             toast.success("Logged in Successfully!");
-            history.push("/admin")
+            nav("/admin")
           } else {
             toast.success("Logged in Successfully!");
-            history.push("/")
+            nav("/")
           }
           // nav("/");
         } else if (res.error) {
