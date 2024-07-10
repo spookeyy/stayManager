@@ -1,33 +1,55 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Header from './Header';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Header from "./Header";
 
 function RoomDetail() {
-  // Dummy room data for demonstration
-  const roomDetails = [
-    { title: 'Room Number', value: '101' },
-    { title: 'Description', value: 'Standard Double' },
-    { title: 'Price', value: 'Ksh. 100 per night' },
-    { title: 'Capacity', value: '2 guests' },
-    { title: 'Facilities', value: 'Free Wi-Fi, TV, Air Conditioning' },
-    { title: 'status', value: 'Available' },
-    {
-      title: 'Image',
-      value: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWxzfGVufDB8fDB8fHww',
-    },
-  ];
-
-  // Dummy availability state (true for available, false for booked)
-  const [isAvailable] = useState(true); // Change this state as per your logic
-
-  // State to manage booking modal visibility
+  const [room, setRoom] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isBookingModalOpen, setBookingModalOpen] = useState(false);
+  const { id } = useParams(); // Get the room id from the URL
 
-  // Function to handle booking
+  useEffect(() => {
+    fetchRoomDetail();
+  }, [id]);
+
+  const fetchRoomDetail = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`http://localhost:5000/rooms/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Assuming you store the JWT in localStorage
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch room details");
+      }
+
+      const data = await response.json();
+      setRoom(data);
+    } catch (err) {
+      setError(err.message || "An error occurred while fetching room details");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleBookRoom = () => {
-    // Implement booking logic here, e.g., show booking modal
     setBookingModalOpen(true);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!room) {
+    return <div>No room data available.</div>;
+  }
 
   return (
     <>
@@ -42,8 +64,8 @@ function RoomDetail() {
               {/* Left side - Room Image */}
               <div className="md:w-1/2">
                 <img
-                  src={roomDetails[6].value}
-                  alt="Room"
+                  src={room.image}
+                  alt={`Room ${room.room_number}`}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -51,32 +73,53 @@ function RoomDetail() {
               {/* Right side - Room Details */}
               <div className="md:w-1/2 p-6">
                 <div className="grid grid-cols-1 gap-4">
-                  {roomDetails.map((detail, index) => (
-                    <div
-                      key={index}
-                      className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0"
-                    >
-                      <h2 className="text-lg font-semibold text-gray-700 mb-2">
-                        {detail.title}
-                      </h2>
-                      <p className="text-gray-600">{detail.value}</p>
-                    </div>
-                  ))}
+                  <div className="border-b border-gray-200 pb-4">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                      Room Number
+                    </h2>
+                    <p className="text-gray-600">{room.room_number}</p>
+                  </div>
+                  <div className="border-b border-gray-200 pb-4">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                      Description
+                    </h2>
+                    <p className="text-gray-600">{room.description}</p>
+                  </div>
+                  <div className="border-b border-gray-200 pb-4">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                      Price
+                    </h2>
+                    <p className="text-gray-600">Ksh. {room.price} per night</p>
+                  </div>
+                  <div className="border-b border-gray-200 pb-4">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                      Capacity
+                    </h2>
+                    <p className="text-gray-600">{room.capacity} guests</p>
+                  </div>
+                  <div className="border-b border-gray-200 pb-4">
+                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                      Status
+                    </h2>
+                    <p className="text-gray-600">{room.status}</p>
+                  </div>
                 </div>
 
                 {/* Availability and Booking */}
                 <div className="mt-6">
                   <div className="text-lg font-semibold mb-4">
-                    {roomDetails[5].title}
-                    {isAvailable ? (
-                      <span className="text-green-600 ml-2">
-                        {roomDetails[5].value}
-                      </span>
-                    ) : (
-                      <span className="text-red-600 ml-2">Fully Booked</span>
-                    )}
+                    Status:
+                    <span
+                      className={
+                        room.status === "Available"
+                          ? "text-green-600 ml-2"
+                          : "text-red-600 ml-2"
+                      }
+                    >
+                      {room.status}
+                    </span>
                   </div>
-                  {isAvailable && (
+                  {room.status === "Available" && (
                     <button
                       onClick={handleBookRoom}
                       className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg focus:outline-none shadow-md transition duration-300 ease-in-out transform hover:scale-105"
@@ -98,8 +141,7 @@ function RoomDetail() {
                 Confirm Booking
               </h3>
               <p className="text-gray-800 mb-6 text-center">
-                Are you sure you want to book the {roomDetails[0].value} room
-                for {roomDetails[1].value}?
+                Are you sure you want to book Room {room.room_number}?
               </p>
               <div className="flex justify-center space-x-4">
                 <button
