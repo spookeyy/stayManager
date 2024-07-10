@@ -111,7 +111,8 @@ function Register() {
               repeat Password
             </label>
             <input
-              type="password"
+              type="password" 
+              id="password"
               value={repeatPassword || ""}
               onChange={(e) => setRepeatPassword(e.target.value)}
               className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
