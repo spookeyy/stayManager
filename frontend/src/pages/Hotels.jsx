@@ -6,7 +6,7 @@ function Hotels({ hotels }) { // Accept hotels as props
   return (
     <div>
       <Header />
-      <HotelsList hotels={hotels} />
+      {/* <HotelsList hotels={hotels} /> */}
 
       <div className="bg-gray-100 py-8">
         <div className="container mx-auto">
