@@ -19,7 +19,7 @@ function HotelRooms() {
         `http://localhost:5000/hotels/${hotelId}/rooms`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         }
       );

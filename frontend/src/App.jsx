@@ -14,6 +14,7 @@ import Hotels from "./pages/Hotels";
 import { UserProvider } from "./context/AuthContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import PrivateRoute from "./pages/PrivateRoute";
+import HotelRooms from "./pages/HotelRooms";
 
 function App() {
   return (
@@ -26,14 +27,19 @@ function App() {
           </Route>
           <Route
             path="/login"
-            element={localStorage.getItem("access_token") ? <Home /> : <Login />}
+            element={
+              localStorage.getItem("access_token") ? <Home /> : <Login />
+            }
           />
           <Route
             path="/profile"
-            element={localStorage.getItem("access_token") ? <Profile /> : <Login />}
+            element={
+              localStorage.getItem("access_token") ? <Profile /> : <Login />
+            }
           />
           <Route path="/room-list" element={<RoomList />} />
           <Route path="/hotels" element={<Hotels />} />
+          <Route path="/hotel/:hotelId/rooms" element={<HotelRooms />} />
           <Route path="/rooms/:id" element={<RoomDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
