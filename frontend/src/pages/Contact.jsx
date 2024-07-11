@@ -29,7 +29,7 @@ function Contact() {
       .then((response) => {
         setMessage("Message sent successfully");
         setFormData({ name: "", email: "", message: "" }); // Reset form
-        setTimeout(() => setMessage(""), 5000); // Clear message after 5 seconds
+        setTimeout(() => setMessage(""), 2000); // Clear message after 2 seconds
       })
       .catch((error) => {
         console.error("Error!", error.message);
@@ -108,6 +108,7 @@ function Contact() {
       </form>
       {message && <p className="mt-4 text-green-600">{message}</p>}
     </div>
+    {/* <Footer /> cannot read properties of undefined companyName */}
     </div>
   );
 }
