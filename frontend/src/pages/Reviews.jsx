@@ -85,8 +85,12 @@ const Reviews = () => {
                 </div>
               </div>
               <div className="px-6 py-4">
-                <p className="text-gray-700">Comment: {review.comment}</p>
-                <p className="text-gray-600 mt-2">Date: {review.created_at}</p>
+                <p className="text-gray-700 mt-2 ">
+                  <b>Comment:</b> {review.comment}
+                </p>
+                <p className="text-gray-600 mt-2">
+                  <b>Date: {review.created_at}</b>
+                </p>
               </div>
             </div>
           ))}

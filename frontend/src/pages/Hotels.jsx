@@ -59,8 +59,9 @@ function Hotels() {
                 <img
                   className="w-full h-64 object-cover"
                   src={
-                    hotel.image ||
-                    "https://via.placeholder.com/400x250?text=Hotel+Image"
+                    hotel.image
+                      ? hotel.image
+                      : "https://via.placeholder.com/300x200"
                   }
                   alt={hotel.name}
                 />

@@ -49,6 +49,7 @@ class Hotel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(120), nullable=False)
+    image = db.Column(db.String(120), nullable=True)
     room_count = db.Column(db.Integer)
     rooms = db.relationship('Room', backref='hotel', lazy='dynamic')
 

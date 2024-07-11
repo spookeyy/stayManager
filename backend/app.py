@@ -477,7 +477,8 @@ def get_hotels():
     return jsonify([{
         'id': hotel.id,
         'name': hotel.name,
-        'description': hotel.description
+        'description': hotel.description,
+        'image': hotel.image
     } for hotel in hotels]), 200
 
 
@@ -521,6 +522,7 @@ def create_hotel():
     
     data = request.json
     new_hotel = Hotel(
+        image=data.get('image', None),
         name=data['name'],
         description=data['description']
     )

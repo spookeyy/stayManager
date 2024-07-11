@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Header from "./Header";
 
 export default function Reviews_Form() {
   const [rating, setRating] = useState("");
@@ -76,6 +77,8 @@ export default function Reviews_Form() {
   };
 
   return (
+    <>
+    <Header />
     <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-8 bg-white shadow-lg rounded-lg">
         <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
@@ -139,5 +142,6 @@ export default function Reviews_Form() {
         </form>
       </div>
     </div>
+    </>
   );
 }
