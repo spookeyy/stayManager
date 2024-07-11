@@ -171,7 +171,7 @@ function AdminDashboard() {
                         {room.status}
                       </span>
                       <p className="text-lg font-semibold text-green-600">
-                        ${room.price}
+                        Ksh. {room.price}
                       </p>
                     </div>
                   </div>
