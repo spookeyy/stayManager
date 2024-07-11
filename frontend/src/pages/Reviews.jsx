@@ -1,21 +1,26 @@
-import { Link } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [displayCount, setDisplayCount] = useState(6);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const room_id = localStorage.getItem('room_id');
-
-        const response = await fetch(`http://localhost:5000/reviews?room_id=${room_id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` },
-        });
+        const room_id = localStorage.getItem("room_id");
+        const response = await fetch(
+          `http://localhost:5000/reviews?room_id=${room_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch reviews');
+          throw new Error("Failed to fetch reviews");
         }
         const data = await response.json();
         setReviews(data);
@@ -29,6 +34,13 @@ const Reviews = () => {
     fetchReviews();
   }, []);
 
+  const handleViewMore = () => {
+    setDisplayCount((prevCount) => Math.min(prevCount + 6, reviews.length));
+  };
+
+  const handleSeeLess = () => {
+    setDisplayCount(6);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -38,7 +50,7 @@ const Reviews = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-8 text-center">Reviews</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reviews.map((review) => (
+          {reviews.slice(0, displayCount).map((review) => (
             <div
               key={review.id}
               className="bg-white rounded-lg shadow-md overflow-hidden"
@@ -70,6 +82,24 @@ const Reviews = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-8 flex justify-center space-x-4">
+          {displayCount < reviews.length && (
+            <button
+              onClick={handleViewMore}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              View More
+            </button>
+          )}
+          {displayCount > 6 && (
+            <button
+              onClick={handleSeeLess}
+              className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              See Less
+            </button>
+          )}
         </div>
       </div>
     </div>
