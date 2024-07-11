@@ -521,6 +521,7 @@ def create_hotel():
     
     data = request.json
     new_hotel = Hotel(
+        image=data.get('image', None),
         name=data['name'],
         description=data['description']
     )

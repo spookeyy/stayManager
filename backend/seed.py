@@ -44,6 +44,7 @@ def seed_data():
         hotels = []
         for _ in range(10):
             hotel = Hotel(
+                image=fake.image_url(),
                 name=fake.company(),
                 description=fake.paragraph()
             )
