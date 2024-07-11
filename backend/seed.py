@@ -14,6 +14,18 @@ def generate_phone_number():
     subscriber_number = ''.join(str(random.randint(0, 9)) for _ in range(7))
     return f'{country_code}{mobile_network_code}{subscriber_number}'
 
+def generate_image_url(image_type):
+    # List of image IDs for hotels and rooms
+    hotel_ids = [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009]
+    room_ids = [1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019]
+    
+    if image_type == 'hotel':
+        image_id = random.choice(hotel_ids)
+    else:  # room
+        image_id = random.choice(room_ids)
+    
+    return f"https://picsum.photos/id/{image_id}/300/200"
+
 def seed_data():
     with app.app_context():
         db.drop_all()
@@ -44,9 +56,9 @@ def seed_data():
         hotels = []
         for _ in range(10):
             hotel = Hotel(
-                image=fake.image_url(),
                 name=fake.company(),
-                description=fake.paragraph()
+                description=fake.paragraph(),
+                image=generate_image_url('hotel')  # Add this line
             )
             hotels.append(hotel)
             db.session.add(hotel)
@@ -64,7 +76,7 @@ def seed_data():
                 price=random.randint(50, 300),
                 capacity=random.randint(1, 4),
                 status=random.choice(['available', 'unavailable']),
-                image=fake.image_url(),
+                image=generate_image_url('room'),  # Modified this line
                 hotel_id=hotel.id
             )
             rooms.append(room)
