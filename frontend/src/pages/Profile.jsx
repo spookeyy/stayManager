@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/AuthContext';
-import Header from './Header'; // Assuming you have a Header component
+import Header from './Header';
+import UpdateProfileForm from './UpdateProfileForm';  
 
 function Profile() {
-  const { currentUser } = useContext(UserContext); // Accessing currentUser from context
+  const { currentUser } = useContext(UserContext); 
   const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
 
   const openUpdateForm = () => {
@@ -16,7 +17,7 @@ function Profile() {
   };
 
   if (!currentUser) {
-    return <div>Loading...</div>; // Placeholder for loading state or redirect if not authenticated
+    return <div>Loading...</div>;
   }
 
   return (
