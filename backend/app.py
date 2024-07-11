@@ -158,38 +158,30 @@ def get_user(id):
 
 
 #Update Profile should be done the the loggedin user only
-@app.route('/users', methods=['PUT'])
+# Update Profile
+@app.route('/users/<int:id>', methods=['PUT'])
 @jwt_required()
-def update_profile():
-    data = request.get_json()
+def update_user(id):
+    current_user_id = get_jwt_identity()
+    user = User.query.get_or_404(id)
 
-    loggedin_user_id = get_jwt_identity()
-    user = User.query.get(loggedin_user_id)
-    if user is None:
-        return jsonify({"message": "User not found"}), 404
-    
+    # Check if the logged-in user matches the requested user id
+    if current_user_id != user.id:
+        return jsonify({"error": "Unauthorized action"}), 401
 
-    # email_exists = User.query.filter_by(email=data['email']).first()
-    # if email_exists:
-    #     return jsonify({"error": "Email already exists"}), 400
-
+    # Update user data
+    data = request.json
     user.username = data.get('username', user.username)
-    user.email = user.email
-    user.password = bcrypt.generate_password_hash( data['password'] ).decode('utf-8') 
+    user.email = data.get('email', user.email)
+    
+    # Update password if provided
+    if 'password' in data:
+        user.password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+
     user.phone_number = data.get('phone_number', user.phone_number)
-    user.is_admin = data.get('is_admin', user.is_admin)
     db.session.commit()
-    return jsonify({"success": "User updated successfully"}), 200
 
-@app.route('/users/<int:id>', methods=['DELETE'])
-def delete_user(id):
-    user = User.query.get(id)
-    if user is None:
-        return jsonify({"message": "User not found"}), 404
-
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({"message": "User deleted successfully"}), 200
+    return jsonify({"message": "User updated successfully"}), 200
 
 
 
