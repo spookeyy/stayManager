@@ -38,7 +38,7 @@ def seed_data():
         db.session.commit()
 
         users = []
-        for _ in range(10):
+        for _ in range(50):
             password = bcrypt.generate_password_hash(fake.password()).decode('utf-8')
             user = User(
                 username=fake.user_name(),
@@ -99,7 +99,7 @@ def seed_data():
             check_out = check_in + timedelta(days=random.randint(1, 7))
 
             booking = Booking(
-                user_id=user.id,
+                user_id=user.username,
                 room_id=room.id,
                 check_in=check_in,
                 check_out=check_out,
