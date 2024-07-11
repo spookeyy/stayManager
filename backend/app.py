@@ -468,13 +468,12 @@ def create_review():
                 'created_at': new_review.created_at.strftime('%Y-%m-%d %H:%M:%S')
             }
         }), 201
-
     except ValueError:
         return jsonify({'error': 'Invalid rating value'}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
-
+    
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
     print("Reviews route hit!")

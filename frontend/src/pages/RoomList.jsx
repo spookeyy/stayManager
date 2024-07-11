@@ -56,7 +56,7 @@ function RoomList() {
               >
                 <img
                   src={room.image}
-                  className="w-full h-64 object-cover object-center"
+                  className="w-full h-64 object-cover object-center mb-4"
                   alt={`Room ${room.room_number}`}
                 />
                 <div className="px-6 py-4">
