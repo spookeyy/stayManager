@@ -1,18 +1,58 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { UserContext } from '../context/AuthContext';
-import Header from './Header'; // Assuming you have a Header component
+import Header from './Header';
+import UpdateProfileForm from './UpdateProfileForm'; // Assuming you have an UpdateProfileForm component
 
 function Profile() {
   const { currentUser } = useContext(UserContext); // Accessing currentUser from context
-  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
+  let updateProfileWindow = null;
 
   const openUpdateForm = () => {
-    setIsUpdateFormOpen(true);
-  };
+    const width = 600; // Width of the popup window
+    const height = 500; // Height of the popup window
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+    const features = `width=${width},height=${height},left=${left},top=${top}`;
 
-  const closeUpdateForm = () => {
-    setIsUpdateFormOpen(false);
+    updateProfileWindow = window.open('', 'Update Profile', features);
+    updateProfileWindow.document.body.innerHTML = `
+      <html>
+        <head>
+          <title>Update Profile</title>
+          <style>
+            body { font-family: Arial, sans-serif; }
+            .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background-color: #f0f0f0; border-bottom: 1px solid #ccc; }
+            .popup-header h2 { margin: 0; font-size: 1.5rem; }
+            .popup-close { cursor: pointer; }
+            .container { padding: 2rem; }
+          </style>
+        </head>
+        <body>
+          <div class="popup-header">
+            <h2>Update Profile</h2>
+            <span class="popup-close" onclick="window.close()">Close &#10006;</span>
+          </div>
+          <div class="container">
+            <div id="update-profile-form"></div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    // Render UpdateProfileForm component inside the popup window
+    const updateProfileFormContainer = updateProfileWindow.document.getElementById('update-profile-form');
+    updateProfileFormContainer.innerHTML = `
+      <div>
+        <style>
+          .text-red-500 { color: #ff0000; }
+        </style>
+        <div id="update-profile-root"></div>
+        <script>
+          const currentUser = ${JSON.stringify(currentUser)};
+          document.getElementById('update-profile-root').innerHTML = '${UpdateProfileForm.toString()}'.replace('({ onClose, currentUser })', `({ onClose: () => window.close(), currentUser })`);
+        </script>
+      </div>
+    `;
   };
 
   if (!currentUser) {
@@ -46,7 +86,6 @@ function Profile() {
             </button>
           </div>
         </div>
-        {isUpdateFormOpen && <UpdateProfileForm onClose={closeUpdateForm} />}
       </div>
     </div>
   );
