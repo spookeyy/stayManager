@@ -100,7 +100,7 @@ def seed_data():
 
             booking = Booking(
                 user_id=user.username,
-                room_id=room.id,
+                room_id=room.username,
                 check_in=check_in,
                 check_out=check_out,
                 total_price=room.price * (check_out - check_in).days,
