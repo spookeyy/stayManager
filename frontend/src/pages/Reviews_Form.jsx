@@ -43,8 +43,8 @@ export default function Reviews_Form() {
     e.preventDefault();
     const room_id = localStorage.getItem("room_id");
     const user_id = localStorage.getItem("user_id");
-    console.log("Room ID from localStorage:", room_id); // Debug: Check if room_id is retrieved correctly
-    console.log("User ID from localStorage:", user_id); // Debug: Check if user_id is retrieved correctly
+    console.log("Room ID from localStorage:", room_id); 
+    console.log("User ID from localStorage:", user_id); 
 
     if (!room_id || !user_id) {
       console.error("Room ID or User ID not found");

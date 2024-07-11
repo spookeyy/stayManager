@@ -441,7 +441,7 @@ def create_review():
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
-    required_fields = ['room_id', 'rating', 'comment']
+    required_fields = ['username', 'rating', 'comment']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'{field} is required'}), 400
@@ -449,7 +449,7 @@ def create_review():
     try:
         new_review = Review(
             user_id=user_id,
-            room_id=data['room_id'],
+            username=data['username'],
             comment=data['comment'],
             rating=int(data['rating'])
         )
@@ -462,7 +462,7 @@ def create_review():
             'review': {
                 'id': new_review.id,
                 'user_id': new_review.user_id,
-                'room_id': new_review.room_id,
+                'username': new_review.username,
                 'comment': new_review.comment,
                 'rating': new_review.rating,
                 'created_at': new_review.created_at.strftime('%Y-%m-%d %H:%M:%S')
