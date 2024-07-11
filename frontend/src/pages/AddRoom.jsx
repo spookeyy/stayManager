@@ -1,115 +1,98 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const AddRoom = ({ onAddRoom }) => {
+const AddRoom = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    room_number: '',
-    description: '',
-    price: '',
-    status: 'Available',
+    room_number: "",
+    capacity: "",
+    price: "",
+    description: "",
+    hotel_id: "",
+    status: "available",
+    image: "",
   });
-
-  const [imageUrl, setImageUrl] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
-  };
-
-  const handleImageChange = (e) => {
-    setImageUrl(e.target.value);
+    }));
   };
 
   const handleAddRoom = async (e) => {
     e.preventDefault();
     try {
-      const roomData = {
-        ...formData,
-        image_url: imageUrl // Include image_url in the POST body
-      };
-
-      const response = await fetch('http://localhost:5000/rooms', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/rooms", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-        body: JSON.stringify(roomData),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        onAddRoom(); // Callback to refresh rooms in AdminDashboard
-        setFormData({
-          room_number: '',
-          description: '',
-          price: '',
-          status: 'Available',
-        });
-        setImageUrl(''); // Clear imageUrl state
-        toast.success('Room added successfully');
+        toast.success("Room added successfully");
+        onClose();
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message);
+        toast.error(errorData.error || "Failed to add room");
       }
     } catch (error) {
-      console.error('Error adding room:', error);
-      toast.error('Failed to add room');
+      console.error("Error adding room:", error);
+      toast.error("Failed to add room");
     }
   };
 
+  const renderInputField = (field) => (
+    <div className="mb-4" key={field}>
+      <label
+        htmlFor={field}
+        className="block text-white text-sm font-bold mb-2"
+      >
+        {field
+          .split("_")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")}
+      </label>
+      <input
+        type={
+          field === "price" || field === "capacity"
+            ? "number"
+            : "text"
+        }
+        id={field}
+        name={field}
+        value={formData[field]}
+        onChange={handleInputChange}
+        required={field !== "image"}
+        className="form-input mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-200"
+        placeholder={`Enter ${field
+          .split("_")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")}`}
+      />
+    </div>
+  );
+
   return (
-    <div className="max-w-lg mx-auto mt-10">
-      <form onSubmit={handleAddRoom} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-4">
-          <label htmlFor="room_number" className="block text-gray-700 text-sm font-bold mb-2">
-            Room Number
-          </label>
-          <input
-            type="text"
-            id="room_number"
-            name="room_number"
-            value={formData.room_number}
-            onChange={handleInputChange}
-            required
-            className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter Room Number"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
-            Description
-          </label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            required
-            className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter Room Description"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="price" className="block text-gray-700 text-sm font-bold mb-2">
-            Price ($)
-          </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleInputChange}
-            required
-            className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter Price"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="status" className="block text-gray-700 text-sm font-bold mb-2">
+    <div className="max-w-4xl mx-auto mt-10 p-6 bg-gray-800 shadow-md rounded-lg">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-200">
+        Add New Room
+      </h2>
+      <form onSubmit={handleAddRoom} className="grid grid-cols-2 gap-4">
+        <div>{renderInputField("room_number")}</div>
+        <div>{renderInputField("capacity")}</div>
+        <div>{renderInputField("price")}</div>
+        <div>{renderInputField("description")}</div>
+        <div>{renderInputField("hotel_id")}</div>
+        <div>{renderInputField("image")}</div>
+        <div className="col-span-2">
+          <label
+            htmlFor="status"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
             Status
           </label>
           <select
@@ -118,32 +101,25 @@ const AddRoom = ({ onAddRoom }) => {
             value={formData.status}
             onChange={handleInputChange}
             required
-            className="form-select mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="form-select mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-gray-200"
           >
-            <option value="Available">Available</option>
-            <option value="Booked">Booked</option>
+            <option value="available">Available</option>
+            <option value="unavailable">Booked</option>
           </select>
         </div>
-        <div className="mb-6">
-          <label htmlFor="image_url" className="block text-gray-700 text-sm font-bold mb-2">
-            Image URL
-          </label>
-          <input
-            type="text"
-            id="image_url"
-            name="image_url"
-            value={imageUrl}
-            onChange={handleImageChange}
-            className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter Image URL"
-          />
-        </div>
-        <div className="flex items-center justify-center">
+        <div className="col-span-2 flex items-center justify-between mt-6">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Add Room
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Cancel
           </button>
         </div>
       </form>

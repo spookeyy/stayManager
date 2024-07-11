@@ -208,7 +208,7 @@ function AdminDashboard() {
           onClose={() => setShowAddRoom(false)}
           title="Add New Room"
         >
-          <AddRoom onAddRoom={handleAddRoom} />
+          <AddRoom onAddRoom={handleAddRoom} onClose={() => setShowAddRoom(false)} />
         </Modal>
 
         <Modal
