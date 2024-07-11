@@ -48,7 +48,15 @@ const Reviews = () => {
   return (
     <div className="bg-gray-100 py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">Reviews</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Reviews</h1>
+          <Link
+            to="/reviews/form"
+            className="bg-blue-400 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Add Review
+          </Link>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reviews.slice(0, displayCount).map((review) => (
             <div
