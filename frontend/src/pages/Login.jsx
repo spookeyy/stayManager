@@ -5,7 +5,7 @@ import Header from './Header';
 import { UserContext } from '../context/AuthContext';
 
 function Login() {
-    const { login_user, logout_user } = useContext(UserContext);
+    const { login_user, logout } = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -24,7 +24,7 @@ function Login() {
     }
 
     function handleLogout() {
-        logout_user();
+        logout();
         toast.success('Logged out successfully!');
     }
 
