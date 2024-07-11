@@ -2,60 +2,50 @@ from models import Hotel, db, User, Booking, Room, Review
 from app import app, bcrypt
 import random
 from datetime import datetime, timedelta
+from faker import Faker
 
 print("Start seeding ....")
 
-# Generate random phone number
+fake = Faker()
+
 def generate_phone_number():
-  country_code = '+254'
-
-  # Generate random digits for the remaining phone number parts
-  mobile_network_code = random.randint(70, 79)
-  subscriber_number = ''.join(str(random.randint(0, 9)) for _ in range(7))
-
-  return f'{country_code}{mobile_network_code}{subscriber_number}'
-
+    country_code = '+254'
+    mobile_network_code = random.randint(70, 79)
+    subscriber_number = ''.join(str(random.randint(0, 9)) for _ in range(7))
+    return f'{country_code}{mobile_network_code}{subscriber_number}'
 
 def seed_data():
-    # app = create_app()
     with app.app_context():
         db.drop_all()
         db.create_all()
 
         # seeding users
         password = bcrypt.generate_password_hash('admin').decode('utf-8')
-        admin = User(username='admin', email='admin@gmail.com',password=password, phone_number='0734567890', profile_photo='admin.png', is_admin=True)
-        # admin.set_password('admin')
+        admin = User(username='admin', email='admin@gmail.com', password=password, phone_number=generate_phone_number(), profile_photo='admin.png', is_admin=True)
         db.session.add(admin)
         db.session.commit()
 
-        used_phone_numbers = set()
         users = []
-        for i in range(10):
-
-            phone_number = generate_phone_number()
-            while phone_number in used_phone_numbers:
-                phone_number = generate_phone_number()
-            used_phone_numbers.add(phone_number)
-
-            # print(f"Generated phone number for user {i}: {phone_number}")
-
-            password = bcrypt.generate_password_hash(f'password{i}').decode('utf-8')
-            user = User(username=f'user{i}', email=f'user{i}@gmail.com', password=password,  phone_number=phone_number, is_admin=False)
-            # user.set_password(f'password{i}')
+        for _ in range(10):
+            password = bcrypt.generate_password_hash(fake.password()).decode('utf-8')
+            user = User(
+                username=fake.user_name(),
+                email=fake.email(),
+                password=password,
+                phone_number=generate_phone_number(),
+                is_admin=False
+            )
             users.append(user)
             db.session.add(user)
-            db.session.commit()
+        db.session.commit()
         print("Seeded users successfully")
-        # print([user.id for user in users])
-            
 
         # Create hotels
         hotels = []
-        for i in range(10):
+        for _ in range(10):
             hotel = Hotel(
-                name=f'Hotel {i+1}',
-                description=f'Hotel {i+1} description'
+                name=fake.company(),
+                description=fake.paragraph()
             )
             hotels.append(hotel)
             db.session.add(hotel)
@@ -63,25 +53,24 @@ def seed_data():
         print("Seeded hotels successfully")
         
         # Create rooms and associate with hotels
-        descriptions = ['Single', 'Double', 'Suite', 'Family Room', 'Penthouse']
+        room_types = ['Single', 'Double', 'Suite', 'Family Room', 'Penthouse']
         rooms = []
         for i in range(30):
             hotel = random.choice(hotels)
             room = Room(
                 room_number=f'{i+1:03d}',
-                description=random.choice(descriptions),
+                description=random.choice(room_types),
                 price=random.randint(50, 300),
                 capacity=random.randint(1, 4),
                 status=random.choice(['available', 'unavailable']),
-                image=f'{i+1:03d}.jpg',
+                image=fake.image_url(),
                 hotel_id=hotel.id
             )
             rooms.append(room)
             db.session.add(room)
-            db.session.commit()
+        db.session.commit()
             
         print("Seeded rooms and associated with hotels successfully")
-        # print(rooms)
 
         # Update room_count for each hotel
         for hotel in hotels:
@@ -90,10 +79,10 @@ def seed_data():
         print("Updated hotel room counts successfully")
 
         # Create bookings
-        for i in range(30):
+        for _ in range(30):
             user = random.choice(users)
             room = random.choice(rooms)
-            check_in = datetime.now() + timedelta(days=random.randint(1, 30))
+            check_in = fake.date_between(start_date='today', end_date='+30d')
             check_out = check_in + timedelta(days=random.randint(1, 7))
 
             booking = Booking(
@@ -106,13 +95,12 @@ def seed_data():
             )
 
             db.session.add(booking)
-            db.session.commit()
+        db.session.commit()
 
         print("Seeded bookings successfully")
-            
 
         # seed reviews
-        for i in range(100):
+        for _ in range(100):
             user = random.choice(users)
             room = random.choice(rooms)
             rating = random.randint(1, 5)
@@ -120,21 +108,16 @@ def seed_data():
                 user_id=user.id,
                 room_id=room.id,
                 rating=rating,
-                comment=f'This is a sample review for room {room.room_number}, with rating {rating}',
-                created_at=datetime.now() - timedelta(days=random.randint(1, 60))
+                comment=fake.paragraph(),
+                created_at=fake.date_time_between(start_date='-60d', end_date='now')
             )
 
             db.session.add(review)
-            db.session.commit()
+        db.session.commit()
             
         print("Seeded reviews successfully")
 
         print('Data seeded successfully!')
-
-    
-    # prevent accidental running in production:
-    # if app.config['ENV'] == 'production':
-    #     raise Exception("Cannot run in production!")
 
 if __name__ == '__main__':
     seed_data()
