@@ -1,109 +1,88 @@
-import React, { useContext } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { UserContext } from '../context/AuthContext';
+import React, { useState } from 'react';
 
-const UpdateProfileForm = ({ onClose }) => {
-  const { currentUser, update_user } = useContext(UserContext);
-
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    phone_number: Yup.string()
-      .matches(/^[0-9]+$/, 'Must be only digits')
-      .min(10, 'Must be at least 10 digits'),
+function UpdateProfileForm({ currentUser, onClose }) {
+  const [formData, setFormData] = useState({
+    username: currentUser.username,
+    email: currentUser.email,
+    phone_number: currentUser.phone_number,
   });
 
-  const formik = useFormik({
-    initialValues: {
-      username: currentUser.username || '',
-      email: currentUser.email || '',
-      phone_number: currentUser.phone_number || '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      try {
-        await update_user(values.username, values.phone_number);
-        onClose(); // Close the form after successful submission
-      } catch (error) {
-        console.error('Error updating profile:', error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const authToken = localStorage.getItem('access_token');
+      if (!authToken) {
+        throw new Error('No access token found');
       }
-    },
-  });
+      const response = await fetch(`http://localhost:5000/users/${currentUser.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update profile: ${response.status} ${response.statusText}`);
+      }
+      onClose();
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile. Please try again.');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-4">Update Profile</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700 text-sm font-bold mb-2">
-            Username:
-          </label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-          />
-          {formik.touched.username && formik.errors.username && (
-            <div className="text-red-500 text-sm">{formik.errors.username}</div>
-          )}
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
-            Email:
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.touched.email && formik.errors.email && (
-            <div className="text-red-500 text-sm">{formik.errors.email}</div>
-          )}
-        </div>
-        <div className="mb-6">
-          <label htmlFor="phone_number" className="block text-gray-700 text-sm font-bold mb-2">
-            Phone Number:
-          </label>
-          <input
-            id="phone_number"
-            name="phone_number"
-            type="text"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.phone_number}
-          />
-          {formik.touched.phone_number && formik.errors.phone_number && (
-            <div className="text-red-500 text-sm">{formik.errors.phone_number}</div>
-          )}
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Update
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+        <input
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          className="text-gray-900 border rounded px-3 py-2 w-full"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="text-gray-900 border rounded px-3 py-2 w-full"
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+        <input
+          type="text"
+          name="phone_number"
+          value={formData.phone_number}
+          onChange={handleChange}
+          className="text-gray-900 border rounded px-3 py-2 w-full"
+        />
+      </div>
+      <div className="flex items-center justify-end">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
   );
-};
+}
 
 export default UpdateProfileForm;

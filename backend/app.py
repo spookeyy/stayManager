@@ -20,7 +20,7 @@ bcrypt = Bcrypt()
 
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db?mode=rw"
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
 app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))

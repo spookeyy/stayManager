@@ -5,10 +5,10 @@ import { UserContext } from '../context/AuthContext';
 function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
   const { currentUser, logout } = useContext(UserContext);
 
-  const handleLogout = () => {
+  function handleLogout() {
+    toast.success("Logged out successfully!");
     logout();
-    window.location.reload(); // Reload the page after logout
-  };
+  }
 
   return (
     <div>
@@ -107,9 +107,8 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 {currentUser ? (
                   <button
-                    className="block lg:inline-block px-3 py-2 text-white focus:outline-none"
+                    className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
                     onClick={handleLogout}
-                    style={{ cursor: 'pointer' }}
                   >
                     Logout
                   </button>

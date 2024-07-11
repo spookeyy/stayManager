@@ -1,27 +1,32 @@
-import React, { useContext, useState } from 'react';
-import Header from './Header';
-import { Link } from 'react-router-dom';
-import {UserContext} from '../context/AuthContext';
-
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import Header from "./Header";
+import { UserContext } from "../context/AuthContext";
 
 function Login() {
+  const { login_user, logout } = useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-    const {login_user} = useContext(UserContext)
+  function handleSubmit(e) {
+    e.preventDefault();
+    login_user(email, password)
+      .then(() => {
+        toast.success("Logged in successfully!");
+        setEmail("");
+        setPassword("");
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        toast.error("Failed to log in. Please check your credentials.");
+      });
+  }
 
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-
-
-
-    function handleSubmit(e){
-        e.preventDefault()
-
-        login_user(email, password)
-
-
-        setEmail("")
-        setPassword("")
-    }
+  function togglePasswordVisibility() {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <div
@@ -34,7 +39,7 @@ function Login() {
           <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
             Login
           </h1>
-          
+
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
@@ -45,7 +50,7 @@ function Login() {
               </label>
               <input
                 type="email"
-                value={email || ""}
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="email@example.com"
@@ -58,37 +63,22 @@ function Login() {
               >
                 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                value={password || ""}
-                onChange={(e) => setPassword(e.target.value)}
-                className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Password"
-                // autoComplete="current-password"
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              <div className="relative">
                 <input
-                  type="checkbox"
-                  id="remember"
-                  className="form-checkbox h-4 w-4 text-blue-500 focus:ring-blue-400 border-gray-300 rounded shadow-sm"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Password"
                 />
-                <label
-                  htmlFor="remember"
-                  className="ml-2 block text-sm text-gray-900"
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                 >
-                  Remember me
-                </label>
-              </div>
-              <div className="text-sm">
-                <Link
-                  to="/reset-password"
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  Forgot your password?
-                </Link>
+                  {showPassword ? "Hide" : "Show"}
+                </button>
               </div>
             </div>
             <button

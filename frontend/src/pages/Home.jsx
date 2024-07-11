@@ -85,7 +85,7 @@ function Home() {
       {/* Main content */}
       <div className="container mx-auto px-4 py-8" style={{ paddingTop: "100px" }}>
         {/* Image Slider */}
-        <Carousel showThumbs={false} autoPlay infiniteLoop interval={3000}>
+        <Carousel showThumbs={false} autoPlay infiniteLoop interval={2500}>
           {images.map((image, index) => (
             <div key={index}>
               <div

@@ -1,19 +1,20 @@
+// Profile.js
+
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../context/AuthContext';
 import Header from './Header';
-import UpdateProfileForm from './UpdateProfileForm';  
+import UpdateProfileForm from './UpdateProfileForm';
 
 function Profile() {
-  const { currentUser } = useContext(UserContext); 
-  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
+  const { currentUser } = useContext(UserContext);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
 
   const openUpdateForm = () => {
-    setIsUpdateFormOpen(true);
+    setShowUpdateForm(true);
   };
 
   const closeUpdateForm = () => {
-    setIsUpdateFormOpen(false);
+    setShowUpdateForm(false);
   };
 
   if (!currentUser) {
@@ -22,7 +23,7 @@ function Profile() {
 
   return (
     <div>
-      <Header /> {/* Include the Header component for navigation */}
+      <Header />
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-4">Profile</h2>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -38,16 +39,22 @@ function Profile() {
             <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
             <div className="text-gray-900">{currentUser.phone_number}</div>
           </div>
-          <div className="flex items-center justify-between">
-            <button
-              onClick={openUpdateForm}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Update Profile
-            </button>
-          </div>
+          {!showUpdateForm && (
+            <div className="flex items-center justify-between">
+              <button
+                onClick={openUpdateForm}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Update Profile
+              </button>
+            </div>
+          )}
+          {showUpdateForm && (
+            <div className="mt-4">
+              <UpdateProfileForm currentUser={currentUser} onClose={closeUpdateForm} />
+            </div>
+          )}
         </div>
-        {isUpdateFormOpen && <UpdateProfileForm onClose={closeUpdateForm} />}
       </div>
     </div>
   );

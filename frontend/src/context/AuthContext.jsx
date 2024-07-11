@@ -49,39 +49,27 @@ export const UserProvider = ({ children }) => {
   };
 
   //    Login USER
-  const login_user = (email, password) => {
-    fetch("http://localhost:5000/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res)
-        if (res.access_token) {
-          setAuth_token(res.access_token);
-          console.log(res.access_token);
-          localStorage.setItem("access_token", res.access_token);
-          setCurrentUser(res.user);
-          if (res.is_admin) {
-            toast.success("Logged in Successfully!");
-            nav("/admin")
-          } else {
-            toast.success("Logged in Successfully!");
-            nav("/")
-          }
-          // nav("/");
-        } else if (res.error) {
-          toast.error(res.error);
-        } else {
-          toast.error("An error occured");
-        }
+  const login_user = async (email, password) => {
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: { "Content-type": "application/json" },
       });
+      const res = await response.json();
+      if (res.access_token) {
+        setAuth_token(res.access_token);
+        localStorage.setItem("access_token", res.access_token);
+        setCurrentUser(res.user);
+        toast.success("Logged in Successfully!");
+        nav(res.is_admin ? "/admin" : "/");
+      } else {
+        toast.error(res.error || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred while logging in");
+    }
   };
 
   //    Update USER
@@ -156,7 +144,7 @@ export const UserProvider = ({ children }) => {
           }
         });
     }
-  }, [auth_token, onChange]);
+  }, [auth_token, onChange, nav]);
 
   const contextData = {
     auth_token,
