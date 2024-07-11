@@ -19,7 +19,7 @@ function RoomList() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch rooms");
+        throw new Error("Failed to fetch rooms. Please Login ");
       }
 
       const data = await response.json();

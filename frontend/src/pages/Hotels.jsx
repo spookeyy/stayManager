@@ -20,7 +20,7 @@ function Hotels() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch hotels");
+        throw new Error("Failed to fetch hotels. Please Login");
       }
 
       const data = await response.json();
@@ -37,7 +37,14 @@ function Hotels() {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <>
+        <Header />
+        <div className="container mx-auto py-8">
+          <p className="text-red-500 text-center">{error}</p>
+        </div>
+      </>
+    );
   }
 
   return (
