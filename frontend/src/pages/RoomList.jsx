@@ -63,18 +63,32 @@ function RoomList() {
                   <div className="font-bold text-xl mb-2 text-indigo-600">
                     Room {room.room_number}
                   </div>
-                  <p className="text-gray-700 text-base mb-4">{room.description}</p>
-                  <div className="flex justify-between items-center mb-4">
-                    <p className="text-gray-600">Price: ${room.price}</p>
-                    <p className="text-gray-600">Capacity: {room.capacity}</p>
-                    <p className={`text-gray-600 ${room.status === 'Available' ? 'text-green-700' : 'text-red-700'}`}>
-                      Status: {room.status}
+                  <p className="text-gray-700 text-base mb-4 font-bold">
+                    {room.description}
+                  </p>
+                  <div className="flex justify-between space-evenly flex-wrap items-center mb-4 ">
+                    <p className="text-gray-600 ">
+                      <b>Price:</b> Ksh. {room.price}
+                    </p>
+                    <p className="text-gray-600">
+                      <b>Capacity:</b> {room.capacity}
+                    </p>
+                    <br />
+
+                    <p
+                      className={`text-gray-600 ${
+                        room.status === "available"
+                          ? "text-green-700"
+                          : "text-red-700"
+                      }`}
+                    >
+                      <b>Status:</b> {room.status}
                     </p>
                   </div>
                   <Link
                     to={`/rooms/${room.id}`}
                     className="block w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center py-2 px-4 rounded-lg transition duration-300 ease-in-out"
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: "none" }}
                   >
                     View Room Details
                   </Link>

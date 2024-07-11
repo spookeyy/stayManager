@@ -420,27 +420,39 @@ def create_review():
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
-    required_fields = ['room_id', 'rating']
+    required_fields = ['room_id', 'rating', 'comment']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'{field} is required'}), 400
 
-    new_review = Review(
-        user_id=user_id,
-        room_id=data['room_id'],
-        comment=data.get('comment', "No comment"),
-        rating=data['rating']
-    )
-    
     try:
+        new_review = Review(
+            user_id=user_id,
+            room_id=data['room_id'],
+            comment=data['comment'],
+            rating=int(data['rating'])
+        )
+        
         db.session.add(new_review)
         db.session.commit()
+
+        return jsonify({
+            'message': 'Review created successfully',
+            'review': {
+                'id': new_review.id,
+                'user_id': new_review.user_id,
+                'room_id': new_review.room_id,
+                'comment': new_review.comment,
+                'rating': new_review.rating,
+                'created_at': new_review.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            }
+        }), 201
+
+    except ValueError:
+        return jsonify({'error': 'Invalid rating value'}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
-
-    return jsonify({'message': 'Review created successfully'}), 201
-
 
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
@@ -465,7 +477,8 @@ def get_hotels():
     return jsonify([{
         'id': hotel.id,
         'name': hotel.name,
-        'description': hotel.description
+        'description': hotel.description,
+        'image': hotel.image
     } for hotel in hotels]), 200
 
 
@@ -509,6 +522,7 @@ def create_hotel():
     
     data = request.json
     new_hotel = Hotel(
+        image=data.get('image', None),
         name=data['name'],
         description=data['description']
     )

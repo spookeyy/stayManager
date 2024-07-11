@@ -102,7 +102,9 @@ function AdminDashboard() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-gray-700 rounded-lg shadow-md p-6">
-            <h3 className="text-2xl font-semibold mb-4 text-gray-200">Bookings</h3>
+            <h3 className="text-2xl font-semibold mb-4 text-gray-200">
+              Bookings
+            </h3>
             <ul className="space-y-4">
               {bookings.map((booking) => (
                 <li
@@ -110,14 +112,24 @@ function AdminDashboard() {
                   className="flex items-center justify-between border-b border-gray-600 py-2"
                 >
                   <div>
-                    <p className="text-lg font-semibold text-gray-200">Room: {booking.room_id}</p>
-                    <p className="text-sm text-gray-400">Check-in: {booking.check_in}</p>
-                    <p className="text-sm text-gray-400">Check-out: {booking.check_out}</p>
+                    <p className="text-lg font-semibold text-gray-200">
+                      Room: {booking.room_id}
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Check-in: {booking.check_in}
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Check-out: {booking.check_out}
+                    </p>
                   </div>
                   <div className="flex items-center">
                     <span
                       className={`text-sm font-semibold uppercase px-3 py-1 rounded-full ${
-                        booking.status === 'Confirmed' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-gray-800'
+                        booking.status === "confirmed"
+                          ? "bg-green-500 text-white"
+                          : booking.status === "pending"
+                          ? "bg-yellow-500 text-gray-800"
+                          : "bg-red-500 text-white"
                       }`}
                     >
                       {booking.status}
@@ -141,18 +153,26 @@ function AdminDashboard() {
                 <li key={room.id} className="border-b border-gray-600 py-2">
                   <div className="flex justify-between items-center">
                     <div>
-                      <p className="text-lg font-semibold text-gray-200">Room {room.room_number}</p>
-                      <p className="text-sm text-gray-400">{room.description}</p>
+                      <p className="text-lg font-semibold text-gray-200">
+                        Room {room.room_number}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        {room.description}
+                      </p>
                     </div>
                     <div>
                       <span
                         className={`px-2 py-1 rounded-full text-sm font-semibold ${
-                          room.status === 'Available' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
+                          room.status === "available"
+                            ? "bg-green-500 text-white"
+                            : "bg-red-500 text-white"
                         }`}
                       >
                         {room.status}
                       </span>
-                      <p className="text-lg font-semibold text-green-600">${room.price}</p>
+                      <p className="text-lg font-semibold text-green-600">
+                        Ksh. {room.price}
+                      </p>
                     </div>
                   </div>
                 </li>
@@ -165,9 +185,14 @@ function AdminDashboard() {
           <h3 className="text-2xl font-semibold mb-4 text-gray-200">Hotels</h3>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {hotels.map((hotel) => (
-              <li key={hotel.id} className="bg-gray-600 rounded-lg shadow-md p-4">
+              <li
+                key={hotel.id}
+                className="bg-gray-600 rounded-lg shadow-md p-4"
+              >
                 <div>
-                  <p className="text-lg font-semibold text-gray-200">{hotel.name}</p>
+                  <p className="text-lg font-semibold text-gray-200">
+                    {hotel.name}
+                  </p>
                   <p className="text-sm text-gray-400">{hotel.description}</p>
                 </div>
               </li>

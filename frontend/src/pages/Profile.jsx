@@ -56,7 +56,7 @@ function Profile() {
   };
 
   if (!currentUser) {
-    return <div>Loading...</div>; // Placeholder for loading state or redirect if not authenticated
+    return <div>Loading...</div>;
   }
 
   return (
