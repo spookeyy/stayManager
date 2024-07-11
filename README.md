@@ -3,7 +3,7 @@
 Welcome to stayManager, a comprehensive web application for managing hotel accommodations while providing seamless user experiences for customers and efficient management tools for administrators.
 
 ## Key Features
-
+---
 ### User
 
 1. **User Registration and Authentication**
@@ -27,7 +27,7 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
    - Customers can leave reviews and ratings for hotels or travel experiences.
 
 ### Admin
-
+---
 1. **Dashboard**
    - Overview of bookings, revenue, and occupancy rates.
 
@@ -45,7 +45,7 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
    - Generate reports on bookings and occupancy statistics.
 
 ### Backend (Flask)
-
+---
 1. **Database**
    - SQLite database used for data storage.
 
@@ -61,16 +61,16 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
 ### Data Validation
 
 - Ensure data integrity and validate user inputs across the application.
-
+- 
 ### Frontend (React)
-
+---
 - Design user-friendly interfaces using React and responsive design principles.
 - Utilize Redux or React Context API for managing application state.
 - Implement form validations and error handling.
 - Connect frontend components to backend APIs for data retrieval and submission.
 
 ### Additional Considerations
-
+---
 1. **Search and Filter**
    - Implement robust search and filtering options for hotels.
 
@@ -81,3 +81,29 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
    - Allow customers to leave reviews and ratings for hotels or travel experiences.
 
 ---
+
+## Endpoints
+   - The base url for the backend is; http://localhost:5000
+   - Live view; Coming soon!
+---
+
+### Technologies used
+-   JS
+-   REACT
+-   HTML
+-   TAILWIND CSS
+-   Python
+-   Flask
+
+### Support and contact details
+Email and Phone: sarahscarlet641@gmail.com || +254704372525
+
+Email and Phone: pmbugua276@gmail.com || +254701571745
+
+Email and Phone: pangasmeshack@gmail.com || +254793057720
+
+Email and Phone: skmutai6@gmail.com || +254723486218
+
+ 
+License
+Licensed under the MIT Licence Copyright (c) 2024 ** Scarlet Sarah ** Peter Mbugua ** Meshack Pangas ** Shadrack Mutai.
