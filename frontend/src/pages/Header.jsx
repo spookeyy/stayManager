@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../context/AuthContext';
 
 function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
+  const { currentUser, logout } = useContext(UserContext);
+
+  const handleLogout = () => {
+    logout();
+    window.location.reload(); // Reload the page after logout
+  };
+
   return (
     <div>
       {/* Navbar */}
@@ -44,7 +52,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
           {/* Navbar links */}
           <div
             className={`${
-              isNavOpen ? "block" : "hidden"
+              isNavOpen ? 'block' : 'hidden'
             } lg:flex lg:flex-grow items-center justify-end`}
             id="navbarSupportedContent"
           >
@@ -52,7 +60,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/"
-                  className="block lg:inline-block px-3 py-2 text-gray-800"
+                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Home
@@ -61,7 +69,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/hotels"
-                  className="block lg:inline-block px-3 py-2 text-gray-800"
+                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Hotels
@@ -70,7 +78,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/room-list"
-                  className="block lg:inline-block px-3 py-2 text-gray-800"
+                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Rooms
@@ -79,20 +87,41 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/contact"
-                  className="block lg:inline-block px-3 py-2 text-gray-800"
+                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Contact
                 </Link>
               </li>
+              {currentUser && (  // Render Profile link only if user is logged in
+                <li className="nav-item">
+                  <Link
+                    to="/profile"
+                    className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                    onClick={() => setIsNavOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
-                <Link
-                  to="/login"
-                  className="block lg:inline-block px-3 py-2 text-gray-800"
-                  onClick={() => setIsNavOpen(false)}
-                >
-                  Login
-                </Link>
+                {currentUser ? (
+                  <button
+                    className="block lg:inline-block px-3 py-2 text-white focus:outline-none"
+                    onClick={handleLogout}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                    onClick={() => setIsNavOpen(false)}
+                  >
+                    Login
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

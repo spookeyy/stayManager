@@ -1,99 +1,53 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { UserContext} from "../context/AuthContext";
-
-const ProfileSchema = Yup.object().shape({
-  username: Yup.string().required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
-  phone_number: Yup.string()
-    .matches(/^[0-9]+$/, "Must be only digits")
-    .min(10, "Must be at least 10 digits"),
-});
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../context/AuthContext';
+import Header from './Header'; // Assuming you have a Header component
 
 function Profile() {
-  const { user } = useContext(UserContext);
-  const [profileData, setProfileData] = useState(null);
-  const [updateMessage, setUpdateMessage] = useState("");
+  const { currentUser } = useContext(UserContext); // Accessing currentUser from context
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/users/${user.id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setProfileData(data);
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    if (user) {
-      fetchProfile();
-    }
-  }, [user]);
-
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      const response = await fetch(`http://localhost:5000/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (response.ok) {
-        setUpdateMessage("Profile updated successfully");
-        setProfileData(values);
-      } else {
-        setUpdateMessage("Failed to update profile");
-      }
-    } catch (error) {
-      setUpdateMessage("An error occurred while updating profile");
-    }
-    setSubmitting(false);
+  const openUpdateForm = () => {
+    setIsUpdateFormOpen(true);
   };
 
-  if (!profileData) return <div>Loading...</div>;
+  const closeUpdateForm = () => {
+    setIsUpdateFormOpen(false);
+  };
+
+  if (!currentUser) {
+    return <div>Loading...</div>; // Placeholder for loading state or redirect if not authenticated
+  }
 
   return (
     <div>
-      <h2>Profile</h2>
-      <Formik
-        initialValues={profileData}
-        validationSchema={ProfileSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <div>
-              <Field type="text" name="username" placeholder="Username" />
-              <ErrorMessage name="username" component="div" />
-            </div>
-            <div>
-              <Field type="email" name="email" placeholder="Email" />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <div>
-              <Field
-                type="text"
-                name="phone_number"
-                placeholder="Phone Number"
-              />
-              <ErrorMessage name="phone_number" component="div" />
-            </div>
-            <button type="submit" disabled={isSubmitting}>
+      <Header /> {/* Include the Header component for navigation */}
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-2xl font-bold mb-4">Profile</h2>
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+            <div className="text-gray-900">{currentUser.username}</div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+            <div className="text-gray-900">{currentUser.email}</div>
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+            <div className="text-gray-900">{currentUser.phone_number}</div>
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              onClick={openUpdateForm}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
               Update Profile
             </button>
-          </Form>
-        )}
-      </Formik>
-      {updateMessage && <div>{updateMessage}</div>}
+          </div>
+        </div>
+        {isUpdateFormOpen && <UpdateProfileForm onClose={closeUpdateForm} />}
+      </div>
     </div>
   );
 }

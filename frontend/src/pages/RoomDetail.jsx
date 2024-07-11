@@ -18,7 +18,7 @@ function RoomDetail() {
       setIsLoading(true);
       const response = await fetch(`http://localhost:5000/rooms/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`, 
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
 
@@ -29,7 +29,10 @@ function RoomDetail() {
       const data = await response.json();
       setRoom(data);
     } catch (err) {
-      setError(err.message || "An error occurred while fetching room details");
+      setError(
+        err.message ||
+          "An error occurred while fetching room details. Please try again later."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -40,24 +43,32 @@ function RoomDetail() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-8">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="text-center mt-8">
+        <p>Error: {error}</p>
+      </div>
+    );
   }
 
   if (!room) {
-    return <div>No room data available.</div>;
+    return (
+      <div className="text-center mt-8">
+        <p>No room data available.</p>
+      </div>
+    );
   }
 
   return (
     <>
       <Header />
-      <div className="bg-gray-100 min-h-screen py-12">
+      <div className="bg-gray-100 min-h-screen py-12 ml-14 mr-14">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-semibold mb-8 text-center">
-            Room Detail
+          <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">
+            Room Detail - Room {room.room_number}
           </h1>
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="flex flex-col md:flex-row">
@@ -74,51 +85,41 @@ function RoomDetail() {
               <div className="md:w-1/2 p-6">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="border-b border-gray-200 pb-4">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                    <h2 className="text-lg font-bold text-gray-900 mb-2">
                       Room Number
                     </h2>
                     <p className="text-gray-600">{room.room_number}</p>
                   </div>
                   <div className="border-b border-gray-200 pb-4">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                    <h2 className="text-lg font-bold text-gray-900 mb-2">
                       Description
                     </h2>
                     <p className="text-gray-600">{room.description}</p>
                   </div>
                   <div className="border-b border-gray-200 pb-4">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                    <h2 className="text-lg font-bold text-gray-900 mb-2">
                       Price
                     </h2>
                     <p className="text-gray-600">Ksh. {room.price} per night</p>
                   </div>
                   <div className="border-b border-gray-200 pb-4">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                    <h2 className="text-lg font-bold text-gray-900 mb-2">
                       Capacity
                     </h2>
                     <p className="text-gray-600">{room.capacity} guests</p>
                   </div>
                   <div className="border-b border-gray-200 pb-4">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-2">
+                    <h2 className="text-lg font-bold text-gray-900 mb-2">
                       Status
                     </h2>
-                    <p className="text-gray-600">{room.status}</p>
+                    <p className={`text-lg font-bold ${room.status === "available" ? "text-green-600" : "text-red-600"}`}>
+                      {room.status}
+                    </p>
                   </div>
                 </div>
 
                 {/* Availability and Booking */}
                 <div className="mt-6">
-                  <div className="text-lg font-semibold mb-4">
-                    Status:
-                    <span
-                      className={
-                        room.status === "available"
-                          ? "text-green-600 ml-2"
-                          : "text-red-600 ml-2"
-                      }
-                    >
-                      {room.status}
-                    </span>
-                  </div>
                   {room.status === "available" && (
                     <button
                       onClick={handleBookRoom}
@@ -137,7 +138,7 @@ function RoomDetail() {
         {isBookingModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
             <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-              <h3 className="text-2xl font-semibold mb-4 text-center">
+              <h3 className="text-2xl font-semibold mb-4 text-center text-gray-900">
                 Confirm Booking
               </h3>
               <p className="text-gray-800 mb-6 text-center">

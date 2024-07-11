@@ -220,7 +220,7 @@ def get_rooms():
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
 
-    if current_user.is_admin:
+    if current_user:
         rooms = Room.query.all()
         return jsonify([{
             'id': room.id,
@@ -246,6 +246,23 @@ def get_room(id):
         'status': room.status,
         'image': room.image
     }), 200
+
+
+@app.route('/rooms/<int:id>', methods=['PATCH'])
+@jwt_required()
+def update_room_status(id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+
+    if current_user.is_admin:
+        room = Room.query.get_or_404(id)
+        data = request.json
+        room.status = data.get('status', room.status)
+        db.session.commit()
+        return jsonify({'message': 'Room status updated successfully'}), 200
+    else:
+        return jsonify({"error": "You are not authorized to perform this action"}), 401
+    
 
 @app.route('/rooms/<int:id>', methods=['PUT'])
 @jwt_required()
@@ -403,37 +420,44 @@ def create_review():
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
-    required_fields = ['room_id', 'rating']
+    required_fields = ['room_id', 'rating', 'comment']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'{field} is required'}), 400
 
-    new_review = Review(
-        user_id=user_id,
-        room_id=data['room_id'],
-        comment=data.get('comment', "No comment"),
-        rating=data['rating']
-    )
-    
     try:
+        new_review = Review(
+            user_id=user_id,
+            room_id=data['room_id'],
+            comment=data['comment'],
+            rating=int(data['rating'])
+        )
+        
         db.session.add(new_review)
         db.session.commit()
+
+        return jsonify({
+            'message': 'Review created successfully',
+            'review': {
+                'id': new_review.id,
+                'user_id': new_review.user_id,
+                'room_id': new_review.room_id,
+                'comment': new_review.comment,
+                'rating': new_review.rating,
+                'created_at': new_review.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            }
+        }), 201
+
+    except ValueError:
+        return jsonify({'error': 'Invalid rating value'}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
 
-    return jsonify({'message': 'Review created successfully'}), 201
-
-
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
-    print("Reviews route hit!") 
-    room_id = request.args.get('room_id')
-    print(f"Requested room_id: {room_id}")
-    room_id = request.args.get('room_id')
-    if not room_id:
-        return jsonify({"error": "room_id is required"}), 400
-    reviews = Review.query.filter_by(room_id=room_id).all()
+    print("Reviews route hit!")
+    reviews = Review.query.all()
     return jsonify([{
         'id': review.id,
         'user_id': review.user_id,
@@ -449,15 +473,40 @@ def get_reviews():
 def get_hotels():
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
-    if current_user.is_admin:
-        hotels = Hotel.query.all()
+    hotels = Hotel.query.all()
+    return jsonify([{
+        'id': hotel.id,
+        'name': hotel.name,
+        'description': hotel.description
+    } for hotel in hotels]), 200
+
+
+# get rooms by hotel id
+@app.route('/hotels/<int:hotel_id>/rooms', methods=['GET'])
+@jwt_required()
+def get_hotel_rooms(hotel_id):
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    # if not current_user.is_admin:
+    #     return jsonify({"error": "You are not authorized to perform this action"}), 401
+    
+    print("Attempting to get rooms for hotel id: ", hotel_id)
+    try:
+        rooms = Room.query.filter_by(hotel_id=hotel_id).all()
+        if not rooms:
+            return jsonify({"message": "No rooms found for this hotel"}), 404
         return jsonify([{
-            'id': hotel.id,
-            'name': hotel.name,
-            'description': hotel.description
-        } for hotel in hotels]), 200
-    else:
-        return jsonify({"error": "You are not authorized to perform this action"}), 401
+            'id': room.id,
+            'room_number': room.room_number,
+            'description': room.description,
+            'price': room.price,
+            'capacity': room.capacity,
+            'status': room.status,
+            'image': room.image
+        } for room in rooms]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/hotels', methods=['POST'])
 @jwt_required()

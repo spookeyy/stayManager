@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Reviews from "./pages/Reviews";
@@ -14,26 +14,32 @@ import Hotels from "./pages/Hotels";
 import { UserProvider } from "./context/AuthContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import PrivateRoute from "./pages/PrivateRoute";
+import HotelRooms from "./pages/HotelRooms";
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
         <Routes>
+          {/* PrivateRoute for authenticated users */}
           <Route element={<PrivateRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<Home />} />
           </Route>
+
+          {/* Route for login */}
           <Route
             path="/login"
-            element={localStorage.getItem("access_token") ? <Home /> : <Login />}
+            element={
+              localStorage.getItem("access_token") ? <Home /> : <Login />
+            }
           />
-          <Route
-            path="/profile"
-            element={localStorage.getItem("access_token") ? <Profile /> : <Login />}
-          />
+
+          {/* Public routes */}
           <Route path="/room-list" element={<RoomList />} />
           <Route path="/hotels" element={<Hotels />} />
+          <Route path="/hotel/:hotelId/rooms" element={<HotelRooms />} />
           <Route path="/rooms/:id" element={<RoomDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
