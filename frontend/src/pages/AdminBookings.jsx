@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import AdminHeader from "./AdminHeader";
+import { toast } from "react-toastify";
 
 export default function AdminBookings() {
      const [bookings, setBookings] = useState([]);
@@ -73,6 +75,8 @@ export default function AdminBookings() {
     };
 
   return (
+    <div>
+      <AdminHeader />
     <div className="bg-gray-700 rounded-lg shadow-md p-6 mt-8 mb-8">
       <h3 className="text-2xl font-semibold mb-4 text-gray-200">Bookings</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -114,6 +118,7 @@ export default function AdminBookings() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }
