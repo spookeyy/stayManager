@@ -167,7 +167,7 @@ function Register() {
             <div>
               <label
                 htmlFor="username"
-                className="block text-lg font-medium text-gray-700"
+                className="block text-md font-medium text-gray-700"
               >
                 User Name
               </label>
@@ -190,7 +190,7 @@ function Register() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-lg font-medium text-gray-700"
+                className="block text-md font-medium text-gray-700"
               >
                 Email address
               </label>
@@ -217,7 +217,7 @@ function Register() {
             <div>
               <label
                 htmlFor="phone_number"
-                className="block text-lg font-medium text-gray-700"
+                className="block text-md font-medium text-gray-700"
               >
                 Phone Number
               </label>
@@ -240,7 +240,7 @@ function Register() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-lg font-medium text-gray-700"
+                className="block text-md font-medium text-gray-700"
               >
                 Password
               </label>
@@ -267,7 +267,7 @@ function Register() {
             <div>
               <label
                 htmlFor="repeatPassword"
-                className="block text-lg font-medium text-gray-700"
+                className="block text-md font-medium text-gray-700"
               >
                 Repeat Password
               </label>
@@ -301,7 +301,7 @@ function Register() {
 
               <label
                 htmlFor="terms"
-                className="ml-2 block text-lg text-gray-900"
+                className="ml-2 block text-md text-gray-900"
               >
                 I agree to the{" "}
                 <Link to="/terms" className="text-blue-500">
@@ -322,7 +322,7 @@ function Register() {
           </form>
           <div className="mt-6 border-t border-gray-200"></div>
           <div className="mt-6">
-            <p className="text-lg text-center text-gray-700">
+            <p className="text-md text-center text-gray-700">
               Already have an account?{" "}
               <Link to="/login" className="text-blue-500">
                 Log in

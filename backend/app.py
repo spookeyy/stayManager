@@ -198,9 +198,16 @@ def create_room():
 
     if current_user.is_admin:
         data = request.json
+
+        required_fields = ['room_number', 'capacity', 'price', 'description', 'hotel_id']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+        
         new_room = Room(
             room_number=data['room_number'],
             description=data['description'], # room type
+            hotel_id=data['hotel_id'],
             price=data['price'],
             capacity=data['capacity'],
             status=data['status' ],
@@ -208,7 +215,7 @@ def create_room():
         )
         db.session.add(new_room)
         db.session.commit()
-        return jsonify({'message': 'Room created successfully'}), 201
+        return jsonify({"message": "Room created successfully", "room_id": new_room.id}), 201
     else:
         return jsonify({"error": "You are not authorized to perform this action"}), 401
 
