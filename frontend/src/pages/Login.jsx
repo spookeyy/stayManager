@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import Header from "./Header";
 import { UserContext } from "../context/AuthContext";
 
 function Login() {
-  const { login_user, logout } = useContext(UserContext);
+  const { login_user } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -14,13 +13,13 @@ function Login() {
     e.preventDefault();
     login_user(email, password)
       .then(() => {
-        toast.success("Logged in successfully!");
         setEmail("");
         setPassword("");
+        // Optionally handle success, e.g., redirect user
       })
       .catch((error) => {
         console.error("Login error:", error);
-        toast.error("Failed to log in. Please check your credentials.");
+        // Optionally handle error, e.g., show error message
       });
   }
 
