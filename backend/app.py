@@ -477,7 +477,8 @@ def get_hotels():
     return jsonify([{
         'id': hotel.id,
         'name': hotel.name,
-        'description': hotel.description
+        'description': hotel.description,
+        'image': hotel.image
     } for hotel in hotels]), 200
 
 
