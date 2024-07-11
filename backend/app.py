@@ -100,6 +100,11 @@ def create_user():
     password = data.get("password")
     if not password:
         return jsonify({"error": "Password is required and must not be empty"}), 400
+    
+    phone_number = data.get("phone_number")
+    phone_number_exists = User.query.filter_by(phone_number=phone_number).first()
+    if phone_number_exists:
+        return jsonify({"error": "Phone number already exists"}), 400
 
         
     

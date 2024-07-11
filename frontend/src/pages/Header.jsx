@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
   const { currentUser, logout } = useContext(UserContext);
 
-  function handleLogout() {
-    toast.success("Logged out successfully!");
+  const handleLogout = () => {
+    toast.success('Logged out successfully!');
     logout();
-  }
+  };
 
   return (
     <div>
@@ -16,7 +17,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
       <nav className="mx-auto px-4 py-2 max-w-7xl bg-blue-500 shadow-lg mt-4">
         <div className="flex justify-between items-center">
           {/* Navbar brand */}
-          <Link to="/" className="text-xl font-bold text-gray-800">
+          <Link to="/" className="text-xl font-bold text-white">
             HETELOGIX
           </Link>
 
@@ -26,7 +27,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
             onClick={toggleNav}
           >
             <svg
-              className="h-6 w-6 text-gray-600"
+              className="h-6 w-6 text-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -60,7 +61,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/"
-                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                  className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Home
@@ -69,7 +70,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/hotels"
-                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                  className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Hotels
@@ -78,7 +79,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/room-list"
-                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                  className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Rooms
@@ -87,17 +88,17 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 <Link
                   to="/contact"
-                  className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                  className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                   onClick={() => setIsNavOpen(false)}
                 >
                   Contact
                 </Link>
               </li>
-              {currentUser && (  // Render Profile link only if user is logged in
+              {currentUser && (
                 <li className="nav-item">
                   <Link
                     to="/profile"
-                    className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                    className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                     onClick={() => setIsNavOpen(false)}
                   >
                     Profile
@@ -107,7 +108,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
               <li className="nav-item">
                 {currentUser ? (
                   <button
-                    className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                    className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                     onClick={handleLogout}
                   >
                     Logout
@@ -115,7 +116,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
                 ) : (
                   <Link
                     to="/login"
-                    className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
+                    className="block lg:inline-block px-3 py-2 text-white hover:text-gray-300 focus:outline-none"
                     onClick={() => setIsNavOpen(false)}
                   >
                     Login
