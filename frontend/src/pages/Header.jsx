@@ -21,7 +21,7 @@ function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
             HETELOGIX
           </Link>
 
-          {/* Navbar toggler for small screens */}
+          {/* Navbar toggler for      small screens */}
           <button
             className="block lg:hidden focus:outline-none"
             onClick={toggleNav}
