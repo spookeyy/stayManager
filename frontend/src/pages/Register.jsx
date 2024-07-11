@@ -1,37 +1,71 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/AuthContext';
+import { toast } from 'react-toastify'; 
 
 function Register() {
+  const navigate = useNavigate();
+  const { register_user } = useContext(UserContext);
 
-  const nav = useNavigate();
-  const {register_user} = useContext(UserContext)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [phone_number, setPhone_number] = useState("");
+  const [is_admin, setIs_admin] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [repeatPassword, setRepeatPassword] = useState()
-  const [username, setUserName] = useState()
-  const [phone_number, setPhone_number] = useState()
-  const [is_admin, setIs_admin] = useState(false)
+  function handleSubmit(e) {
+    e.preventDefault();
 
-
-  // console.log(email, password, repeatPassword, username, phone_number, is_admin);
-  function handleSubmit(e){
-    // console.log(email, password, repeatPassword, username, phone_number, is_admin);
-    e.preventDefault()
-
-    if(password !== repeatPassword){
-      toast.error("Passwords do not match")
-      return
+    // Password length check
+    if (password.length < 4) {
+      toast.error("Password must be at least 4 characters long");
+      return;
     }
-    register_user(username, email, password, phone_number, is_admin);
-    setEmail("")
-    setPassword("")
-    setRepeatPassword("")
-    setUserName("")
-    setPhone_number("")
-    setIs_admin(false)
+
+    // Matching passwords check
+    if (password !== repeatPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    // Password complexity check
+    if (!isPasswordValid(password)) {
+      toast.error("Password should contain at least one digit and should not be a simple sequence.");
+      setPasswordError(true);
+      return;
+    }
+
+    register_user(username, email, password, phone_number, is_admin)
+      .then(() => {
+        // Clear the form fields
+        setEmail("");
+        setPassword("");
+        setRepeatPassword("");
+        setUsername("");
+        setPhone_number("");
+        setIs_admin(false);
+
+        // Redirect or navigate to another page after successful registration
+        navigate('/login'); 
+      })
+      .catch(error => {
+        if (error.response && error.response.data && error.response.data.error === 'Email already exists') {
+          toast.error("Email already exists. Please use a different email.");
+          setEmailError(true);
+        } else {
+          toast.error(`Registration failed: ${error.message}`);
+        }
+      });
+  }
+
+  function isPasswordValid(password) {
+    const containsDigit = /\d/.test(password);
+    const isSequential = /(123|234|345|456|567|678|789|890)/.test(password);
+    
+    return containsDigit && !isSequential;
   }
 
   return (
@@ -40,83 +74,79 @@ function Register() {
         <h1 className="text-4xl font-semibold mb-6 text-center text-gray-800">Register</h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label
-              htmlFor="name"
-              className="block text-lg font-medium text-gray-700"
-            >
+            <label htmlFor="username" className="block text-lg font-medium text-gray-700">
               Full Name
             </label>
             <input
               type="text"
-              id="name"
-              value={username || ""}
-              onChange={(e) => setUserName(e.target.value)}
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-              placeholder="username"
+              placeholder="Enter your full name"
+              required
             />
           </div>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-lg font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="block text-lg font-medium text-gray-700">
               Email address
             </label>
             <input
-              id="email"
               type="email"
-              value={email || ""}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-              placeholder="email@example.com"
+              id="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError(false); // Reset email error on change
+              }}
+              className={`mt-1 block w-full px-4 py-3 border ${emailError ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg`}
+              placeholder="Enter your email address"
+              required
             />
           </div>
           <div>
-            <label
-              htmlFor="phone_number"
-              className="block text-lg font-medium text-gray-700"
-            >
+            <label htmlFor="phone_number" className="block text-lg font-medium text-gray-700">
               Phone Number
             </label>
             <input
               type="text"
               id="phone_number"
-              value={phone_number || ""}
+              value={phone_number}
               onChange={(e) => setPhone_number(e.target.value)}
               className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-              placeholder="Phone Number"
+              placeholder="Enter your phone number"
+              required
             />
           </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block text-lg font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="block text-lg font-medium text-gray-700">
               Password
             </label>
             <input
               type="password"
               id="password"
-              value={password || ""}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(false); 
+              }}
+              className={`mt-1 block w-full px-4 py-3 border ${passwordError ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg`}
+              placeholder="Enter your password"
+              required
             />
-            </div>
+          </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block text-lg font-medium text-gray-700"
-            >
-              repeat Password
+            <label htmlFor="repeatPassword" className="block text-lg font-medium text-gray-700">
+              Repeat Password
             </label>
             <input
-              type="password" 
-              id="password"
-              value={repeatPassword || ""}
+              type="password"
+              id="repeatPassword"
+              value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-              placeholder="Password"
+              className={`mt-1 block w-full px-4 py-3 border ${passwordError ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg`}
+              placeholder="Repeat your password"
+              required
             />
           </div>
           <div className="flex items-center">
@@ -124,6 +154,7 @@ function Register() {
               type="checkbox"
               id="terms"
               className="rounded border-gray-300 text-blue-500 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              required
             />
             <label htmlFor="terms" className="ml-2 block text-lg text-gray-900">
               I agree to the{" "}

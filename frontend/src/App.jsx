@@ -1,5 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify"; // Import ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for styling
+
 import Home from "./pages/Home";
 import Reviews from "./pages/Reviews";
 import Reviews_Form from "./pages/Reviews_Form";
@@ -20,6 +23,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserProvider>
+        <ToastContainer /> {/* Render ToastContainer here */}
         <Routes>
           {/* PrivateRoute for authenticated users */}
           <Route element={<PrivateRoute />}>

@@ -1,42 +1,88 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you use react-router for navigation
-import { UserContext } from '../context/AuthContext'; // Assuming this context provides currentUser data
-import Header from './Header'; // Assuming you have a Header component
+import React, { useState } from 'react';
 
-function Profile() {
-  const { currentUser } = useContext(UserContext); // Accessing currentUser from context
+function UpdateProfileForm({ currentUser, onClose }) {
+  const [formData, setFormData] = useState({
+    username: currentUser.username,
+    email: currentUser.email,
+    phone_number: currentUser.phone_number,
+  });
 
-  if (!currentUser) {
-    return <div>Loading...</div>; // Placeholder for loading state or redirect if not authenticated
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const authToken = localStorage.getItem('access_token');
+      if (!authToken) {
+        throw new Error('No access token found');
+      }
+      const response = await fetch(`http://localhost:5000/users/${currentUser.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update profile: ${response.status} ${response.statusText}`);
+      }
+      onClose();
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile. Please try again.');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   return (
-    <div>
-      <Header /> {/* Include the Header component for navigation */}
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-4">Profile</h2>
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
-            <div className="text-gray-900">{currentUser.username}</div>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-            <div className="text-gray-900">{currentUser.email}</div>
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
-            <div className="text-gray-900">{currentUser.phone_number}</div>
-          </div>
-          <div className="flex items-center justify-between">
-            <Link to="/update-profile" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Update Profile
-            </Link>
-          </div>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+        <input
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          className="text-gray-900 border rounded px-3 py-2 w-full"
+        />
       </div>
-    </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="text-gray-900 border rounded px-3 py-2 w-full"
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+        <input
+          type="text"
+          name="phone_number"
+          value={formData.phone_number}
+          onChange={handleChange}
+          className="text-gray-900 border rounded px-3 py-2 w-full"
+        />
+      </div>
+      <div className="flex items-center justify-end">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
   );
 }
 
-export default Profile;
+export default UpdateProfileForm;
