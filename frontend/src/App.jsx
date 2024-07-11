@@ -15,6 +15,11 @@ import { UserProvider } from "./context/AuthContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import PrivateRoute from "./pages/PrivateRoute";
 import HotelRooms from "./pages/HotelRooms";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AdminHotels from "./pages/AdminHotels";
+import AdminBookings from "./pages/AdminBookings";
+import AdminRooms from "./pages/AdminRooms";
 
 function App() {
   return (
@@ -35,6 +40,11 @@ function App() {
               localStorage.getItem("access_token") ? <Home /> : <Login />
             }
           />
+
+          {/* Admin Routes */}
+          <Route path="/admin/hotels" element={<AdminHotels />} />
+          <Route path="/admin/rooms" element={<AdminRooms />} />
+          <Route path="/admin/bookings" element={<AdminBookings />} />
 
           {/* Public routes */}
           <Route path="/room-list" element={<RoomList />} />
