@@ -75,10 +75,10 @@ export default function Footer({ companyInfo }) {
                 <a href="#" className="hover:text-gray-900">Accomodation</a>
               </p>
               <p className="text-sm text-gray-600">
-                <a href="#" className="hover:text-gray-900">Family Link</a>
+                <a href="#" className="hover:text-gray-900">Conference Facilities</a>
               </p>
               <p className="text-sm text-gray-600">
-                <a href="#" className="hover:text-gray-900">Outdoors</a>
+                <a href="#" className="hover:text-gray-900">Outdoor Activities</a>
               </p>
             </div>            {/* Grid column */}
 
