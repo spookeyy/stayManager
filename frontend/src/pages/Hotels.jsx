@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+import { FaSpinner } from "react-icons/fa";
 
 function Hotels() {
   const [hotels, setHotels] = useState([]);
@@ -20,7 +21,7 @@ function Hotels() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch hotels. Please Login");
+        throw new Error("Failed to fetch hotels");
       }
 
       const data = await response.json();
@@ -33,18 +34,15 @@ function Hotels() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <FaSpinner className="animate-spin" />
+      </div>
+    );
   }
 
   if (error) {
-    return (
-      <>
-        <Header />
-        <div className="container mx-auto py-8">
-          <p className="text-red-500 text-center">{error}</p>
-        </div>
-      </>
-    );
+    return <div>{error}, login</div>
   }
 
   return (
@@ -66,9 +64,8 @@ function Hotels() {
                 <img
                   className="w-full h-64 object-cover"
                   src={
-                    hotel.image
-                      ? hotel.image
-                      : "https://via.placeholder.com/300x200"
+                    hotel.image ||
+                    "https://via.placeholder.com/400x250?text=Hotel+Image"
                   }
                   alt={hotel.name}
                 />
