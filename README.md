@@ -83,8 +83,12 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
 ---
 
 ## Endpoints
+   - Run **pipenv install**, and **pipenv shell** to enter the virtual environment.
+   - Run **python3 seed.py** inside the backend to generate dummy data and **flask run** to launch the backend.
    - The base url for the backend is; http://localhost:5000
-   - Live view; Coming soon!
+   - Run **npm install** to install dependencies for the frontend.
+   - Use command **npm run dev** to run frontend.
+   - Live view url; http://localhost:5173/
 ---
 
 ### Technologies used
