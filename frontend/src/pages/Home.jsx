@@ -83,9 +83,18 @@ function Home() {
         <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
       </div>
       {/* Main content */}
-      <div className="container mx-auto px-4 py-8" style={{ paddingTop: "100px" }}>
+      <div
+        className="container mx-auto px-4 py-8"
+        style={{ paddingTop: "100px" }}
+      >
         {/* Image Slider */}
-        <Carousel showThumbs={false} autoPlay infiniteLoop interval={2500}>
+        <Carousel
+          showStatus={false}
+          showThumbs={false}
+          autoPlay
+          infiniteLoop
+          interval={2500}
+        >
           {images.map((image, index) => (
             <div key={index}>
               <div
@@ -102,11 +111,14 @@ function Home() {
                   textAlign: "center",
                 }}
               >
-                <div className="absolute inset-0 bg-black opacity-50"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div>
-                    <h2 className="text-3xl font-bold mb-4">{image.title}</h2>
-                    <p className="text-lg italic">Redefining Hospitality...</p>
+                  <div className="bg-black bg-opacity-50 rounded-full w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 flex flex-col items-center justify-center p-4 text-center">
+                    <h2 className="text-xl sm:text-2xl font-bold mb-2">
+                      {image.title}
+                    </h2>
+                    <p className="text-xs sm:text-sm italic">
+                      Redefining Hospitality...
+                    </p>
                   </div>
                 </div>
               </div>
