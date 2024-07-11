@@ -285,13 +285,22 @@ def update_room(id):
     if current_user.is_admin:
         room = Room.query.get_or_404(id)
         data = request.json
-        room.description = data.get('description', room.description)
-        room.price = data.get('price', room.price)
-        room.capacity = data.get('capacity', room.capacity)
-        room.status = data.get('status', room.status)
-        room.image = data.get('image', room.image)
-        db.session.commit()
-        return jsonify({'message': 'Room updated successfully'}), 200
+        print("Received data:", data)  # Log the received data
+
+        try:
+            room.description = data.get('description', room.description)
+            room.price = float(data.get('price', room.price))
+            room.capacity = int(data.get('capacity', room.capacity))
+            room.status = data.get('status', room.status)
+            room.image = data.get('image', room.image)
+            db.session.commit()
+            return jsonify({'message': 'Room updated successfully'}), 200
+        except ValueError as e:
+            print("Value error:", str(e)) 
+            return jsonify({"error": "Invalid data type for price or capacity"}), 422
+        except Exception as e:
+            print("Unexpected error:", str(e))
+            return jsonify({"error": "An unexpected error occurred"}), 500
     else:
         return jsonify({"error": "You are not authorized to perform this action"}), 401
 
