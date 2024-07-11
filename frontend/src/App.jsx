@@ -4,8 +4,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./context/AuthContext";
 import PrivateRoute from "./pages/PrivateRoute";
+import Spinner from "./components/Spinner"; 
 
-// replacing components with lazy-loaded versions
+// replacing components with lazy load components
 const Home = lazy(() => import("./pages/Home"));
 const Reviews = lazy(() => import("./pages/Reviews"));
 const Reviews_Form = lazy(() => import("./pages/Reviews_Form"));
@@ -29,7 +30,7 @@ function App() {
     <BrowserRouter>
       <UserProvider>
         <ToastContainer />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spinner />}>
           <Routes>
             {/* PrivateRoute for authenticated users */}
             <Route element={<PrivateRoute />}>
