@@ -123,11 +123,18 @@ function Register() {
       })
       .catch((error) => {
         if (
-          error.response &&
-          error.response.data &&
-          error.response.data.error === "Email already exists"
+          (error.response &&
+            error.response.data &&
+            error.response.data.error === "Email already exists" || error.response.data.error === "Phone number already exists")
         ) {
-          toast.error("Email already exists. Please use a different email.");
+          if (error.response.data.error === "Email already exists") {
+            toast.error("Email already exists. Please use a different email.");
+            setEmailError(true);
+          } else if (error.response.data.error === "Phone number already exists") {
+            toast.error("Phone number already exists. Please use a different phone number.");
+            setPhoneError(true);
+          }
+          
           setEmailError(true);
         } else {
           toast.error(`Registration failed: ${error.message}`);
