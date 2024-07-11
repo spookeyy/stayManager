@@ -220,7 +220,7 @@ def get_rooms():
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
 
-    if current_user.is_admin:
+    if current_user:
         rooms = Room.query.all()
         return jsonify([{
             'id': room.id,
@@ -444,13 +444,8 @@ def create_review():
 
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
-    print("Reviews route hit!") 
-    room_id = request.args.get('room_id')
-    print(f"Requested room_id: {room_id}")
-    room_id = request.args.get('room_id')
-    if not room_id:
-        return jsonify({"error": "room_id is required"}), 400
-    reviews = Review.query.filter_by(room_id=room_id).all()
+    print("Reviews route hit!")
+    reviews = Review.query.all()
     return jsonify([{
         'id': review.id,
         'user_id': review.user_id,
@@ -466,15 +461,13 @@ def get_reviews():
 def get_hotels():
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
-    if current_user.is_admin:
-        hotels = Hotel.query.all()
-        return jsonify([{
-            'id': hotel.id,
-            'name': hotel.name,
-            'description': hotel.description
-        } for hotel in hotels]), 200
-    else:
-        return jsonify({"error": "You are not authorized to perform this action"}), 401
+    hotels = Hotel.query.all()
+    return jsonify([{
+        'id': hotel.id,
+        'name': hotel.name,
+        'description': hotel.description
+    } for hotel in hotels]), 200
+
 
 # get rooms by hotel id
 @app.route('/hotels/<int:hotel_id>/rooms', methods=['GET'])
