@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminHotels from "./pages/AdminHotels";
 import AdminBookings from "./pages/AdminBookings";
 import AdminRooms from "./pages/AdminRooms";
+import AdminProfile from "./pages/AdminProfile";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/admin/hotels" element={<AdminHotels />} />
           <Route path="/admin/rooms" element={<AdminRooms />} />
           <Route path="/admin/bookings" element={<AdminBookings />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
 
           {/* Public routes */}
           <Route path="/room-list" element={<RoomList />} />

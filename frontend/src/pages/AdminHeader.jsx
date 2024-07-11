@@ -107,7 +107,7 @@ const AdminHeader = ({toggleNav, isNavOpen, setIsNavOpen }) => {
                 {currentUser && ( // Render Profile link only if user is logged in
                   <li className="nav-item">
                     <Link
-                      to="/profile"
+                      to="/admin/profile"
                       className="block lg:inline-block px-3 py-2 text-gray-800 focus:outline-none"
                       onClick={() => setIsNavOpen(false)}
                     >

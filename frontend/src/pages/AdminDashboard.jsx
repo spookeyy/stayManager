@@ -3,9 +3,6 @@ import { toast } from "react-toastify";
 import AddRoom from "./AddRoom";
 import AddHotel from "./AddHotel";
 import AdminHeader from "./AdminHeader";
-import AdminHotels from "./AdminHotels";
-import AdminRooms from "./AdminRooms";
-import AdminBookings from "./AdminBookings";
 import { FaHotel, FaDoorOpen, FaCalendarCheck, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 

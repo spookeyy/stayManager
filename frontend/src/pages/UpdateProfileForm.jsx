@@ -1,18 +1,19 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you use react-router for navigation
-import { UserContext } from '../context/AuthContext'; // Assuming this context provides currentUser data
-import Header from './Header'; // Assuming you have a Header component
+import { Link } from 'react-router-dom'; 
+import { UserContext } from '../context/AuthContext'; 
+import Header from './Header'; 
+import AdminHeader from './AdminHeader';
 
 function Profile() {
-  const { currentUser } = useContext(UserContext); // Accessing currentUser from context
+  const { currentUser } = useContext(UserContext); 
 
   if (!currentUser) {
-    return <div>Loading...</div>; // Placeholder for loading state or redirect if not authenticated
+    return <div>Loading...</div>; 
   }
 
   return (
     <div>
-      <Header /> {/* Include the Header component for navigation */}
+      {currentUser && currentUser.is_admin ? <AdminHeader /> : <Header />}
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-4">Profile</h2>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
