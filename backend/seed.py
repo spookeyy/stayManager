@@ -99,7 +99,7 @@ def seed_data():
             check_out = check_in + timedelta(days=random.randint(1, 7))
 
             booking = Booking(
-                user_id=user.username,
+                user_id=user.id,
                 room_id=room.id,
                 check_in=check_in,
                 check_out=check_out,
@@ -118,7 +118,7 @@ def seed_data():
             room = random.choice(rooms)
             rating = random.randint(1, 5)
             review = Review(
-                user_id=user.id,
+                user_id=user.username,
                 room_id=room.id,
                 rating=rating,
                 comment=fake.paragraph(),
