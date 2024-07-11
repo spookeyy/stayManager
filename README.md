@@ -81,3 +81,24 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
    - Allow customers to leave reviews and ratings for hotels or travel experiences.
 
 ---
+
+### Technologies used
+-   JS
+-   REACT
+-   HTML
+-   TAILWIND CSS
+-   Python
+-   Flask
+
+### Support and contact details
+Email and Phone: sarahscarlet641@gmail.com || +254704372525
+
+Email and Phone: pmbugua276@gmail.com || +254701571745
+
+Email and Phone: pangasmeshack@gmail.com || +254793057720
+
+Email and Phone: skmutai6@gmail.com || +254723486218
+
+ 
+License
+Licensed under the MIT Licence Copyright (c) 2024 ** Scarlet Sarah ** Peter Mbugua ** Meshack Pangas ** Shadrack Mutai.
