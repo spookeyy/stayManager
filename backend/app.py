@@ -9,18 +9,20 @@ from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message # Flask-Mail for sending emails
 from flask import current_app
 from threading import Thread
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 import os
 
 load_dotenv()
 
 bcrypt = Bcrypt()
 
-
+postgres_pwd = os.getenv("POSTGRESS_PWD")
+print(postgres_pwd)
 
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db?mode=rw"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_user:{postgres_pwd}"
+# "sqlite:///hotel.db?mode=rw"
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
 app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
