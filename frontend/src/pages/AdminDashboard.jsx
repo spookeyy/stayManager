@@ -5,6 +5,7 @@ import AddHotel from "./AddHotel";
 import AdminHeader from "./AdminHeader";
 import { FaHotel, FaDoorOpen, FaCalendarCheck, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { server_url } from "../../config";
 
 function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
