@@ -1,3 +1,4 @@
+import logging
 import random
 import datetime
 from flask import Flask, render_template, request, jsonify
@@ -13,6 +14,10 @@ from dotenv import load_dotenv, dotenv_values
 import os
 
 load_dotenv()
+
+config = dotenv_values(".env")
+logging.basicConfig(level=logging.INFO)
+
 
 bcrypt = Bcrypt()
 
@@ -36,6 +41,16 @@ db.init_app(app)
 
 from datetime import datetime
 
+
+@app.route('/db-check')
+def db_check():
+    try:
+        db.session.query("1").from_statement("SELECT 1").all()
+        return "Database is connected", 200
+    except Exception as e:
+        logging.error(f"Database connection failed: {str(e)}")
+        return "Database connection failed", 500
+    
 # Login     
 @app.route("/login", methods=["POST"])
 def login():
@@ -224,11 +239,13 @@ def create_room():
 @app.route('/rooms', methods=['GET'])
 @jwt_required()
 def get_rooms():
+
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
 
     if current_user:
         rooms = Room.query.all()
+        logging.info(f"Retrieved {len(rooms)} rooms from the database")
         return jsonify([{
             'id': room.id,
             'room_number': room.room_number,
@@ -244,6 +261,7 @@ def get_rooms():
 @app.route('/rooms/<int:id>', methods=['GET'])
 def get_room(id):
     room = Room.query.get_or_404(id) # 404 if not found
+    logging.info(f"Retrieved {len(room)} rooms from the database")
     return jsonify({
         'id': room.id,
         'room_number': room.room_number,
@@ -370,6 +388,7 @@ def get_bookings():
     current_user = User.query.get(current_user_id)
     if current_user.is_admin:
         bookings = Booking.query.all()
+        logging.info(f"Retrieved {len(bookings)} bookings from the database")
         return jsonify([{
             'id': booking.id,
             'user_id': booking.user_id,
