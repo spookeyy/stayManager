@@ -249,7 +249,7 @@ export default function AdminHotels() {
                         <ul>
                           {showRooms[hotel.id].map((room) => (
                             <li key={room.id} className="text-sm text-gray-400">
-                              Room {room.room_number} - {room.description} ($
+                              Room {room.room_number} - {room.description} (Ksh. 
                               {room.price})
                             </li>
                           ))}
