@@ -1,5 +1,6 @@
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Text
 # from sqlalchemy_serializer import SerializerMixin
 db = SQLAlchemy()
 from sqlalchemy.orm import validates
@@ -65,7 +66,7 @@ class Room(db.Model):
     price = db.Column(db.Float, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(80), nullable=False, default=False)
-    image = db.Column(db.LongText, nullable=True)
+    image = db.Column(db.Text(length=1000000), nullable=True)
     
     # relationships
     bookings = db.relationship('Booking', backref='room', lazy='dynamic')
