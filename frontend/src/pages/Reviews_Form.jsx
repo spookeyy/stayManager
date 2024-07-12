@@ -5,7 +5,7 @@ import Header from "./Header";
 
 export default function Reviews_Form() {
   const [rating, setRating] = useState("");
-  const [review, setReview] = useState("");
+  const [comment, setComment] = useState("");
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
@@ -16,14 +16,13 @@ export default function Reviews_Form() {
   const fetchUsername = async () => {
     try {
       const userId = localStorage.getItem("user_id");
-      console.log("User ID from localStorage:", userId); // Debug: Check if user_id is retrieved correctly
       if (!userId) {
         console.error("User ID not found in localStorage");
         setUsername("Anonymous");
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/users/${userId}`, {
+      const response = await fetch(`${server_url}/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -37,33 +36,31 @@ export default function Reviews_Form() {
       console.error("Error fetching username:", error);
       setUsername("Anonymous");
     }
+    if (!userId) {
+      console.error("User ID not found in localStorage");
+      toast.error(
+        "You need to be logged in to submit a review. Please login or create an account."
+      );
+      navigate("/login");
+      return;
+    }
+
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const room_id = localStorage.getItem("room_id");
-    const user_id = localStorage.getItem("user_id");
-    console.log("Room ID from localStorage:", room_id); // Debug: Check if room_id is retrieved correctly
-    console.log("User ID from localStorage:", user_id); // Debug: Check if user_id is retrieved correctly
-
-    if (!room_id || !user_id) {
-      console.error("Room ID or User ID not found");
-      toast.error("Room ID or User ID not found. Please try again later.");
-      return;
-    }
 
     try {
-      const response = await fetch("http://localhost:5000/reviews", {
+      const response = await fetch(`${server_url}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify({
-          room_id,
-          user_id,
-          rating: parseInt(rating), // Ensure rating is parsed to int if necessary
-          comment: review,
+          username,
+          rating: parseInt(rating),
+          comment,
         }),
       });
 
@@ -72,10 +69,13 @@ export default function Reviews_Form() {
         throw new Error(errorData.message || "Failed to submit review");
       }
 
+      toast.success("Review submitted successfully!");
       navigate("/reviews");
     } catch (error) {
       console.error("Error submitting review:", error);
-      toast.error(error.message || "Failed to submit review. Please try again later.");
+      toast.error(
+        error.message || "Failed to submit review. Please try again later."
+      );
     }
   };
 
@@ -102,7 +102,10 @@ export default function Reviews_Form() {
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="rating" className="text-gray-600 mb-1 font-medium">
+              <label
+                htmlFor="rating"
+                className="text-gray-600 mb-1 font-medium"
+              >
                 Rating:
               </label>
               <select
@@ -121,16 +124,19 @@ export default function Reviews_Form() {
               </select>
             </div>
             <div className="flex flex-col">
-              <label htmlFor="review" className="text-gray-600 mb-1 font-medium">
-                Review:
+              <label
+                htmlFor="comment"
+                className="text-gray-600 mb-1 font-medium"
+              >
+                Comment:
               </label>
               <textarea
-                id="review"
+                id="comment"
                 className="form-textarea px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                 rows="4"
                 placeholder="Write your review here"
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
                 required
               ></textarea>
             </div>

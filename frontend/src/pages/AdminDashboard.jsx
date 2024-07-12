@@ -5,6 +5,7 @@ import AddHotel from "./AddHotel";
 import AdminHeader from "./AdminHeader";
 import { FaHotel, FaDoorOpen, FaCalendarCheck, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { server_url } from "../../config";
 
 function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
@@ -21,7 +22,7 @@ function AdminDashboard() {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch("http://localhost:5000/bookings", {
+      const response = await fetch(`${server_url}/bookings`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -40,7 +41,7 @@ function AdminDashboard() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch("http://localhost:5000/rooms", {
+      const response = await fetch(`${server_url}/rooms`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -59,7 +60,7 @@ function AdminDashboard() {
 
   const fetchHotels = async () => {
     try {
-      const response = await fetch("http://localhost:5000/hotels", {
+      const response = await fetch(`${server_url}/hotels`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -79,15 +80,12 @@ function AdminDashboard() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/bookings/${bookingId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${server_url}/bookings/${bookingId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       if (response.ok) {
         toast.success("Booking cancelled successfully");
         fetchBookings();

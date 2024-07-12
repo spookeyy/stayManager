@@ -9,18 +9,20 @@ from flask_bcrypt import Bcrypt
 from flask_mail import Mail, Message # Flask-Mail for sending emails
 from flask import current_app
 from threading import Thread
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 import os
 
 load_dotenv()
 
 bcrypt = Bcrypt()
 
-
+postgres_pwd = os.getenv("POSTGRESS_PWD")
+print(postgres_pwd)
 
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db?mode=rw"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
+# "sqlite:///hotel.db?mode=rw"
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
 app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
@@ -158,38 +160,30 @@ def get_user(id):
 
 
 #Update Profile should be done the the loggedin user only
-@app.route('/users', methods=['PUT'])
+# Update Profile
+@app.route('/users/<int:id>', methods=['PUT'])
 @jwt_required()
-def update_profile():
-    data = request.get_json()
+def update_user(id):
+    current_user_id = get_jwt_identity()
+    user = User.query.get_or_404(id)
 
-    loggedin_user_id = get_jwt_identity()
-    user = User.query.get(loggedin_user_id)
-    if user is None:
-        return jsonify({"message": "User not found"}), 404
-    
+    # Check if the logged-in user matches the requested user id
+    if current_user_id != user.id:
+        return jsonify({"error": "Unauthorized action"}), 401
 
-    # email_exists = User.query.filter_by(email=data['email']).first()
-    # if email_exists:
-    #     return jsonify({"error": "Email already exists"}), 400
-
+    # Update user data
+    data = request.json
     user.username = data.get('username', user.username)
-    user.email = user.email
-    user.password = bcrypt.generate_password_hash( data['password'] ).decode('utf-8') 
+    user.email = data.get('email', user.email)
+    
+    # Update password if provided
+    if 'password' in data:
+        user.password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+
     user.phone_number = data.get('phone_number', user.phone_number)
-    user.is_admin = data.get('is_admin', user.is_admin)
     db.session.commit()
-    return jsonify({"success": "User updated successfully"}), 200
 
-@app.route('/users/<int:id>', methods=['DELETE'])
-def delete_user(id):
-    user = User.query.get(id)
-    if user is None:
-        return jsonify({"message": "User not found"}), 404
-
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({"message": "User deleted successfully"}), 200
+    return jsonify({"message": "User updated successfully"}), 200
 
 
 
@@ -441,7 +435,7 @@ def create_review():
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
-    required_fields = ['room_id', 'rating', 'comment']
+    required_fields = ['username', 'rating', 'comment']
     for field in required_fields:
         if field not in data:
             return jsonify({'error': f'{field} is required'}), 400
@@ -449,7 +443,7 @@ def create_review():
     try:
         new_review = Review(
             user_id=user_id,
-            room_id=data['room_id'],
+            username=data['username'],
             comment=data['comment'],
             rating=int(data['rating'])
         )
@@ -462,19 +456,18 @@ def create_review():
             'review': {
                 'id': new_review.id,
                 'user_id': new_review.user_id,
-                'room_id': new_review.room_id,
+                'username': new_review.username,
                 'comment': new_review.comment,
                 'rating': new_review.rating,
                 'created_at': new_review.created_at.strftime('%Y-%m-%d %H:%M:%S')
             }
         }), 201
-
     except ValueError:
         return jsonify({'error': 'Invalid rating value'}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
-
+    
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
     print("Reviews route hit!")

@@ -23,7 +23,7 @@ const AddRoom = ({ onClose }) => {
   const handleAddRoom = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/rooms", {
+      const response = await fetch(`${server_url}/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

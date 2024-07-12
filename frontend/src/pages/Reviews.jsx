@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { server_url } from "../../config";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -12,7 +13,7 @@ const Reviews = () => {
       try {
         const room_id = localStorage.getItem("room_id");
         const response = await fetch(
-          `http://localhost:5000/reviews?room_id=${room_id}`,
+          `${server_url}/reviews?room_id=${room_id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

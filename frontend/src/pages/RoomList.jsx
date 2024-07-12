@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
+import { server_url } from "../../config";
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -12,7 +13,7 @@ function RoomList() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch("http://localhost:5000/rooms", {
+      const response = await fetch(`${server_url}/rooms`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -56,7 +57,7 @@ function RoomList() {
               >
                 <img
                   src={room.image}
-                  className="w-full h-64 object-cover object-center"
+                  className="w-full h-64 object-cover object-center mb-4"
                   alt={`Room ${room.room_number}`}
                 />
                 <div className="px-6 py-4">

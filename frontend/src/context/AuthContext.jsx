@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { server_url } from "../../config";
 
 export const UserContext = createContext();
 
@@ -15,7 +16,7 @@ export const UserProvider = ({ children }) => {
 
   // Register user
   const register_user = (username, email, password, phone_number, is_admin) => {
-    fetch('http://localhost:5000/users', {
+    fetch(`${server_url}/users`, {
       method: 'POST',
       body: JSON.stringify({
         username: username,
@@ -45,7 +46,7 @@ export const UserProvider = ({ children }) => {
   // Login user
   const login_user = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch(`${server_url}/login`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-type': 'application/json' },
@@ -68,7 +69,7 @@ export const UserProvider = ({ children }) => {
 
   // Update user
   const update_user = (username, phone_number, is_admin, password) => {
-    fetch('http://localhost:5000/users', {
+    fetch(`${server_url}/users`, {
       method: 'PUT',
       body: JSON.stringify({
         username: username,
@@ -95,7 +96,7 @@ export const UserProvider = ({ children }) => {
 
   // Logout user
   const logout = () => {
-    fetch('http://localhost:5000/logout', {
+    fetch(`${server_url}/logout`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
@@ -121,7 +122,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (auth_token) {
-      fetch('http://localhost:5000/current_user', {
+      fetch(`${server_url}/current_user`, {
         headers: {
           'Content-type': 'application/json',
           Authorization: `Bearer ${auth_token}`,
