@@ -46,15 +46,22 @@ function AdminDashboard() {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+      console.log("Response status:", response.status);
+      console.log("Response headers:", response.headers);
+      const responseBody = await response.text();
+      console.log("Response body:", responseBody);
+
       if (response.ok) {
-        const data = await response.json();
+        const data = JSON.parse(responseBody);
         setRooms(data);
       } else {
-        throw new Error("Failed to fetch rooms");
+        throw new Error(
+          `Failed to fetch rooms: ${response.status} ${response.statusText}`
+        );
       }
     } catch (error) {
       console.error("Error fetching rooms:", error);
-      toast.error("Failed to fetch rooms");
+      toast.error(`Failed to fetch rooms: ${error.message}`);
     }
   };
 

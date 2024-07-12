@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { server_url } from "../../config";
 
 function UpdateProfileForm({ currentUser, onClose }) {
   const [formData, setFormData] = useState({

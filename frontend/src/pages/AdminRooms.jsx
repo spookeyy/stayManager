@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { toast } from "react-toastify";
+import { server_url } from "../../config";
 
 export default function AdminRooms({ onAddRoom }) {
   const [rooms, setRooms] = useState([]);

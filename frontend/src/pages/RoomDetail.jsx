@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Header from "./Header";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { server_url } from "../../config";
 
 function RoomDetail() {
   const [room, setRoom] = useState(null);
