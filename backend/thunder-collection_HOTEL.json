@@ -1,0 +1,482 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "HOTEL",
+    "collectionId": "34b0f305-21ca-4429-b329-81835abdeeba",
+    "dateExported": "2024-07-12T09:10:38.275Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "34504ebe-bf01-4faa-b5e7-701148bb1dfe",
+            "name": "room",
+            "containerId": "",
+            "created": "2024-07-08T21:47:11.380Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "users",
+            "containerId": "",
+            "created": "2024-07-08T21:48:59.158Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "4fc429c3-efb6-461d-b355-229a87de43c6",
+            "name": "bookings",
+            "containerId": "",
+            "created": "2024-07-08T21:49:06.595Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "d33c3cc5-9416-4769-85ee-4c9d9259b25b",
+            "name": "reviews",
+            "containerId": "",
+            "created": "2024-07-08T21:49:14.690Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "7db9f979-c6fe-4b0e-be09-5fc58bb271b8",
+            "name": "hotels",
+            "containerId": "",
+            "created": "2024-07-09T10:56:54.830Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "798adc94-9510-432c-b387-c46093ee107d",
+            "name": "emails",
+            "containerId": "",
+            "created": "2024-07-09T15:34:45.793Z",
+            "sortNum": 60000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "9c94e7e0-8a55-46aa-98d4-ac43a2ba465e",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "34504ebe-bf01-4faa-b5e7-701148bb1dfe",
+            "name": "get_all_rooms",
+            "url": "http://127.0.0.1:5000/rooms",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-07-08T21:47:50.582Z",
+            "modified": "2024-07-08T21:48:17.506Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDQ3NTEyMSwianRpIjoiZDc1YmVhNzAtNjRlNC00MTBlLWJhOWUtZTA3ZTAyMTI1ZTcyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNDc1MTIxLCJjc3JmIjoiNDExNDRmZDgtOGMyNS00N2VhLWJiZWEtNDQ1OGNmMzA3MDQ3IiwiZXhwIjoxNzIwNTYxNTIxfQ.tvwbxlSrxCSNX8GvAYsM0gQpCxRc49x3Lj-skddlZ0w"
+            }
+        },
+        {
+            "_id": "77da9a9b-208f-4680-85df-687f65aff6f6",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "login",
+            "url": "http://127.0.0.1:5000/login",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-07-08T21:49:34.481Z",
+            "modified": "2024-07-10T21:24:09.072Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n   \"email\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDQ3NTQ3MywianRpIjoiMWE0Mzc2ZjctMTdmMC00MmVmLWFjZjctNTViZWJiM2ZhYzJlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNDc1NDczLCJjc3JmIjoiNzQ3ZTRlNTEtYzA3Ni00NGZkLWIyOTctNDAwYWVjZDRjMmEyIiwiZXhwIjoxNzIwNTYxODczfQ.KIw4eWN8PH-gAZ09Egtbyl4XDC7p6uTqURqYLDh98ww"
+            }
+        },
+        {
+            "_id": "46f74397-6770-4385-bef5-e720eeed66bc",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "logged_in_user",
+            "url": "http://127.0.0.1:5000/current_user",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-07-08T21:52:02.294Z",
+            "modified": "2024-07-10T21:24:53.308Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDY0NjU3NSwianRpIjoiN2EyMmE1NjItMTMxNy00ZTM4LTg1MWEtZGRiNWYzYzZiOTk5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNjQ2NTc1LCJjc3JmIjoiMjE0MGNhN2YtNGEwOC00NTAzLWJiYjQtMGQ4NTk3NGZjZmZkIiwiZXhwIjoxNzIwNzMyOTc1fQ.6ZnoFE58V7_HENM4ZOwl7byrxTsgu68srzWpS6bIK5A"
+            }
+        },
+        {
+            "_id": "1659c218-bfb0-4eb2-a62a-6aca4940d47f",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "register",
+            "url": "http://127.0.0.1:5000/users",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2024-07-08T21:53:17.883Z",
+            "modified": "2024-07-09T18:05:20.704Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"Scarlet\",\n  \"email\": \"sarahscarlet641@gmail.com\",\n  \"password\": \"scarlet\",\n  \"phone_number\": \"+254725455667\",\n  \"is_admin\": false\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "bdb7557b-e635-4eaa-87cf-892df8a11d4c",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "get_all_users",
+            "url": "http://127.0.0.1:5000/users",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-07-08T21:54:28.719Z",
+            "modified": "2024-07-09T18:06:17.191Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU0ODM1OCwianRpIjoiMDhmYmM5MWYtMWVjZC00ZDk1LWIwNGQtNDYxNjRlZjFjNDU5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MTQsIm5iZiI6MTcyMDU0ODM1OCwiY3NyZiI6ImJhNzI2OTAxLWI3ZGMtNDExMy05ZGU2LWQ1YzRhMzgxMTA2NCIsImV4cCI6MTcyMDYzNDc1OH0.EiKBeKyB9L1Tcj2nWWEkDEytkm0Yltt9_PaX1YMgw-M"
+            }
+        },
+        {
+            "_id": "d40e522b-fc62-4898-8da4-019f1c7b1ab0",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "logout",
+            "url": "http://127.0.0.1:5000/logout",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2024-07-08T21:56:15.553Z",
+            "modified": "2024-07-10T21:26:52.459Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDY0NjU3NSwianRpIjoiN2EyMmE1NjItMTMxNy00ZTM4LTg1MWEtZGRiNWYzYzZiOTk5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNjQ2NTc1LCJjc3JmIjoiMjE0MGNhN2YtNGEwOC00NTAzLWJiYjQtMGQ4NTk3NGZjZmZkIiwiZXhwIjoxNzIwNzMyOTc1fQ.6ZnoFE58V7_HENM4ZOwl7byrxTsgu68srzWpS6bIK5A"
+            }
+        },
+        {
+            "_id": "35add6a4-52d5-4277-bfb2-ee0eacd65de9",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "34504ebe-bf01-4faa-b5e7-701148bb1dfe",
+            "name": "create_room",
+            "url": "http://127.0.0.1:5000/rooms",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-07-08T21:58:08.871Z",
+            "modified": "2024-07-11T14:51:35.004Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"capacity\": 2,\n    \"description\": \"Suite\",\n    \"image\": \"023.jpg\",\n    \"price\": 243.0,\n    \"room_number\": \"032\",\n    \"status\": \"available\"\n  }",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDcwOTQ0MSwianRpIjoiOThiOWYyMDUtOWUwOC00ZjcxLTk0YTktMDYxMmY0MjA1ZmM2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNzA5NDQxLCJjc3JmIjoiZWFmNGE5ZTgtODQwOC00NjhkLWFmNDYtZjQxODA3YjEzYmRiIiwiZXhwIjoxNzIwNzk1ODQxfQ.J-8NeJipo_9FHOtyBwatijEEKUhOVZ01cp7Nm-Ur1nU"
+            }
+        },
+        {
+            "_id": "c4fa4621-f6c1-4c18-bd15-41fc003fae96",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "7db9f979-c6fe-4b0e-be09-5fc58bb271b8",
+            "name": "get_hotels",
+            "url": "http://127.0.0.1:5000/hotels",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2024-07-09T10:57:03.272Z",
+            "modified": "2024-07-11T06:06:24.328Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDY3Nzk3NSwianRpIjoiYTM1YmQ0ZGItNGE1YS00ZGNjLTliMzAtMmE5NDMxY2E5YmZiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNjc3OTc1LCJjc3JmIjoiOGJkOTY5ZmYtMWE3NS00YzlkLWE0NTktYmEwMzM1OWE4YTY0IiwiZXhwIjoxNzIwNzY0Mzc1fQ.1vKlWde92asskH_PdWWViTQLCrCXJztMMQyPlMRc8vI"
+            }
+        },
+        {
+            "_id": "9c03fdfe-87bb-4661-93c2-7744570914fa",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "7db9f979-c6fe-4b0e-be09-5fc58bb271b8",
+            "name": "create_hotel",
+            "url": "http://127.0.0.1:5000/hotels",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2024-07-09T11:04:52.147Z",
+            "modified": "2024-07-09T11:05:30.520Z",
+            "headers": []
+        },
+        {
+            "_id": "7a643d3f-d2f7-4ab4-9d06-1a22fde8e144",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "7db9f979-c6fe-4b0e-be09-5fc58bb271b8",
+            "name": "update_hotels",
+            "url": "http://127.0.0.1:5000/hotels/",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2024-07-09T11:06:06.967Z",
+            "modified": "2024-07-09T11:07:15.041Z",
+            "headers": []
+        },
+        {
+            "_id": "6617e81a-2c5e-4c7a-9c2d-7eaecee568be",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "7db9f979-c6fe-4b0e-be09-5fc58bb271b8",
+            "name": "delete",
+            "url": "http://127.0.0.1:5000/hotels/",
+            "method": "DELETE",
+            "sortNum": 150000,
+            "created": "2024-07-09T11:07:32.669Z",
+            "modified": "2024-07-09T11:07:47.508Z",
+            "headers": []
+        },
+        {
+            "_id": "2c928861-76d8-41b7-acba-a3bb92f1f4e3",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "798adc94-9510-432c-b387-c46093ee107d",
+            "name": "send_email",
+            "url": "http://127.0.0.1:5000/send_email",
+            "method": "POST",
+            "sortNum": 160000,
+            "created": "2024-07-09T15:34:58.822Z",
+            "modified": "2024-07-09T16:02:33.944Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"meshack.pangas@student.moringaschool.com\",\n  \"username\": \"meshack\",\n  \"check_in\": \"2024-07-15\",\n  \"check_out\": \"2024-07-20\",\n  \"total_price\": 500.00\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU0MDk0MCwianRpIjoiMjFjYzVkMDYtM2NkNy00MmQ3LWE3MzItNmVmYjcyMjRiM2RmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNTQwOTQwLCJjc3JmIjoiYzJkYzQ2YTMtNTNjYS00ODE4LTliNmItYTQ0ODM2YjNjYmQyIiwiZXhwIjoxNzIwNjI3MzQwfQ.bTSm6LVGkCad2oZ9fCOtJ1Keee0-XH31lyIQV1G_elw"
+            }
+        },
+        {
+            "_id": "c2453847-667f-4093-a5ef-856682f76078",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "798adc94-9510-432c-b387-c46093ee107d",
+            "name": "get_sent_emails",
+            "url": "http://127.0.0.1:5000/sent_emails",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2024-07-09T15:36:15.183Z",
+            "modified": "2024-07-09T15:54:28.331Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU0MDQzNiwianRpIjoiNmQyNDZlYjUtZTg4Zi00NDk3LWE3OGQtNWIyMDAzYmYyZjBiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNTQwNDM2LCJjc3JmIjoiYzU5NWFiOTctZDU2NC00ZTc4LWFmNWEtN2M4NjA5OWFmZTViIiwiZXhwIjoxNzIwNjI2ODM2fQ.tlQFBmg4JyI_4gAYk4j7AZCaUVgqdiDy8x7XgqnO_F4"
+            }
+        },
+        {
+            "_id": "d715bf75-b500-40cd-bb68-dd474e19321e",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "34504ebe-bf01-4faa-b5e7-701148bb1dfe",
+            "name": "get_room",
+            "url": "http://127.0.0.1:5000/rooms/2",
+            "method": "GET",
+            "sortNum": 180000,
+            "created": "2024-07-09T15:43:43.417Z",
+            "modified": "2024-07-09T18:06:43.707Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU0ODM1OCwianRpIjoiMDhmYmM5MWYtMWVjZC00ZDk1LWIwNGQtNDYxNjRlZjFjNDU5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MTQsIm5iZiI6MTcyMDU0ODM1OCwiY3NyZiI6ImJhNzI2OTAxLWI3ZGMtNDExMy05ZGU2LWQ1YzRhMzgxMTA2NCIsImV4cCI6MTcyMDYzNDc1OH0.EiKBeKyB9L1Tcj2nWWEkDEytkm0Yltt9_PaX1YMgw-M"
+            }
+        },
+        {
+            "_id": "a0a9aa43-73fc-432c-9594-7a9ff737d466",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "2aeed29b-8125-4d17-8a00-5132becfbc67",
+            "name": "update_profile",
+            "url": "http://127.0.0.1:5000/users",
+            "method": "PUT",
+            "sortNum": 190000,
+            "created": "2024-07-09T18:09:02.167Z",
+            "modified": "2024-07-10T06:41:23.166Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"SCARLET\",\n  \"email\": \"sarahscarlet641@gmail.com\",\n  \"password\": \"scarlet\",\n  \"phone_number\": \"+254725455667\",\n  \"is_admin\": false\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU5MzY0OSwianRpIjoiZGNiY2RjYzAtZmI2YS00ZjI3LWE3ZGQtZDhkODkyZGE0YmFiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MTIsIm5iZiI6MTcyMDU5MzY0OSwiY3NyZiI6ImZmNzg4NjA5LWE2OGYtNDVmYy1hNmY5LTNjMzFjYTdmZTI0NCIsImV4cCI6MTcyMDY4MDA0OX0.kekxjk9tmrWSvTalqkajSGiP9j6TPNbWa8jyiIKu_m8"
+            }
+        },
+        {
+            "_id": "5b5aec71-833b-400f-83a3-75253f3dfdcc",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "34504ebe-bf01-4faa-b5e7-701148bb1dfe",
+            "name": "update_room",
+            "url": "http://127.0.0.1:5000/rooms/25",
+            "method": "PUT",
+            "sortNum": 200000,
+            "created": "2024-07-09T22:11:13.510Z",
+            "modified": "2024-07-09T22:43:15.575Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"capacity\": 1,\n  \"description\": \"Single\",\n  \"id\": 2,\n  \"image\": \"002.jpg\",\n  \"price\": 138.0,\n  \"room_number\": \"002\",\n  \"status\": \"available\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU2NDkxNiwianRpIjoiNTY1MDAxMjktYWUyZS00NTZlLWJkNDctNDcxNzg2ZjhmY2FiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNTY0OTE2LCJjc3JmIjoiOTJiYjkyYzMtNjNkMC00ZjgzLWJlNWMtOTVkMGFlNWY0NTVmIiwiZXhwIjoxNzIwNjUxMzE2fQ.OYPyn9qfj2P51y8oAWTpc-kWrNC2kjJF8EYRrjFPf1s"
+            }
+        },
+        {
+            "_id": "ef356cbd-a0f9-4f24-ac1e-5661dacf2fff",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "34504ebe-bf01-4faa-b5e7-701148bb1dfe",
+            "name": "delete_room",
+            "url": "http://127.0.0.1:5000/rooms/2",
+            "method": "DELETE",
+            "sortNum": 210000,
+            "created": "2024-07-09T22:16:26.417Z",
+            "modified": "2024-07-09T22:17:05.188Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU2MzMzNCwianRpIjoiMzRjNmFiM2MtOGMwMy00MmE1LTg4NTAtMjk5MmVlMTg5ZGY4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MTIsIm5iZiI6MTcyMDU2MzMzNCwiY3NyZiI6Ijc0YTI1YWMxLWE1YzItNGViYS1hNWQxLTlhYWVhN2Y2Mzk1MCIsImV4cCI6MTcyMDY0OTczNH0.PUoU8aOk4Qe63poyToeunNkqiTw7TLwWom77eHZqLVU"
+            }
+        },
+        {
+            "_id": "ac228577-ebda-4c52-803b-b3062ee25aed",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "4fc429c3-efb6-461d-b355-229a87de43c6",
+            "name": "create_booking",
+            "url": "http://127.0.0.1:5000/bookings",
+            "method": "POST",
+            "sortNum": 220000,
+            "created": "2024-07-09T22:17:39.954Z",
+            "modified": "2024-07-10T06:42:14.813Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"check_in\": \"2024-07-31\",\n  \"check_out\": \"2024-08-03\",\n  \"room_id\": 3,\n  \"status\": \"pending\",\n  \"total_price\": 261.0\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU5MzY0OSwianRpIjoiZGNiY2RjYzAtZmI2YS00ZjI3LWE3ZGQtZDhkODkyZGE0YmFiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MTIsIm5iZiI6MTcyMDU5MzY0OSwiY3NyZiI6ImZmNzg4NjA5LWE2OGYtNDVmYy1hNmY5LTNjMzFjYTdmZTI0NCIsImV4cCI6MTcyMDY4MDA0OX0.kekxjk9tmrWSvTalqkajSGiP9j6TPNbWa8jyiIKu_m8"
+            }
+        },
+        {
+            "_id": "28780aaa-2f52-4c28-8578-d90c6c3245b1",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "4fc429c3-efb6-461d-b355-229a87de43c6",
+            "name": "get_booking",
+            "url": "http://127.0.0.1:5000/bookings/1",
+            "method": "GET",
+            "sortNum": 230000,
+            "created": "2024-07-09T22:18:45.061Z",
+            "modified": "2024-07-09T22:45:55.773Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU2NDkxNiwianRpIjoiNTY1MDAxMjktYWUyZS00NTZlLWJkNDctNDcxNzg2ZjhmY2FiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNTY0OTE2LCJjc3JmIjoiOTJiYjkyYzMtNjNkMC00ZjgzLWJlNWMtOTVkMGFlNWY0NTVmIiwiZXhwIjoxNzIwNjUxMzE2fQ.OYPyn9qfj2P51y8oAWTpc-kWrNC2kjJF8EYRrjFPf1s"
+            }
+        },
+        {
+            "_id": "16a5b0e0-7ccb-43a9-bff5-59038f386991",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "4fc429c3-efb6-461d-b355-229a87de43c6",
+            "name": "update_booking",
+            "url": "http://127.0.0.1:5000/bookings/31",
+            "method": "PUT",
+            "sortNum": 240000,
+            "created": "2024-07-09T22:32:19.741Z",
+            "modified": "2024-07-09T22:42:32.097Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"check_in\": \"2024-07-29\",\n  \"check_out\": \"2024-08-03\",\n  \"room_id\": 25,\n  \"status\": \"confirmed\",\n  \"total_price\": 783.0\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU2NDkxNiwianRpIjoiNTY1MDAxMjktYWUyZS00NTZlLWJkNDctNDcxNzg2ZjhmY2FiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNTY0OTE2LCJjc3JmIjoiOTJiYjkyYzMtNjNkMC00ZjgzLWJlNWMtOTVkMGFlNWY0NTVmIiwiZXhwIjoxNzIwNjUxMzE2fQ.OYPyn9qfj2P51y8oAWTpc-kWrNC2kjJF8EYRrjFPf1s"
+            }
+        },
+        {
+            "_id": "9e66ce68-8b36-455a-8097-31942e599a6f",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "4fc429c3-efb6-461d-b355-229a87de43c6",
+            "name": "cancel_booking",
+            "url": "http://127.0.0.1:5000/bookings/31",
+            "method": "DELETE",
+            "sortNum": 250000,
+            "created": "2024-07-09T22:45:11.023Z",
+            "modified": "2024-07-09T22:47:04.050Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU2NDkxNiwianRpIjoiNTY1MDAxMjktYWUyZS00NTZlLWJkNDctNDcxNzg2ZjhmY2FiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNTY0OTE2LCJjc3JmIjoiOTJiYjkyYzMtNjNkMC00ZjgzLWJlNWMtOTVkMGFlNWY0NTVmIiwiZXhwIjoxNzIwNjUxMzE2fQ.OYPyn9qfj2P51y8oAWTpc-kWrNC2kjJF8EYRrjFPf1s"
+            }
+        },
+        {
+            "_id": "1ec62677-3c0d-42e5-afba-cf261336c0e1",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "d33c3cc5-9416-4769-85ee-4c9d9259b25b",
+            "name": "create_review",
+            "url": "http://127.0.0.1:5000/reviews",
+            "method": "POST",
+            "sortNum": 260000,
+            "created": "2024-07-09T22:48:05.199Z",
+            "modified": "2024-07-09T23:14:05.545Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"room_id\": 22,\n  \"comment\": \"Great room!\",\n  \"rating\": 5\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDU2Njc3OCwianRpIjoiMmNkOTJkODItMmE5Ny00N2JmLThlMzYtZTAwMDhhZjM1OTBiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MTIsIm5iZiI6MTcyMDU2Njc3OCwiY3NyZiI6ImYyNzcxZDFiLTY4YzctNDJkMS04ZTdkLTNmMDAwYmFjMmJjMyIsImV4cCI6MTcyMDY1MzE3OH0.I-BVpoMwsbmBvjHGEBPLh9y5XXjlAwuC7mVeZ5az558"
+            }
+        },
+        {
+            "_id": "03e5c45d-1687-4b27-8f55-5d89fba5fe7e",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "d33c3cc5-9416-4769-85ee-4c9d9259b25b",
+            "name": "get_review",
+            "url": "http://127.0.0.1:5000/reviews?room_id=22",
+            "method": "GET",
+            "sortNum": 270000,
+            "created": "2024-07-09T22:49:59.545Z",
+            "modified": "2024-07-09T23:06:12.203Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "room_id",
+                    "value": "22",
+                    "isPath": false
+                }
+            ]
+        },
+        {
+            "_id": "07c32279-c6b1-4fc8-bbcb-cfcace5964e0",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "7db9f979-c6fe-4b0e-be09-5fc58bb271b8",
+            "name": "get_rooms",
+            "url": "http://localhost:5000/hotels/1/rooms",
+            "method": "GET",
+            "sortNum": 280000,
+            "created": "2024-07-10T22:31:57.550Z",
+            "modified": "2024-07-10T22:51:59.137Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcyMDY1MTkwNSwianRpIjoiOGRhOGZlMzYtNjY1My00YTVhLWE4ZmQtZWE1ZDUxNzAxOTc3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNzIwNjUxOTA1LCJjc3JmIjoiZmZjY2ViNjAtZWZiMC00ZjQ2LWI3NmEtMzYyYWExYWNhNTEyIiwiZXhwIjoxNzIwNzM4MzA1fQ.Zo1FuVzdreZ67Gh1XixT7op8rnu9wkcWVf-sgKtumrM"
+            }
+        },
+        {
+            "_id": "c5884c56-0bba-43a0-b75c-51c34faf7968",
+            "colId": "34b0f305-21ca-4429-b329-81835abdeeba",
+            "containerId": "d33c3cc5-9416-4769-85ee-4c9d9259b25b",
+            "name": "get_reviews_all",
+            "url": "http://127.0.0.1:5000/reviews",
+            "method": "GET",
+            "sortNum": 290000,
+            "created": "2024-07-10T23:22:47.563Z",
+            "modified": "2024-07-10T23:53:58.719Z",
+            "headers": []
+        }
+    ],
+    "ref": "ARjV-Ei0Uo7erIMpYyz_j7DNY6wNv9O04DBOQsbIkWAJi7THyk3KBLzFmafK2olpvWqdqlaKYzT0Bi7vvNgV4g"
+}

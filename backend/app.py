@@ -1,3 +1,4 @@
+import logging
 import random
 import datetime
 from flask import Flask, render_template, request, jsonify
@@ -10,31 +11,51 @@ from flask_mail import Mail, Message # Flask-Mail for sending emails
 from flask import current_app
 from threading import Thread
 from dotenv import load_dotenv, dotenv_values
+from datetime import datetime
 import os
 
+
+logging.info("Application starting...")
+
 load_dotenv()
+
+config = dotenv_values(".env")
+logging.basicConfig(level=logging.INFO)
+
 
 bcrypt = Bcrypt()
 
 postgres_pwd = os.getenv("POSTGRESS_PWD")
-print(postgres_pwd)
-
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
+# f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
 # "sqlite:///hotel.db?mode=rw"
+print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI']}")
+
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
 app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1) # expires in 1 day
 jwt = JWTManager(app)
 
+
 from models import Hotel, db, User, Booking, Room, Review
 migrate = Migrate(app, db)
 db.init_app(app)
 
-from datetime import datetime
+logging.info("Database initialized")
 
+# Database check
+@app.route('/db-check')
+def db_check():
+    try:
+        db.session.query("1").from_statement("SELECT 1").all()
+        return "Database is connected", 200
+    except Exception as e:
+        logging.error(f"Database connection failed: {str(e)}")
+        return "Database connection failed", 500
+    
 # Login     
 @app.route("/login", methods=["POST"])
 def login():
@@ -223,11 +244,13 @@ def create_room():
 @app.route('/rooms', methods=['GET'])
 @jwt_required()
 def get_rooms():
+
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
 
     if current_user:
         rooms = Room.query.all()
+        logging.info(f"Retrieved {len(rooms)} rooms from the database")
         return jsonify([{
             'id': room.id,
             'room_number': room.room_number,
@@ -243,6 +266,7 @@ def get_rooms():
 @app.route('/rooms/<int:id>', methods=['GET'])
 def get_room(id):
     room = Room.query.get_or_404(id) # 404 if not found
+    # logging.info(f"Retrieved {len(room)} rooms from the database")
     return jsonify({
         'id': room.id,
         'room_number': room.room_number,
@@ -361,15 +385,17 @@ def get_booking(id):
         'status': booking.status
     }), 200
 
-# get all bookings
+# get all bookings    
 @app.route('/bookings', methods=['GET'])
 @jwt_required()
 def get_bookings():
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
     if current_user.is_admin:
-        bookings = Booking.query.all()
-        return jsonify([{
+        try:
+            bookings = Booking.query.all()
+            logging.info(f"Retrieved {len(bookings)} bookings from the database")
+            return jsonify([{
             'id': booking.id,
             'user_id': booking.user_id,
             'room_id': booking.room_id,
@@ -378,6 +404,9 @@ def get_bookings():
             'total_price': booking.total_price,
             'status': booking.status
         } for booking in bookings]), 200
+        except Exception as e:
+            logging.error(f"Error retrieving bookings: {str(e)}")
+            return jsonify({"error": "Failed to retrieve bookings"}), 500
     else:
         return jsonify({"error": "You are not authorized to perform this action"}), 401
 
@@ -609,6 +638,7 @@ def send_email():
         return jsonify({'error': str(e)}), 500
 
 
+logging.info("Application setup completed")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

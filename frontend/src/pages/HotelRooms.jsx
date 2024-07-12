@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Header from "./Header";
+import { server_url } from "../../config";
 
 function HotelRooms() {
   const [rooms, setRooms] = useState([]);

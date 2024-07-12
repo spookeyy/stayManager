@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { server_url } from "../../config";
 
 const AddHotel = ({ onAddHotel }) => {
   const [formData, setFormData] = useState({

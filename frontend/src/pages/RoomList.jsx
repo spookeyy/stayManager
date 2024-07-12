@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import { server_url } from "../../config";
+import { FaSpinner } from "react-icons/fa";
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
@@ -36,6 +37,19 @@ function RoomList() {
         <Header />
         <div className="container mx-auto py-8">
           <p className="text-red-500 text-center">{error}</p>
+        </div>
+      </>
+    );
+  }
+
+  if (!rooms) {
+    return (
+      <>
+        <Header />
+        <div className="container mx-auto py-8">
+          <div className="flex justify-center">
+            <FaSpinner className="animate-spin text-4xl text-indigo-600" />
+          </div>
         </div>
       </>
     );

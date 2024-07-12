@@ -63,6 +63,7 @@ function App() {
             <Route path="/reset-password" element={<ResetPasswordForm />} />
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/reviews/form" element={<Reviews_Form />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Suspense>
       </UserProvider>
