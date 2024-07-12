@@ -65,7 +65,7 @@ class Room(db.Model):
     price = db.Column(db.Float, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(80), nullable=False, default=False)
-    image = db.Column(db.Varchar(max), nullable=True)
+    image = db.Column(db.String(maxlength=10000), nullable=True)
     
     # relationships
     bookings = db.relationship('Booking', backref='room', lazy='dynamic')
