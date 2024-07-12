@@ -28,7 +28,8 @@ bcrypt = Bcrypt()
 postgres_pwd = os.getenv("POSTGRESS_PWD")
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
+# f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
 # "sqlite:///hotel.db?mode=rw"
 print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
