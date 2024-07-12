@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { server_url } from "../../config";
+import { FaSpinner } from "react-icons/fa";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -43,8 +44,16 @@ const Reviews = () => {
     setDisplayCount(6);
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading){
+    return (
+      <div className="container mx-auto py-8">
+        <div className="flex justify-center">
+          <FaSpinner className="animate-spin text-4xl text-indigo-600" />
+        </div>
+      </div>
+    );
+  }
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="bg-gray-100 py-12">
