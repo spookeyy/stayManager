@@ -11,7 +11,11 @@ from flask_mail import Mail, Message # Flask-Mail for sending emails
 from flask import current_app
 from threading import Thread
 from dotenv import load_dotenv, dotenv_values
+from datetime import datetime
 import os
+
+
+logging.info("Application starting...")
 
 load_dotenv()
 
@@ -22,8 +26,6 @@ logging.basicConfig(level=logging.INFO)
 bcrypt = Bcrypt()
 
 postgres_pwd = os.getenv("POSTGRESS_PWD")
-print(postgres_pwd)
-
 
 app  = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
@@ -36,13 +38,14 @@ app.config["JWT_SECRET_KEY"] = "evrfsejhfgvret"+ str(random.randint(1, 1000000))
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1) # expires in 1 day
 jwt = JWTManager(app)
 
+
 from models import Hotel, db, User, Booking, Room, Review
 migrate = Migrate(app, db)
 db.init_app(app)
 
-from datetime import datetime
+logging.info("Database initialized")
 
-
+# Database check
 @app.route('/db-check')
 def db_check():
     try:
@@ -634,6 +637,7 @@ def send_email():
         return jsonify({'error': str(e)}), 500
 
 
+logging.info("Application setup completed")
 
 if __name__ == "__main__":
     app.run(debug=False)
