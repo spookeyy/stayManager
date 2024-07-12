@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Header from "./Header";
+import { server_url } from "../../config";
 
 export default function Reviews_Form() {
   const [rating, setRating] = useState("");
