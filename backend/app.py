@@ -266,7 +266,7 @@ def get_rooms():
 @app.route('/rooms/<int:id>', methods=['GET'])
 def get_room(id):
     room = Room.query.get_or_404(id) # 404 if not found
-    logging.info(f"Retrieved {len(room)} rooms from the database")
+    # logging.info(f"Retrieved {len(room)} rooms from the database")
     return jsonify({
         'id': room.id,
         'room_number': room.room_number,
