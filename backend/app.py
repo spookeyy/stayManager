@@ -28,6 +28,7 @@ print(postgres_pwd)
 app  = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
 # "sqlite:///hotel.db?mode=rw"
+print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))
@@ -380,16 +381,17 @@ def get_booking(id):
         'status': booking.status
     }), 200
 
-# get all bookings
+# get all bookings    
 @app.route('/bookings', methods=['GET'])
 @jwt_required()
 def get_bookings():
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
     if current_user.is_admin:
-        bookings = Booking.query.all()
-        logging.info(f"Retrieved {len(bookings)} bookings from the database")
-        return jsonify([{
+        try:
+            bookings = Booking.query.all()
+            logging.info(f"Retrieved {len(bookings)} bookings from the database")
+            return jsonify([{
             'id': booking.id,
             'user_id': booking.user_id,
             'room_id': booking.room_id,
@@ -398,6 +400,9 @@ def get_bookings():
             'total_price': booking.total_price,
             'status': booking.status
         } for booking in bookings]), 200
+        except Exception as e:
+            logging.error(f"Error retrieving bookings: {str(e)}")
+            return jsonify({"error": "Failed to retrieve bookings"}), 500
     else:
         return jsonify({"error": "You are not authorized to perform this action"}), 401
 
