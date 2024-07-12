@@ -50,7 +50,7 @@ class Hotel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(512), nullable=False)
-    image = db.Column(db.String(120), nullable=True)
+    image = db.Column(db.Text, nullable=True)
     room_count = db.Column(db.Integer)
     rooms = db.relationship('Room', backref='hotel', lazy='dynamic')
 
@@ -66,7 +66,7 @@ class Room(db.Model):
     price = db.Column(db.Float, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(80), nullable=False, default=False)
-    image = db.Column(db.Text(length=1000000), nullable=True)
+    image = db.Column(db.Text, nullable=True)
     
     # relationships
     bookings = db.relationship('Booking', backref='room', lazy='dynamic')
