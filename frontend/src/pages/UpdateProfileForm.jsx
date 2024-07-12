@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { server_url } from "../../config";
+import { toast } from "react-toastify";
 
 function UpdateProfileForm({ currentUser, onClose }) {
   const [formData, setFormData] = useState({
@@ -30,8 +31,9 @@ function UpdateProfileForm({ currentUser, onClose }) {
         throw new Error(`Failed to update profile: ${response.status} ${response.statusText}`);
       }
 
+      toast.success('Profile updated successfully!');
       onClose();
-      alert('Profile updated successfully!');
+      
       
       // Logout user by clearing local storage and redirecting to login page
       localStorage.removeItem('access_token');
