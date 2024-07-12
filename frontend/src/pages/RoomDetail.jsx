@@ -21,7 +21,7 @@ function RoomDetail() {
   const fetchRoomDetail = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:5000/rooms/${id}`, {
+      const response = await fetch(`${server_url}/rooms/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -50,7 +50,7 @@ function RoomDetail() {
 
   const confirmBooking = async () => {
     try {
-      const response = await fetch("http://localhost:5000/bookings", {
+      const response = await fetch(`${server_url}/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

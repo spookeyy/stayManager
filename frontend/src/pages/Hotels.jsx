@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
+import { server_url } from "../../config";
 
 function Hotels() {
   const [hotels, setHotels] = useState([]);
@@ -14,12 +15,13 @@ function Hotels() {
 
   const fetchHotels = async () => {
     try {
-      const response = await fetch("http://localhost:5000/hotels", {
+      const response = await fetch(`${server_url}/hotels`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
 
+      console.log("response", response);
       if (!response.ok) {
         throw new Error("Failed to fetch hotels");
       }

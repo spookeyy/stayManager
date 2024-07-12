@@ -16,11 +16,11 @@ function UpdateProfileForm({ currentUser, onClose }) {
         throw new Error('No access token found');
       }
 
-      const response = await fetch(`http://localhost:5000/users/${currentUser.id}`, {
-        method: 'PUT',
+      const response = await fetch(`${server_url}/users/${currentUser.id}`, {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify(formData),
       });

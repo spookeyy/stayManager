@@ -12,7 +12,7 @@ export default function AdminRooms({ onAddRoom }) {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch("http://localhost:5000/rooms", {
+      const response = await fetch(`${server_url}/rooms`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -60,17 +60,14 @@ export default function AdminRooms({ onAddRoom }) {
       return;
     }
     try {
-      const response = await fetch(
-        `http://localhost:5000/rooms/${editingRoom.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-          body: JSON.stringify(editingRoom),
-        }
-      );
+      const response = await fetch(`${server_url}/rooms/${editingRoom.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify(editingRoom),
+      });
 
       if (response.ok) {
         toast.success("Room updated successfully");

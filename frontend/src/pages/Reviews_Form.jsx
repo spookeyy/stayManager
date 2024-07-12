@@ -22,7 +22,7 @@ export default function Reviews_Form() {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/users/${userId}`, {
+      const response = await fetch(`${server_url}/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -51,7 +51,7 @@ export default function Reviews_Form() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/reviews", {
+      const response = await fetch(`${server_url}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -23,7 +23,7 @@ const AddHotel = ({ onAddHotel }) => {
         ...formData,
       };
 
-      const response = await fetch('http://localhost:5000/hotels', {
+      const response = await fetch(`${server_url}/hotels`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

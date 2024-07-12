@@ -15,14 +15,11 @@ function HotelRooms() {
   const fetchRooms = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `http://localhost:5000/hotels/${hotelId}/rooms`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${server_url}/hotels/${hotelId}/rooms`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch rooms");

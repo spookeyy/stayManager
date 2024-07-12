@@ -19,7 +19,7 @@ export default function AdminHotels() {
 
   const fetchHotels = async () => {
     try {
-      const response = await fetch("http://localhost:5000/hotels", {
+      const response = await fetch(`${server_url}/hotels`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -38,7 +38,7 @@ export default function AdminHotels() {
 
   const createHotel = async () => {
     try {
-      const response = await fetch("http://localhost:5000/hotels", {
+      const response = await fetch(`${server_url}/hotels`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function AdminHotels() {
 
   const updateHotel = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/hotels/${id}`, {
+      const response = await fetch(`${server_url}/hotels/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export default function AdminHotels() {
   const deleteHotel = async (id) => {
     if (window.confirm("Are you sure you want to delete this hotel?")) {
       try {
-        const response = await fetch(`http://localhost:5000/hotels/${id}`, {
+        const response = await fetch(`${server_url}/hotels/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -107,14 +107,11 @@ export default function AdminHotels() {
 
   const fetchRooms = async (hotelId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/hotels/${hotelId}/rooms`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${server_url}/hotels/${hotelId}/rooms`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setShowRooms((prev) => ({ ...prev, [hotelId]: data }));

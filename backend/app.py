@@ -21,7 +21,7 @@ print(postgres_pwd)
 
 
 app  = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_user:{postgres_pwd}"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
 # "sqlite:///hotel.db?mode=rw"
 CORS(app)
 app.config["SECRET_KEY"] = "jdhfvksdjkgh"+ str(random.randint(1, 1000000))

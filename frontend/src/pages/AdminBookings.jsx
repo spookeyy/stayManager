@@ -14,7 +14,7 @@ export default function AdminBookings() {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch("http://localhost:5000/bookings", {
+      const response = await fetch(`${server_url}/bookings`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -33,7 +33,7 @@ export default function AdminBookings() {
 
   const fetchRooms = async () => {
     try {
-      const response = await fetch("http://localhost:5000/rooms", {
+      const response = await fetch(`${server_url}/rooms`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -52,15 +52,12 @@ export default function AdminBookings() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/bookings/${bookingId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${server_url}/bookings/${bookingId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       if (response.ok) {
         toast.success("Booking cancelled successfully");
         fetchBookings();
@@ -107,7 +104,7 @@ export default function AdminBookings() {
     }
     try {
       const response = await fetch(
-        `http://localhost:5000/bookings/${editingBooking.id}`,
+        `${server_url}/bookings/${editingBooking.id}`,
         {
           method: "PUT",
           headers: {
