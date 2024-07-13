@@ -118,7 +118,7 @@ def seed_data():
             room = random.choice(rooms)
             rating = random.randint(1, 5)
             review = Review(
-                user_id=user.username,
+                user_id=user.id,
                 room_id=room.id,
                 rating=rating,
                 comment=fake.paragraph(),
