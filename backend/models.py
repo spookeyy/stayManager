@@ -19,7 +19,7 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
-    reviews = db.relationship('Review', backref='user', lazy='dynamic')
+    reviews = db.relationship('Review', back_populates='user', cascade="all, delete-orphan")
 
     # @validates('email')
     # def validate_email(self, key, email):
