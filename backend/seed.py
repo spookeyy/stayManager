@@ -133,15 +133,16 @@ def seed_data():
         print('Data seeded successfully!')
 
 # Seed data if there are no users
-def should_seed():
-    with app.app_context():
-        return User.query.count() == 0
+# def should_seed():
+#     with app.app_context():
+#         return User.query.count() == 0
 
 if __name__ == '__main__':
-    try:
-        if should_seed():
-            seed_data()
-        else:
-            print("Database already contains data. Skipping seed.")
-    except Exception as e:
-        print(f"An error occurred while seeding data: {str(e)}")
+    seed_data()
+    # try:
+    #     if should_seed():
+    #         seed_data()
+    #     else:
+    #         print("Database already contains data. Skipping seed.")
+    # except Exception as e:
+    #     print(f"An error occurred while seeding data: {str(e)}")
