@@ -2,11 +2,11 @@ import React from "react";
 
 export default function Footer({ companyInfo }) {
   return (
-    <footer className="text-center text-lg-start text-white bg-blue-500">
+    <footer className="text-center text-lg-start text-white bg-blue-400">
       {/* Section: Social media */}
       <section className="flex justify-center justify-between p-4 border-b border-gray-300">
         {/* Left */}
-        <div className="me-5 hidden lg:block">
+        <div className="me-5 d-none lg:block ">
           <span>Get connected with us on social networks:</span>
         </div>
         {/* Left */}
@@ -19,8 +19,11 @@ export default function Footer({ companyInfo }) {
           <a href="#" className="me-4 text-white hover:text-gray-300">
             <i className="fab fa-twitter"></i>
           </a>
-          <a href="#" className="me-4 text-white hover:text-gray-300">
-            <i className="fab fa-google"></i>
+          <a
+            href={`https://wa.me/${companyInfo.phone}`}
+            className="me-4 text-white hover:text-gray-300 d-none d-lg-block"
+          >
+            <i className="fab fa-whatsapp"></i>
           </a>
           <a href="#" className="me-4 text-red hover:text-gray-300">
             <i className="fab fa-instagram"></i>
@@ -134,7 +137,6 @@ export default function Footer({ companyInfo }) {
         </div>
       </section>
       {/* Section: Links */}
-      
 
       {/* Copyright */}
       <div className="text-center py-4 bg-blue-600 text-white">
