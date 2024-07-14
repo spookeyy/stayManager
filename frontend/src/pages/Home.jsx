@@ -7,9 +7,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import CSS
 
 function Home() {
   const companyInfo = {
-    companyName: "The Fours Hotel",
+    companyName: "Hetelogix",
     address: "Nairobi, Nrb 44773, Kenya",
-    email: "thefourshotel@gmail.com",
+    email: "hetelogix@gmail.com",
     phone: "+254704372525",
   };
 

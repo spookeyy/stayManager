@@ -22,7 +22,7 @@ export default function Footer({ companyInfo }) {
           <a href="#" className="me-4 text-white hover:text-gray-300">
             <i className="fab fa-google"></i>
           </a>
-          <a href="#" className="me-4 text-white hover:text-gray-300">
+          <a href="#" className="me-4 text-red hover:text-gray-300">
             <i className="fab fa-instagram"></i>
           </a>
           <a href="#" className="me-4 text-white hover:text-gray-300">
@@ -134,6 +134,7 @@ export default function Footer({ companyInfo }) {
         </div>
       </section>
       {/* Section: Links */}
+      
 
       {/* Copyright */}
       <div className="text-center py-4 bg-blue-600 text-white">
@@ -143,7 +144,6 @@ export default function Footer({ companyInfo }) {
           Hetelogix
         </a>
       </div>
-      {/* Copyright */}
     </footer>
   );
 }
