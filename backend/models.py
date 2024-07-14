@@ -19,7 +19,7 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
-    reviews = db.relationship('Review', backref='user', lazy='dynamic')
+    reviews = db.relationship('Review', back_populates='user', cascade="all, delete-orphan")
 
     # @validates('email')
     # def validate_email(self, key, email):
@@ -88,10 +88,12 @@ class Booking(db.Model):
 class Review(db.Model):
     # __tablename__ = 'review'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
     comment = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+
+    user = db.relationship('User', back_populates='reviews')
 
 

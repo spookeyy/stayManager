@@ -74,7 +74,7 @@ const Reviews = () => {
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
               <div className="px-6 py-4 bg-gray-200">
-                <p className="font-semibold"> {review.user_id}</p>
+                <p className="font-semibold"> {review.username}</p>
                 <div className="flex items-center mt-1">
                   {[...Array(review.rating)].map((_, index) => (
                     <svg

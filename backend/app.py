@@ -500,10 +500,10 @@ def create_review():
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
     print("Reviews route hit!")
-    reviews = Review.query.all()
+    reviews = Review.query.join(User).all()
     return jsonify([{
         'id': review.id,
-        'user_id': review.user_id,
+        'username': review.user.username,
         'room_id': review.room_id,
         'comment': review.comment,
         'rating': review.rating,

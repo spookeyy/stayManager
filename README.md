@@ -2,6 +2,14 @@
 
 Welcome to stayManager, a comprehensive web application for managing hotel accommodations while providing seamless user experiences for customers and efficient management tools for administrators.
 
+### Project Overview
+---
+- Backend: Flask
+- Frontend: React
+
+### Netlify Link
+- https://stay-manager-mg.netlify.app/
+
 ## Key Features
 ---
 ### User
@@ -85,7 +93,7 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
 ## Endpoints
    - Run **pipenv install**, and **pipenv shell** to enter the virtual environment.
    - Run **python3 seed.py** inside the backend to generate dummy data and **flask run** to launch the backend.
-   - The base url for the backend is; http://localhost:5000
+   - The base url for the backend is; https://staymanager-1.onrender.com
    - Run **npm install** to install dependencies for the frontend.
    - Use command **npm run dev** to run frontend.
    - Live view url; https://stay-manager-mg.netlify.app
