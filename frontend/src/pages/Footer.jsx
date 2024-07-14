@@ -20,7 +20,7 @@ export default function Footer({ companyInfo }) {
             <i className="fab fa-twitter"></i>
           </a>
           <a
-            href={`https://wa.me/${companyInfo.phone}`}
+            href={`https://wa.me/${companyInfo.phone}`} 
             className="me-4 text-white hover:text-gray-300 d-none d-lg-block"
           >
             <i className="fab fa-whatsapp"></i>
