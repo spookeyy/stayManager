@@ -3,6 +3,7 @@ import Reviews from "./Reviews";
 import Footer from "./Footer";
 import Header from "./Header";
 import { Carousel } from "react-responsive-carousel";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import CSS
 
 function Home() {
@@ -137,6 +138,25 @@ function Home() {
         {/* Reviews */}
         <Reviews />
       </div>
+
+      {/* Floating WhatsApp */}
+      <FloatingWhatsApp
+        phoneNumber="+254111803597"
+        accountName="Hetelogix"
+        statusMessage="How can we help you?"
+        avatar="./src/assets/profile.ico"
+        chatMessage="Hello, how can we help you?"
+        darkMode
+        allowEsc
+        allowClickAway
+        notification
+        notificationSound
+        notificationColor="green"
+        notificationTitle="Chat with us"
+        notificationMessage="Thank you for your message"
+        notificationTimestamp="Just now"
+        notificationDuration={2000}
+      />
 
       {/* Footer */}
       <Footer companyInfo={companyInfo} />
