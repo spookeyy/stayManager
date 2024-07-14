@@ -143,7 +143,7 @@ function Home() {
       <FloatingWhatsApp
         phoneNumber="+254793057720"
         accountName="Hetelogix"
-        statusMessage="How can we help you?"
+        statusMessage="Awesome Room Booking"
         avatar="./src/assets/profile.ico"
         chatMessage="Hello, how can we help you?"
         darkMode
