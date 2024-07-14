@@ -141,7 +141,7 @@ function Home() {
 
       {/* Floating WhatsApp */}
       <FloatingWhatsApp
-        phoneNumber="+254111803597"
+        phoneNumber="+254793057720"
         accountName="Hetelogix"
         statusMessage="How can we help you?"
         avatar="./src/assets/profile.ico"
