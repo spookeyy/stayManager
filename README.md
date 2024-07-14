@@ -96,7 +96,7 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
    - The base url for the backend is; https://staymanager-1.onrender.com
    - Run **npm install** to install dependencies for the frontend.
    - Use command **npm run dev** to run frontend.
-   - Live view url; http://localhost:5173/
+   - Live view url; https://stay-manager-mg.netlify.app
 ---
 
 ### Technologies used
