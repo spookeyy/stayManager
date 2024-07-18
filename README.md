@@ -7,7 +7,7 @@ Welcome to stayManager, a comprehensive web application for managing hotel accom
 - Backend: Flask
 - Frontend: React
 
-### Netlify Link
+### Netlify Link 
 - https://stay-manager-mg.netlify.app/
 
 ## Key Features
