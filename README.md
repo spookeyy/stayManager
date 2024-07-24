@@ -1,4 +1,4 @@
-# Hotel Management System
+# Hotel Management System 
 
 ## Project Description
 Welcome to stayManager, a comprehensive web application for managing hotel accommodations while providing seamless user experiences for customers and efficient management tools for administrators.
