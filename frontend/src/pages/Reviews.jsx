@@ -99,7 +99,9 @@ const Reviews = () => {
                   <b>Comment:</b> {review.comment}
                 </p>
                 <p className="text-gray-600 mt-2">
-                  <b>Date: {review.created_at}</b>
+                  <b>
+                    Date: <span className="text-blue-400 ml-2 text-sm">{review.created_at}</span>
+                  </b>
                 </p>
               </div>
             </div>
