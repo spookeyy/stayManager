@@ -65,8 +65,8 @@ function RoomList() {
       <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
       <div className="bg-gray-100 ml-20 mr-20">
         <div className="container mx-auto py-8">
-          <h1 className="text-2xl font-bold underline text-center text-indigo-600 mb-8">
-            Explore Our Rooms
+          <h1 className="text-2xl font-bold underline text-center mb-8">
+            Explore Hotel Rooms
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {rooms.map((room) => (
