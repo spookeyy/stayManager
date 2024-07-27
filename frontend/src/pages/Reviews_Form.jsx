@@ -8,6 +8,7 @@ export default function Reviews_Form() {
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
   const [username, setUsername] = useState("");
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -98,10 +99,18 @@ export default function Reviews_Form() {
       );
     }
   };
+  
+  const handleRatingChange = (event) => {
+    setRating(event.target.value);
+  };
+
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
 
   return (
     <>
-      <Header />
+      <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
       <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center">
         <div className="container mx-auto px-4 py-8 bg-white shadow-lg rounded-lg">
           <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
@@ -132,7 +141,7 @@ export default function Reviews_Form() {
                 id="rating"
                 className="form-select px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                 value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                onChange={handleRatingChange}
                 required
               >
                 <option value="">Select a rating</option>
