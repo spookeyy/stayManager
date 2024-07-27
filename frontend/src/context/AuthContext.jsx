@@ -53,7 +53,7 @@ export const UserProvider = ({ children }) => {
       });
       const res = await response.json();
 
-      console.log("Login response:", res);
+      // console.log("Login response:", res);
       if (res.access_token) {
         setAuth_token(res.access_token);
         localStorage.setItem('access_token', res.access_token);
