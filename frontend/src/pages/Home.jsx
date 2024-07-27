@@ -86,7 +86,7 @@ function Home() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "100vh" }} className="smooth-scroll">
       {/* Header */}
       <div style={headerStyle}>
         <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
@@ -112,12 +112,13 @@ function Home() {
                   backgroundImage: `url(${image.url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "calc(100vh - 150px)", // Adjusted height
+                  height: "calc(80vh - 150px)", // Adjusted height
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   color: "#fff",
                   textAlign: "center",
+                  scrollBehavior: "smooth",
                 }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
