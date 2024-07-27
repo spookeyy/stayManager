@@ -80,7 +80,7 @@ export default function Reviews_Form() {
       }
 
       toast.success("Review submitted successfully!");
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Error submitting review:", error);
       if (error.response) {
