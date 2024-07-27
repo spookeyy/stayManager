@@ -63,7 +63,7 @@ function RoomList() {
   return (
     <>
       <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
-      <div className="bg-gray-100 ml-20 mr-20">
+      <div className="bg-gray-100 ml-8 mr-8 min-h-screen flex items-center justify-center">
         <div className="container mx-auto py-8">
           <h1 className="text-2xl font-bold underline text-center mb-8">
             Explore Hotel Rooms
