@@ -148,7 +148,7 @@ def create_user():
     )
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"success": "User created successfully"}), 201
+    return jsonify({"success": "registration successful"}), 201
 
 # Fetching users requires an admin
 @app.route('/users', methods=['GET'])
