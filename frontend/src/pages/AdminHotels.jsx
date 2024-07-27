@@ -204,6 +204,17 @@ export default function AdminHotels() {
                       }
                       className="w-full p-2 mb-2 text-gray-800"
                     />
+                    <input
+                      type="text"
+                      value={editingHotel.image}
+                      onChange={(e) =>
+                        setEditingHotel({
+                          ...editingHotel,
+                          image: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 mb-2 text-gray-800"
+                    />
                     <button
                       onClick={() => updateHotel(hotel.id)}
                       className="bg-green-500 text-white px-4 py-2 rounded mr-2"

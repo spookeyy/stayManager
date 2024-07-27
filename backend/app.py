@@ -598,12 +598,11 @@ def update_hotel(id):
 
     hotel = Hotel.query.get_or_404(id)
     data = request.json
-    if 'name' in data:
-        hotel.name = data['name']
-    if 'description' in data:
-        hotel.description = data['description']
+    hotel.image = data.get('image', hotel.image)
+    hotel.name = data['name']
+    hotel.description = data['description']
     db.session.commit()
-    return jsonify({'message': 'Hotel updated successfully'}), 200
+    return jsonify({'message': 'Hotel updated successfully'}), 200  
 
 
 @app.route('/hotels/<int:id>', methods=['DELETE'])

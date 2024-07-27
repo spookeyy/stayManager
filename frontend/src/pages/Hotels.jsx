@@ -36,21 +36,25 @@ function Hotels() {
     }
   };
 
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <FaSpinner className="animate-spin" />
-      </div>
+      <>
+        <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
+        <div className="flex justify-center items-center h-screen">
+          <FaSpinner className="animate-spin" />
+        </div>
+      </>
     );
   }
 
   if (error) {
-    return <div>{error}, login</div>
+    return <div className=" container mx-auto py-8 text-center text-red-500">{error}, login</div>
   }
 
-   const toggleNav = () => {
-     setIsNavOpen(!isNavOpen);
-   };
 
   return (
     <div>
