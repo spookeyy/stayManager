@@ -15,14 +15,19 @@ export default function Reviews_Form() {
   }, []);
 
   const fetchUsername = async () => {
-    try {
-      const userId = localStorage.getItem("user_id");
-      if (!userId) {
-        console.error("User ID not found in localStorage");
-        setUsername("Anonymous");
-        return;
-      }
+    const userId = localStorage.getItem("user_id");
+    // console.log("User ID:", userId);
 
+    if (!userId) {
+      console.error("User ID not found in localStorage");
+      toast.error(
+        "You need to be logged in to submit a review. Please login or create an account."
+      );
+      navigate("/login");
+      return;
+    }
+
+    try {
       const response = await fetch(`${server_url}/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -34,22 +39,23 @@ export default function Reviews_Form() {
       const userData = await response.json();
       setUsername(userData.username);
     } catch (error) {
-      console.error("Error fetching username:", error);
-      setUsername("Anonymous");
+      console.error("Error fetching user data:", error);
+      toast.error("Failed to fetch user data. Please try logging in again.");
+      navigate("/login");
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const userId = localStorage.getItem("user_id");
     if (!userId) {
-      console.error("User ID not found in localStorage");
       toast.error(
         "You need to be logged in to submit a review. Please login or create an account."
       );
       navigate("/login");
       return;
     }
-
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
     try {
       const response = await fetch(`${server_url}/reviews`, {
@@ -59,9 +65,11 @@ export default function Reviews_Form() {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify({
-          username,
+          user_id: localStorage.getItem("user_id"),
+          room_id: localStorage.getItem("room_id"),
           rating: parseInt(rating),
           comment,
+          username,
         }),
       });
 
@@ -74,8 +82,19 @@ export default function Reviews_Form() {
       navigate("/reviews");
     } catch (error) {
       console.error("Error submitting review:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("Request:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
       toast.error(
-        error.message || "Failed to submit review. Please try again later."
+        error.response?.data?.error ||
+          error.message ||
+          "Failed to submit review. Please try again later."
       );
     }
   };
