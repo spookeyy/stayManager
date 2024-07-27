@@ -118,7 +118,9 @@ function Home() {
                   alignItems: "center",
                   color: "#fff",
                   textAlign: "center",
-                  scrollBehavior: "smooth",
+                  "@media (min-width: 768px)": {
+                    height: "calc(100vh - 150px)", // Height for larger screens
+                  },
                 }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
