@@ -74,7 +74,7 @@ const Reviews = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Reviews</h1>
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4 sm:space-x-6">
             <select
               value={sortMethod}
               onChange={(e) => setSortMethod(e.target.value)}
@@ -85,7 +85,7 @@ const Reviews = () => {
             </select>
             <Link
               to="/reviews/form"
-              className="bg-blue-400 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-400 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-300 sm:px-6 sm:py-2"
             >
               Add Review
             </Link>
