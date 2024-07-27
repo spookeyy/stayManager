@@ -12,15 +12,16 @@ const Reviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const room_id = localStorage.getItem("room_id");
+        // const room_id = localStorage.getItem("room_id");
         const response = await fetch(
-          `${server_url}/reviews?room_id=${room_id}`,
+          `${server_url}/reviews`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
           }
         );
+        console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch reviews");
         }

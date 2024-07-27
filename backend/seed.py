@@ -119,7 +119,7 @@ def seed_data():
             rating = random.randint(1, 5)
             review = Review(
                 user_id=user.id,
-                room_id=room.id,
+                username=user.username,
                 rating=rating,
                 comment=fake.paragraph(),
                 created_at=fake.date_time_between(start_date='-60d', end_date='now')

@@ -30,7 +30,7 @@ postgres_pwd = os.getenv("POSTGRESS_PWD")
 app  = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
 # f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
-# "sqlite:///hotel.db?mode=rw"
+# 
 print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI']}")
 
 CORS(app)
@@ -519,7 +519,7 @@ def get_reviews():
     return jsonify([{
         'id': review.id,
         'username': review.user.username,
-        'room_id': review.room_id,
+        # 'room_id': review.room_id,
         'comment': review.comment,
         'rating': review.rating,
         'created_at': review.created_at.strftime('%Y-%m-%d %H:%M:%S')
