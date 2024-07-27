@@ -8,6 +8,7 @@ function Hotels() {
   const [hotels, setHotels] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   useEffect(() => {
     fetchHotels();
@@ -21,7 +22,7 @@ function Hotels() {
         },
       });
 
-      console.log("response", response);
+      // console.log("response", response);
       if (!response.ok) {
         throw new Error("Failed to fetch hotels");
       }
@@ -47,9 +48,13 @@ function Hotels() {
     return <div>{error}, login</div>
   }
 
+   const toggleNav = () => {
+     setIsNavOpen(!isNavOpen);
+   };
+
   return (
     <div>
-      <Header />
+      <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
 
       <div className="bg-gray-100 py-8">
         <div className="container mx-auto">
