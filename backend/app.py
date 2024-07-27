@@ -70,8 +70,15 @@ def login():
 
     if user and bcrypt.check_password_hash(user.password, password):
         access_token = create_access_token(identity=user.id)
-        # print(access_token)
-        return jsonify({"access_token":access_token})
+        user_id = user.id
+        print(f"Login successful. User ID: {user_id}, Access Token: {access_token}")
+
+        # Save access token in local storage
+        response = {
+            "access_token": access_token,
+            "user_id": user_id
+        }
+        return jsonify(response), 200
 
     else:
         return jsonify({"error": "Wrong credentials"}), 401
@@ -458,21 +465,28 @@ def cancel_booking(id):
 @app.route('/reviews', methods=['POST'])
 @jwt_required()
 def create_review():
-    user_id = get_jwt_identity()
-    data = request.json
-
-    if not data:
-        return jsonify({'error': 'No data provided'}), 400
-
-    required_fields = ['username', 'rating', 'comment']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({'error': f'{field} is required'}), 400
-
     try:
+        user_id = get_jwt_identity()
+        data = request.json
+        
+        print("Received data:", data)
+
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        required_fields = ['rating', 'comment']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'{field} is required'}), 400
+
+        # Get the user from the database
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
         new_review = Review(
             user_id=user_id,
-            username=data['username'],
+            username=user.username,  # Use the username from the user object
             comment=data['comment'],
             rating=int(data['rating'])
         )
@@ -494,9 +508,10 @@ def create_review():
     except ValueError:
         return jsonify({'error': 'Invalid rating value'}), 400
     except Exception as e:
-        db.session.rollback()
-        return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
-    
+       db.session.rollback()
+       print("Error creating review:", str(e)) 
+       return jsonify({'error': 'Failed to create review', 'details': str(e)}), 500
+
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
     print("Reviews route hit!")
