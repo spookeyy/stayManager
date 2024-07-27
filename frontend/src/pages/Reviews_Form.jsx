@@ -111,9 +111,9 @@ export default function Reviews_Form() {
   return (
     <>
       <Header toggleNav={toggleNav} isNavOpen={isNavOpen} />
-      <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center">
+      <div className="bg-gradient-to-r from-blue-300 via-blue-500 to-indigo-700 min-h-screen flex items-center justify-center">
         <div className="container mx-auto px-4 py-8 bg-white shadow-lg rounded-lg">
-          <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
+          <h1 className="text-2xl font-bold underline mb-4 text-center text-gray-800">
             Add Your Review
           </h1>
 

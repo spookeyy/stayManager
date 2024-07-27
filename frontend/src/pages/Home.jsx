@@ -144,7 +144,8 @@ function Home() {
         phoneNumber="+254793057720"
         accountName="Hetelogix"
         statusMessage="Awesome Room Booking App"
-        avatar="./src/assets/favicon-32x32.png"
+        avatar="./src/assets/favicon.ico"
+        banner="./src/assets/favicon.ico"
         chatMessage="Hello, how can we help you?"
         darkMode
         allowEsc
