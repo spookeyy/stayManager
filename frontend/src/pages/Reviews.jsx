@@ -85,7 +85,7 @@ const Reviews = () => {
             </select>
             <Link
               to="/reviews/form"
-              className="bg-blue-400 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-300 sm:px-6 sm:py-2"
+              className="bg-blue-400 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-300"
             >
               Add Review
             </Link>
