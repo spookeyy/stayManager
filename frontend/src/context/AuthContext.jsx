@@ -61,7 +61,11 @@ export const UserProvider = ({ children }) => {
         // console.log("User ID:", res.user_id);
         setCurrentUser(res.user);
         toast.success('Logged in Successfully!');
-        nav(res.is_admin ? '/admin' : '/');
+        if (res.user.is_admin) {
+          nav('/admin');
+        } else {
+          nav('/');
+        }
       } else {
         toast.error(res.error || 'An error occurred');
       }
