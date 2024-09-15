@@ -43,8 +43,12 @@ function App() {
             <Route
               path="/login"
               element={
-                localStorage.getItem("access_token") ? <Home /> : <Login />
+                <Login />
               }
+              // path="/login"
+              // element={
+              //   localStorage.getItem("access_token") ? <Home /> : <Login />
+              // }
             />
 
             {/* Admin Routes */}
