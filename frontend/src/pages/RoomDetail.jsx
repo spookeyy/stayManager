@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "react-toastify";
@@ -15,6 +15,8 @@ function RoomDetail() {
   const [bookingError, setBookingError] = useState(null);
   const { id } = useParams();
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const nav = useNavigate();
 
   useEffect(() => {
     fetchRoomDetail();
@@ -52,11 +54,20 @@ function RoomDetail() {
 
   const confirmBooking = async () => {
     try {
+      const token = localStorage.getItem("access_token");
+
+      if (!token) {
+        // setBookingError("Please login to book a room");
+        toast.error("Please login to book a room");
+        nav("/login");
+        return;
+      }
+
       const response = await fetch(`${server_url}/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           room_id: id,
@@ -71,7 +82,7 @@ function RoomDetail() {
       }
 
       const data = await response.json();
-      toast.success("Booking successful");
+      toast.success(data.message);
       setBookingModalOpen(false);
       fetchRoomDetail();
     } catch (err) {
