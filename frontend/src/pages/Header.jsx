@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/AuthContext";
-import { toast } from "react-toastify";
 import "../index.css";
+import { toast } from "react-toastify";
 
 function Header({ toggleNav, isNavOpen, setIsNavOpen }) {
   const { currentUser, logout } = useContext(UserContext);
 
   const handleLogout = () => {
-    toast.success("Logged out successfully!");
     logout();
+    toast.success("Logout Successful");
   };
 
   return (
