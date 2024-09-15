@@ -60,8 +60,8 @@ export const UserProvider = ({ children }) => {
         localStorage.setItem('user_id', res.user_id);
         // console.log("User ID:", res.user_id);
         setCurrentUser(res.user);
-        toast.success('Logged in Successfully!');
-        if (res.user.is_admin) {
+        toast.success(res.success);
+        if (res.is_admin) {
           nav('/admin');
         } else {
           nav('/');
@@ -112,17 +112,17 @@ export const UserProvider = ({ children }) => {
       },
     })
       .then((response) => response.json())
-      .then((res) => {
-        if (res.success) {
+      .then((response) => {
+        if (response.success) {
           localStorage.removeItem('access_token');
           localStorage.removeItem('user_id');
           setCurrentUser(null);
           setAuth_token(null);
           setOnChange(!onChange);
-          toast.success(res.success);
+          toast.success(response.success);
           nav('/login');
-        } else if (res.error) {
-          toast.error(res.error);
+        } else if (response.error) {
+          toast.error(response.error);
         } else {
           toast.error('An error occurred');
         }
