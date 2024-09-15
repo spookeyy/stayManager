@@ -30,7 +30,7 @@ postgres_pwd = os.getenv("POSTGRESS_PWD")
 
 app  = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db?mode=rw"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db?mode=rw"
 # f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
 # "sqlite:///hotel.db?mode=rw"
 print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI']}")
