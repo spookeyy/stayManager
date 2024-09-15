@@ -4,6 +4,7 @@ import datetime
 from flask import Flask, render_template, request, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
+from flask_jwt_extended.exceptions import NoAuthorizationError
 from datetime import timedelta
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -29,6 +30,7 @@ postgres_pwd = os.getenv("POSTGRESS_PWD")
 
 app  = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hotel.db?mode=rw"
 # f"postgresql://hetelogix_qu2g_user:{postgres_pwd}"
 # "sqlite:///hotel.db?mode=rw"
 print(f"Connecting to database: {app.config['SQLALCHEMY_DATABASE_URI']}")
@@ -76,7 +78,10 @@ def login():
         # Save access token in local storage
         response = {
             "access_token": access_token,
-            "user_id": user_id
+            "user_id": user_id,
+            "username": user.username,
+            "is_admin": user.is_admin,
+            "success": "Login successful"
         }
         return jsonify(response), 200
 
@@ -249,26 +254,26 @@ def create_room():
 
 # get all rooms
 @app.route('/rooms', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_rooms():
 
-    current_user_id = get_jwt_identity()
-    current_user = User.query.get(current_user_id)
+    # current_user_id = get_jwt_identity()
+    # current_user = User.query.get(current_user_id)
 
-    if current_user:
-        rooms = Room.query.all()
-        logging.info(f"Retrieved {len(rooms)} rooms from the database")
-        return jsonify([{
-            'id': room.id,
-            'room_number': room.room_number,
-            'description': room.description,
-            'price': room.price,
-            'capacity': room.capacity,
-            'status': room.status,
-            'image': room.image
-        } for room in rooms]), 200
-    else:
-        return jsonify({"error": "You are not authorized to perform this action"}), 401
+    
+    rooms = Room.query.all()
+    logging.info(f"Retrieved {len(rooms)} rooms from the database")
+    return jsonify([{
+        'id': room.id,
+        'room_number': room.room_number,
+        'description': room.description,
+        'price': room.price,
+        'capacity': room.capacity,
+        'status': room.status,
+        'image': room.image
+    } for room in rooms]), 200
+    
+    # return jsonify({"error": "You are not authorized to perform this action"}), 401
 
 @app.route('/rooms/<int:id>', methods=['GET'])
 def get_room(id):
@@ -347,6 +352,11 @@ def delete_room(id):
 
 
 # Bookings
+
+@app.errorhandler(NoAuthorizationError)
+def handle_auth_error(e):
+    return jsonify({"message": "Please login to book a room"}), 401
+
 # create booking for a room
 @app.route('/bookings', methods=['POST'])
 @jwt_required()
@@ -375,6 +385,7 @@ def create_booking():
     room.status = 'unavailable'
     db.session.add(new_booking)
     db.session.commit()
+    logging.info(f"Created booking {new_booking.id} for room {new_booking.room_id} by user {new_booking.user_id}")
     return jsonify({'message': 'Booking created successfully', 'booking_id': new_booking.id}), 201
 
 # get booking for a room by id
@@ -479,14 +490,8 @@ def create_review():
             if field not in data:
                 return jsonify({'error': f'{field} is required'}), 400
 
-        # Get the user from the database
-        user = User.query.get(user_id)
-        if not user:
-            return jsonify({'error': 'User not found'}), 404
-
         new_review = Review(
             user_id=user_id,
-            username=user.username,  # Use the username from the user object
             comment=data['comment'],
             rating=int(data['rating'])
         )
@@ -499,7 +504,7 @@ def create_review():
             'review': {
                 'id': new_review.id,
                 'user_id': new_review.user_id,
-                'username': new_review.username,
+                'username': new_review.user.username,
                 'comment': new_review.comment,
                 'rating': new_review.rating,
                 'created_at': new_review.created_at.strftime('%Y-%m-%d %H:%M:%S')
@@ -515,11 +520,10 @@ def create_review():
 @app.route('/reviews', methods=['GET'])
 def get_reviews():
     print("Reviews route hit!")
-    reviews = Review.query.join(User).all()
+    reviews = Review.query.all()
     return jsonify([{
         'id': review.id,
         'username': review.user.username,
-        # 'room_id': review.room_id,
         'comment': review.comment,
         'rating': review.rating,
         'created_at': review.created_at.strftime('%Y-%m-%d %H:%M:%S')
@@ -527,10 +531,10 @@ def get_reviews():
 
 # Hotel operations
 @app.route('/hotels', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_hotels():
-    current_user_id = get_jwt_identity()
-    current_user = User.query.get(current_user_id)
+    # current_user_id = get_jwt_identity()
+    # current_user = User.query.get(current_user_id)
     hotels = Hotel.query.all()
     return jsonify([{
         'id': hotel.id,
@@ -542,10 +546,10 @@ def get_hotels():
 
 # get rooms by hotel id
 @app.route('/hotels/<int:hotel_id>/rooms', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_hotel_rooms(hotel_id):
-    current_user_id = get_jwt_identity()
-    current_user = User.query.get(current_user_id)
+    # current_user_id = get_jwt_identity()
+    # current_user = User.query.get(current_user_id)
     # if not current_user.is_admin:
     #     return jsonify({"error": "You are not authorized to perform this action"}), 401
     

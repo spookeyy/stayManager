@@ -15,23 +15,34 @@ def generate_phone_number():
     return f'{country_code}{mobile_network_code}{subscriber_number}'
 
 def generate_image_url(image_type):
-    # List of image IDs for hotels and rooms
-    hotel_ids = [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009]
-    room_ids = [1010, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019]
+    # Use more relevant image URLs for hotels and rooms
+    hotel_images = [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+        "https://images.unsplash.com/photo-1582719508461-905c673771fd",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9",
+        "https://images.unsplash.com/photo-1564501049412-61c2a3083791"
+    ]
+    
+    room_images = [
+        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304",
+        "https://images.unsplash.com/photo-1618773928121-c32242e63f39",
+        "https://images.unsplash.com/photo-1611892440504-42a792e24d32",
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
+        "https://images.unsplash.com/photo-1631049552240-59c37f38802b"
+    ]
     
     if image_type == 'hotel':
-        image_id = random.choice(hotel_ids)
+        return random.choice(hotel_images)
     else:  # room
-        image_id = random.choice(room_ids)
-    
-    return f"https://picsum.photos/id/{image_id}/300/200"
+        return random.choice(room_images)
 
 def seed_data():
     with app.app_context():
         db.drop_all()
         db.create_all()
 
-        # seeding users
+        # Seeding users
         password = bcrypt.generate_password_hash('admin').decode('utf-8')
         admin = User(username='admin', email='admin@gmail.com', password=password, phone_number=generate_phone_number(), profile_photo='admin.png', is_admin=True)
         db.session.add(admin)
@@ -58,7 +69,8 @@ def seed_data():
             hotel = Hotel(
                 name=fake.company(),
                 description=fake.paragraph(),
-                image=generate_image_url('hotel')  # Add this line
+                image=generate_image_url('hotel'),
+                room_count=0  # This will be updated later
             )
             hotels.append(hotel)
             db.session.add(hotel)
@@ -76,7 +88,7 @@ def seed_data():
                 price=random.randint(50, 300),
                 capacity=random.randint(1, 4),
                 status=random.choice(['available', 'unavailable']),
-                image=generate_image_url('room'),  # Modified this line
+                image=generate_image_url('room'),
                 hotel_id=hotel.id
             )
             rooms.append(room)
@@ -104,7 +116,8 @@ def seed_data():
                 check_in=check_in,
                 check_out=check_out,
                 total_price=room.price * (check_out - check_in).days,
-                status=random.choice(['pending', 'confirmed', 'cancelled'])
+                status=random.choice(['pending', 'confirmed', 'cancelled']),
+                created_at=fake.date_time_between(start_date='-60d', end_date='now')
             )
 
             db.session.add(booking)
@@ -112,14 +125,12 @@ def seed_data():
 
         print("Seeded bookings successfully")
 
-        # seed reviews
+        # Seed reviews
         for _ in range(100):
             user = random.choice(users)
-            room = random.choice(rooms)
             rating = random.randint(1, 5)
             review = Review(
                 user_id=user.id,
-                username=user.username,
                 rating=rating,
                 comment=fake.paragraph(),
                 created_at=fake.date_time_between(start_date='-60d', end_date='now')
@@ -138,7 +149,6 @@ def should_seed():
         return User.query.count() == 0 
 
 if __name__ == '__main__':
-    # seed_data()
     try:
         if should_seed():
             seed_data()
