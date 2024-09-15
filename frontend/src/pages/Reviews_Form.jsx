@@ -17,12 +17,10 @@ export default function Reviews_Form() {
 
   const fetchUsername = async () => {
     const userId = localStorage.getItem("user_id");
-    // console.log("User ID:", userId);
 
     if (!userId) {
-      console.error("User ID not found in localStorage");
       toast.error(
-        "You need to be logged in to submit a review. Please login or create an account."
+        "Login to submit a review"
       );
       navigate("/login");
       return;
@@ -40,7 +38,6 @@ export default function Reviews_Form() {
       const userData = await response.json();
       setUsername(userData.username);
     } catch (error) {
-      console.error("Error fetching user data:", error);
       toast.error("Failed to fetch user data. Please try logging in again.");
       navigate("/login");
     }
@@ -50,13 +47,13 @@ export default function Reviews_Form() {
     e.preventDefault();
 
     const userId = localStorage.getItem("user_id");
-    if (!userId) {
-      toast.error(
-        "You need to be logged in to submit a review. Please login or create an account."
-      );
-      navigate("/login");
-      return;
-    }
+    // if (!userId) {
+    //   toast.error(
+    //     "You need to be logged in to submit a review. Please login or create an account."
+    //   );
+    //   navigate("/login");
+    //   return;
+    // }
 
     try {
       const response = await fetch(`${server_url}/reviews`, {
